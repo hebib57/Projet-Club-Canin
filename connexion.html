@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Se connecter</title>
+    <link rel="stylesheet" href="custom.css" />
+  </head>
+  <body>
+    <header class="header2">
+      <div class="logo">
+        <img src="./images/logo-dog-removebg-preview.png" alt="logo" />
+      </div>
+      <nav class="navbar">
+        <ul class="navbar__burger-menu--closed">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="evenement.html">Evènements</a></li>
+        </ul>
+      </nav>
+      <button class="burger-menu" id="burgerMenu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </header>
+    <section class="form-container creation">
+      <h2>Se connecter</h2>
+      <form action="" method="POST" id="connect_form">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Votre email" />
+        <label for="mdp">Mot de passe</label>
+        <input
+          type="mdp"
+          id="mdp"
+          name="mdp"
+          placeholder="Votre mot de passe"
+        />
+
+        <button type="submit" class="button">Se connecter</button>
+      </form>
+    </section>
+
+    <footer>
+      <p>Copyright &copy; - 2025 Club CANIN - Tous droits réservés.</p>
+    </footer>
+    <script src="./index.js"></script>
+  </body>
+</html>
