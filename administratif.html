@@ -14,18 +14,11 @@
       <nav class="navbar">
         <ul class="navbar__burger-menu--closed">
           <li><a href="index.html">Accueil</a></li>
-          <!-- <li><a href="connexion.html">Se connecter</a></li> -->
-          <!-- <li><a href="cours.html">Nos Cours</a></li> -->
-          <!-- <li><a href="tableau_bord.html">Tableau de bord</a></li> -->
-          <!-- <li><a href="reservation.html">Réservation</a></li> -->
-          <!-- <li><a href="suivi.html">Suivi </a></li> -->
-          <!-- <li><a href="evenement.html">Evènements</a></li> -->
-          <!-- <li><a href="inscription.html">inscription</a></li> -->
           <li><a href="coach.html">coach</a></li>
           <li><a href="user.html">utilisateur</a></li>
         </ul>
       </nav>
-      <button class="burger-menu" id="burgerMenu">
+      <button class="navbar__burger-menu-toggle" id="burgerMenu">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
@@ -37,7 +30,7 @@
     <main class="container_bord">
       <section class="dashbord">
         <div class="sidebar">
-          <button class="sidebar-menu" id="sidebarMenu">
+          <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
@@ -52,12 +45,13 @@
 
           <ul class="menu-list">
             <li><a href="#dashbord">Tableau de bord</a></li>
+            <li><a href="#">Cours programmés</a></li>
+            <li><a href="#reservations">Suivi des Réservations</a></li>
             <li><a href="#users">Gestion des Utilisateurs</a></li>
             <li><a href="#coachs">Gestion des Coachs</a></li>
             <li><a href="#dogs">Gestion des Chiens</a></li>
             <li><a href="#cours">Gestion des Cours</a></li>
             <li><a href="#events">Gestion des Evènements</a></li>
-            <li><a href="#reservations">Suivi des Réservations</a></li>
             <li><a href="#">Messages</a></li>
             <li><a href="#">Déconnexion</a></li>
           </ul>
@@ -83,7 +77,8 @@
                 <p>150 participants inscrits</p>
                 <button class="btn">Voir les participants</button>
               </div>
-
+            </div>
+            <div class="tab_bord-card">
               <div class="card">
                 <h3>Cours à venir</h3>
                 <p>5 cours programmés cette semaine</p>
@@ -104,7 +99,7 @@
             </div>
           </div>
           <section>
-            <h3>Cours programmés</h3>
+            <h2>Cours programmés</h2>
             <table class="table">
               <thead>
                 <tr>
@@ -141,6 +136,40 @@
                     <button class="btn">Modifier</button>
                     <button class="btn">Supprimer</button>
                   </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn">Ajouter un Cours</button>
+          </section>
+          <section class="reservations" id="reservations">
+            <h2>Suivi des Réservations</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID Réservation</th>
+                  <th>Utilisateur</th>
+                  <th>Cours</th>
+                  <th>Chien</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>toto</td>
+                  <td>École du Chiot</td>
+                  <td>luna</td>
+                  <td>10/04/2025</td>
+                  <td>Réservé</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>tete</td>
+                  <td>Éducation</td>
+                  <td>luna</td>
+                  <td>12/04/2025</td>
+                  <td>En attente</td>
                 </tr>
               </tbody>
             </table>
@@ -199,7 +228,7 @@
                   <td>1</td>
                   <td>tutu</td>
                   <td>tutu@email.com</td>
-                  <td>Dressage, Agility</td>
+                  <td>Dressage, Agilité</td>
                   <td>
                     <button class="btn">Modifier</button>
                     <button class="btn">Supprimer</button>
@@ -265,44 +294,6 @@
             </button>
           </section>
 
-          <section class="courses" id="cours">
-            <h2>Gestion des Cours</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nom du Cours</th>
-                  <th>Date</th>
-                  <th>Disponibilité</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>École du Chiot</td>
-                  <td>10/04/2025</td>
-                  <td>5 places disponibles</td>
-                  <td>
-                    <button class="btn">Modifier</button>
-                    <button class="btn">Supprimer</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Éducation</td>
-                  <td>12/04/2025</td>
-                  <td>3 places disponibles</td>
-                  <td>
-                    <button class="btn">Modifier</button>
-                    <button class="btn">Supprimer</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <button class="btn">Ajouter un Cours</button>
-          </section>
-
           <section class="events" id="events">
             <h2>Gestion des Événements</h2>
             <table>
@@ -339,40 +330,6 @@
               </tbody>
             </table>
             <button class="btn">Ajouter un Événement</button>
-          </section>
-
-          <section class="reservations" id="reservations">
-            <h2>Suivi des Réservations</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>ID Réservation</th>
-                  <th>Utilisateur</th>
-                  <th>Cours</th>
-                  <th>Chien</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>toto</td>
-                  <td>École du Chiot</td>
-                  <td>luna</td>
-                  <td>10/04/2025</td>
-                  <td>Réservé</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>tete</td>
-                  <td>Éducation</td>
-                  <td>luna</td>
-                  <td>12/04/2025</td>
-                  <td>En attente</td>
-                </tr>
-              </tbody>
-            </table>
           </section>
 
           <section class="card-admin_messagerie">
