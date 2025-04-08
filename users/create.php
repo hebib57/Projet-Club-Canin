@@ -1,4 +1,5 @@
 <?php
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
@@ -31,11 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ':date_inscription' => $date
     ])) {
 
-        echo "<script>alert('Utilisateur ajouté avec succès'); window.location.href = '../admin/administratif.php';</script>";
+        echo "<script>alert('" . hsc('Utilisateur ajouté avec succès') . "'); window.location.href = '../admin/administratif.php';</script>";
     } else {
-        echo "<script>alert('Erreur lors de l\'ajout de l\'utilisateur'); window.location.href = '../admin/administratif.php';</script>";
+        echo "<script>alert('" . hsc('Erreur lors de l\'ajout de l\'utilisateur') . "'); window.location.href = '../admin/administratif.php';</script>";
     }
 }
-
-// header('Location: ../admin/administratif.php');
 exit();
