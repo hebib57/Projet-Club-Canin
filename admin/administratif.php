@@ -225,7 +225,7 @@ $recordset = $stmt->fetchAll(PDO::FETCH_ASSOC); //tableau indéxé qui contient 
                   <td><?= hsc($row['role']); ?></td>
                   <td><?= hsc($row['date_inscription']); ?></td>
                   <td>
-                    <button class="btn">Modifier</button>
+                    <button class="btn"><a href="../users/form.php?id=<?= $row['id_utilisateur'] ?>">Modifier</a></button>
                     <button class="btn"><a href="../users/delete.php?id=<?= $row['id_utilisateur'] ?>">Supprimer</a></button>
                   </td>
                 </tr>
