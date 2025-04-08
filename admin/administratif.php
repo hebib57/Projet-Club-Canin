@@ -1,4 +1,19 @@
-<?php require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php"; ?>
+<?php
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
+
+// $total = 0; //déclarer la variable à 0, si je ne rentre pas dans le if
+$stmt = $db->prepare("SELECT * FROM utilisateur");
+
+$stmt->execute();
+$recordset = $stmt->fetchAll(PDO::FETCH_ASSOC); //tableau indéxé qui contient des tableaux associatifs*/
+
+// if ($rowTotal = $stmt->fetch()) { //fetch renvoi le resultat de ma requête
+//   $total = $rowTotal['total'];
+// }
+?>
+
 
 
 <!DOCTYPE html>
@@ -191,29 +206,31 @@
               <tr>
                 <th>ID</th>
                 <th>Nom</th>
+                <th>Prénom</th>
                 <th>Email</th>
+                <th>Téléphone</th>
+                <th>Rôle</th>
+                <th>Date d'inscription</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>toto</td>
-                <td>toto@email.com</td>
-                <td>
-                  <button class="btn">Modifier</button>
-                  <button class="btn">Supprimer</button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>titi</td>
-                <td>titi@email.com</td>
-                <td>
-                  <button class="btn">Modifier</button>
-                  <button class="btn">Supprimer</button>
-                </td>
-              </tr>
+              <?php foreach ($recordset as $row) { ?>
+                <tr>
+                  <td><?= hsc($row['id_utilisateur']); ?></td>
+                  <td><?= hsc($row['nom_utilisateur']); ?></td>
+                  <td><?= hsc($row['prenom_utilisateur']); ?></td>
+                  <td><?= hsc($row['admin_mail']); ?></td>
+                  <td><?= hsc($row['telephone_utilisateur']); ?></td>
+                  <td><?= hsc($row['role']); ?></td>
+                  <td><?= hsc($row['date_inscription']); ?></td>
+                  <td>
+                    <button class="btn">Modifier</button>
+                    <button class="btn"><a href="../users/delete.php?id=<?= $row['id_utilisateur'] ?>">Supprimer</a></button>
+                  </td>
+                </tr>
+              <?php }; ?>
+
             </tbody>
           </table>
           <button class="btn">
