@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-margin-top: 100px;
 }
 
 body {
@@ -229,6 +230,7 @@ footer p {
   width: 1200px;
   margin-left: 250px;
 }
+
 /* ACCUEIL ----------------------------------------------------------------------------------------------------------------------------------------*/
 
 #scrollToTopBtn {
@@ -638,7 +640,7 @@ section ul li {
   color: #333;
   width: 250px;
   padding: 30px 20px;
-  display: flex;
+  display: block;
   flex-direction: column;
   justify-content: flex-start;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
@@ -686,7 +688,7 @@ section ul li {
 }
 
 .menu-list li {
-  margin: 20px 0;
+  margin: -3px 0;
 }
 
 .menu-list a {
@@ -695,7 +697,7 @@ section ul li {
   font-size: 18px;
   padding: 12px 15px;
   border-radius: 6px;
-  display: block;
+  display: table-caption;
   transition: background-color 0.3s ease;
 }
 
@@ -705,7 +707,7 @@ section ul li {
 
 .content {
   width: 1200px;
-  margin-left: 300px;
+  margin-left: 250px;
   padding: 30px;
   background-color: white;
   flex-grow: 1;
@@ -724,7 +726,17 @@ section ul li {
   font-size: 16px;
   color: #7f8c8d;
 }
-
+.container-cours {
+  width: 1200px;
+  margin-left: 250px;
+}
+.container-cours .button {
+  background-color: #4caf50;
+}
+.reservation {
+  width: 1200px;
+  margin-left: 250px;
+}
 .suiv-container {
   display: flex;
   justify-content: space-between;
@@ -829,6 +841,8 @@ section ul li {
 
 .suivi {
   margin-top: 40px;
+  width: 1200px;
+  margin-left: 250px;
 }
 
 .suivi h2 {
@@ -877,6 +891,7 @@ section ul li {
 .progress-table td {
   background-color: #f9f9f9;
 }
+.card
 /* -------créer un compte-------------"se connecter"-----------------*/
 .form-container {
   margin: 200px auto;
@@ -888,6 +903,12 @@ section ul li {
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 20px;
+}
+.creation .button {
+  background-color: #4caf50;
+}
+.creation .button:hover {
+  background-color: #003200;
 }
 /*---------------------------------------------------*/
 form .form-group {
@@ -920,7 +941,9 @@ button {
   margin-top: 20px;
   transition: background-color 0.3s ease;
 }
-
+button:hover {
+  background-color: #003200;
+}
 /* PAGE COACH---------------------------------------------------------------------------------------------------------------------------------*/
 
 .container-coach {
@@ -949,7 +972,18 @@ button {
   margin-left: -20px;
   width: 1200px;
 }
-
+.card-user_messagerie {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  margin-left: 250px;
+  width: 1200px;
+}
+.card-user_messagerie button {
+  float: left;
+}
 .card-coach_messagerie {
   background-color: white;
   border-radius: 5px;
@@ -969,6 +1003,10 @@ button {
   border-bottom: 1px solid #eee;
 }
 
+.card-header h2 {
+  text-align: center;
+}
+
 .card-title {
   font-size: 18px;
   font-weight: bold;
@@ -985,6 +1023,7 @@ button {
   color: white;
   cursor: pointer;
   font-size: 14px;
+  /* float: right; */
 }
 
 .btn-success {
@@ -1293,6 +1332,7 @@ table th {
   }
   .menu-list {
     padding-right: 30px;
+    display: contents;
   }
 }
 
@@ -1335,6 +1375,22 @@ table th {
     margin-left: 60px;
     max-width: 650px;
     width: 100%;
+  }
+  .suivi {
+    margin-left: 60px;
+    max-width: 650px;
+  }
+  .card-user_messagerie {
+    margin-left: 60px;
+    max-width: 650px;
+  }
+  .container-cours {
+    margin-left: 60px;
+    max-width: 650px;
+  }
+  .reservation {
+    margin-left: 60px;
+    max-width: 650px;
   }
 }
 
