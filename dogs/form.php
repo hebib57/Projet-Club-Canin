@@ -76,7 +76,6 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
                 <label for="proprietaire_dog">Propriétaire</label>
                 <input type="text" name="proprietaire_dog" id="proprietaire_dog" value="<?= hsc($proprietaire_dog) ?>">
-
                 <label for="date_inscription">Date d'inscription</label>
                 <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
                 <input type="hidden" name="id_dog" value="<?= hsc($dog) ?>">

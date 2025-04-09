@@ -12,7 +12,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
         $id_dog = $_POST["id_dog"];
 
         // Si l'ID utilisateur est égal à 0, nous faisons une insertion, sinon c'est une mise à jour.
-        if ($dog == "0") {
+        if ($id_dog == "0") {
             // Ajout d'un nouvel utilisateur dans la base de données
             $stmt = $db->prepare("INSERT INTO chien (
                 nom_dog,

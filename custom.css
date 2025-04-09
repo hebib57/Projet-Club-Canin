@@ -1457,23 +1457,51 @@ table th {
     font-size: 12px;
   }
   .users .table-container th {
-    padding: 2px;
+    padding: 0px;
     text-align: center;
   }
   .users .table-container td {
-    padding: 2px;
+    padding: 0px;
     text-align: center;
   }
+  .users td .btn {
+    display: inline-block;
+    padding: 3px;
+    margin-bottom: 20px;
+    margin-right: -6px;
+  }
+  .users td .btn a {
+    font-size: 12px;
+    display: block;
+    text-decoration: none;
+  }
+  .users td:last-child {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+  }
+
   .dogs .table-container {
     font-size: 12px;
   }
   .dogs .table-container th {
-    padding: 0px;
+    padding: 4px;
     text-align: center;
   }
   .dogs .table-container td {
     padding: 0px;
     text-align: center;
+  }
+  .dogs td .btn {
+    display: inline-block;
+    padding: 3px;
+    margin-bottom: 20px;
+  }
+  .dogs td .btn a {
+    font-size: 12px;
+    display: flex;
+    text-decoration: none;
   }
 }
 /* RESPONSIVE PAGE CREER UN COMPTE----------------------------------------------------------------------------------*/

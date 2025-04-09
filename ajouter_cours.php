@@ -35,7 +35,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
         </button>
     </header>
 
-    <section>
+    <!-- <section>
         <form action="login.php" method="post">
             <label for="admin_mail">Email</label>
             <input type="email" id="admin_mail" name="admin_mail" required />
@@ -43,7 +43,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
             <input type="password" id="admin_password" name="admin_password" />
             <button type="submit" class="button" value="ok">Se connecter</button>
         </form>
-    </section>
+    </section> -->
 
 
 
