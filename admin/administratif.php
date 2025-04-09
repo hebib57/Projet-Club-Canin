@@ -281,36 +281,40 @@ $recordset2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <section class="dogs" id="dogs">
           <h2>Gestion des Chiens</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nom du Chien</th>
-                <th>Race</th>
-                <th>Âge</th>
-                <th>Sexe</th>
-                <th>Propriétaire</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($recordset2 as $row) { ?>
+          <div class="table-container">
+            <table>
+              <thead>
                 <tr>
-                  <td><?= hsc($row['id_dog']); ?></td>
-                  <td><?= hsc($row['nom_dog']); ?></td>
-                  <td><?= hsc($row['race_dog']); ?></td>
-                  <td><?= hsc($row['age_dog']); ?></td>
-                  <td><?= hsc($row['sexe_dog']); ?></td>
-                  <td><?= hsc($row['proprietaire_dog']); ?></td>
-                  <td>
-                    <button class="btn"><a href="../users/form.php?id=<?= $row['id_dog'] ?>">Modifier</a></button>
-                    <button class="btn"><a href="../dogs/delete.php?id=<?= $row['id_dog'] ?>">Supprimer</a></button>
-                  </td>
+                  <th>ID</th>
+                  <th>Nom du Chien</th>
+                  <th>Race</th>
+                  <th>Âge</th>
+                  <th>Sexe</th>
+                  <th>Propriétaire</th>
+                  <th>Date d'inscription</th>
+                  <th>Actions</th>
                 </tr>
-              <?php }; ?>
+              </thead>
+              <tbody>
+                <?php foreach ($recordset2 as $row) { ?>
+                  <tr>
+                    <td><?= hsc($row['id_dog']); ?></td>
+                    <td><?= hsc($row['nom_dog']); ?></td>
+                    <td><?= hsc($row['race_dog']); ?></td>
+                    <td><?= hsc($row['age_dog']); ?></td>
+                    <td><?= hsc($row['sexe_dog']); ?></td>
+                    <td><?= hsc($row['proprietaire_dog']); ?></td>
+                    <td><?= hsc($row['date_inscription']); ?></td>
+                    <td>
+                      <button class="btn"><a href="../dogs/form.php?id=<?= $row['id_dog'] ?>">Modifier</a></button>
+                      <button class="btn"><a href="../dogs/delete.php?id=<?= $row['id_dog'] ?>">Supprimer</a></button>
+                    </td>
+                  </tr>
+                <?php }; ?>
 
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
           <button class="btn">
             <a href="../ajouter_dog.php">Ajouter un Chien</a>
           </button>

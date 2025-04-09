@@ -1464,6 +1464,17 @@ table th {
     padding: 2px;
     text-align: center;
   }
+  .dogs .table-container {
+    font-size: 12px;
+  }
+  .dogs .table-container th {
+    padding: 0px;
+    text-align: center;
+  }
+  .dogs .table-container td {
+    padding: 0px;
+    text-align: center;
+  }
 }
 /* RESPONSIVE PAGE CREER UN COMPTE----------------------------------------------------------------------------------*/
 
