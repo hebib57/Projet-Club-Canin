@@ -3,6 +3,8 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
+
+//--------------------------------------------------------SUPPRESSION D'UN UTILISATEUR---------------------------------------------------------------------------//
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
     $stmt = $db->prepare("DELETE FROM utilisateur WHERE id_utilisateur=:id_utilisateur"); //DELETE toujours accompagné de WHERE

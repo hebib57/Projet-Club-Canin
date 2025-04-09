@@ -11,10 +11,13 @@
     // Exécute la requête SQL
     $stmt->execute();
     // Vérifie si un administrateur a été trouvée dans la base de données.
-    if ($row = $stmt->fetch()) {
 
+
+    if ($row = $stmt->fetch()) {
+      var_dump($stmt->fetch(PDO::FETCH_ASSOC));
       // Vérifie si le mot de passe saisi correspond au mot de passe haché stocké dans la base de données.
       if (password_verify($_POST['admin_password'], $row['admin_password'])) {
+
         // Démarre une session. Indispensable pour maintenir l'état de connexion de l'utilisateur.		
         session_start();
         // Définit une variable de session pour indiquer que l'utilisateur est connecté.
@@ -72,6 +75,8 @@
        <button type="submit" class="button" value="ok">Se connecter
        </button>
    </section>
+
+
 
    <footer>
      <section class="footer">

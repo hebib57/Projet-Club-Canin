@@ -1241,7 +1241,39 @@ table th {
 .table td button:hover {
   background-color: #d32f2f;
 }
+/*----------------------------------------------------------------FORM-----------------------------------------------------------------------*/
 
+.modification {
+  display: grid;
+  margin-top: 100px;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.modif {
+  padding: 20px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 700px;
+}
+.btn__modif {
+  background-color: #4caf50;
+}
+.btn2__modif {
+  background-color: #ff9800;
+}
+.modif input {
+  display: flex;
+  width: 650px;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
 /* ----------------------------------------------RESPONSIVE PAGE ACCUEIL-------------------------------------------------------*/
 
 /* Menu responsive---------------------------------------------------*/
@@ -1420,6 +1452,17 @@ table th {
   }
   .card-admin_messagerie {
     max-width: 650px;
+  }
+  .users .table-container {
+    font-size: 12px;
+  }
+  .users .table-container th {
+    padding: 2px;
+    text-align: center;
+  }
+  .users .table-container td {
+    padding: 2px;
+    text-align: center;
   }
 }
 /* RESPONSIVE PAGE CREER UN COMPTE----------------------------------------------------------------------------------*/

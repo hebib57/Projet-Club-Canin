@@ -37,22 +37,23 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
   </header>
   <section class="form-container creation">
     <h2>Ajouter un chien</h2>
-    <form action="ajouter_chien.php" method="POST">
-      <label for="nom_chien">Nom du chien :</label>
-      <input type="text" id="nom_chien" name="nom_chien" required />
+    <form action="./dogs/create.php" method="POST">
+      <label for="nom_dog">Nom du chien</label>
+      <input type="text" id="nom_dog" name="nom_dog" required />
 
-      <label for="race">Race :</label>
-      <input type="text" id="race" name="race" required />
+      <label for="race_dog">Race</label>
+      <input type="text" id="race_dog" name="race_dog" required />
 
-      <label for="age">Âge (en mois) :</label>
-      <input type="number" id="age" name="age" required />
+      <label for="age_dog">Âge (en mois)</label>
+      <input type="number" id="age_dog" name="age_dog" required />
 
-      <label for="sexe">Sexe :</label>
-      <select id="sexe" name="sexe">
+      <label for="sexe_dog">Sexe</label>
+      <select id="sexe_dog" name="sexe_dog">
         <option value="mâle">Mâle</option>
         <option value="femelle">Femelle</option>
       </select>
-
+      <label for="proprietaire_dog">Propriétaire</label>
+      <input type="text" id="proprietaire_dog" name="proprietaire_dog" required />
       <button type="submit">Ajouter ce chien</button>
     </form>
   </section>

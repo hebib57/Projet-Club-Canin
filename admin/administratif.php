@@ -9,9 +9,9 @@ $stmt = $db->prepare("SELECT * FROM utilisateur");
 $stmt->execute();
 $recordset = $stmt->fetchAll(PDO::FETCH_ASSOC); //tableau indéxé qui contient des tableaux associatifs*/
 
-// if ($rowTotal = $stmt->fetch()) { //fetch renvoi le resultat de ma requête
-//   $total = $rowTotal['total'];
-// }
+$stmt = $db->prepare("SELECT * FROM chien");
+$stmt->execute();
+$recordset2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
@@ -201,38 +201,40 @@ $recordset = $stmt->fetchAll(PDO::FETCH_ASSOC); //tableau indéxé qui contient 
 
         <section class="users" id="users">
           <h2>Gestion des Utilisateurs</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Téléphone</th>
-                <th>Rôle</th>
-                <th>Date d'inscription</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($recordset as $row) { ?>
+          <div class="table-container">
+            <table>
+              <thead>
                 <tr>
-                  <td><?= hsc($row['id_utilisateur']); ?></td>
-                  <td><?= hsc($row['nom_utilisateur']); ?></td>
-                  <td><?= hsc($row['prenom_utilisateur']); ?></td>
-                  <td><?= hsc($row['admin_mail']); ?></td>
-                  <td><?= hsc($row['telephone_utilisateur']); ?></td>
-                  <td><?= hsc($row['role']); ?></td>
-                  <td><?= hsc($row['date_inscription']); ?></td>
-                  <td>
-                    <button class="btn"><a href="../users/form.php?id=<?= $row['id_utilisateur'] ?>">Modifier</a></button>
-                    <button class="btn"><a href="../users/delete.php?id=<?= $row['id_utilisateur'] ?>">Supprimer</a></button>
-                  </td>
+                  <th>ID</th>
+                  <th>Nom</th>
+                  <th>Prénom</th>
+                  <th>Email</th>
+                  <th>Téléphone</th>
+                  <th>Rôle</th>
+                  <th>Date d'inscription</th>
+                  <th>Actions</th>
                 </tr>
-              <?php }; ?>
+              </thead>
+              <tbody>
+                <?php foreach ($recordset as $row) { ?>
+                  <tr>
+                    <td><?= hsc($row['id_utilisateur']); ?></td>
+                    <td><?= hsc($row['nom_utilisateur']); ?></td>
+                    <td><?= hsc($row['prenom_utilisateur']); ?></td>
+                    <td><?= hsc($row['admin_mail']); ?></td>
+                    <td><?= hsc($row['telephone_utilisateur']); ?></td>
+                    <td><?= hsc($row['role']); ?></td>
+                    <td><?= hsc($row['date_inscription']); ?></td>
+                    <td>
+                      <button class="btn"><a href="../users/form.php?id=<?= $row['id_utilisateur'] ?>">Modifier</a></button>
+                      <button class="btn"><a href="../users/delete.php?id=<?= $row['id_utilisateur'] ?>">Supprimer</a></button>
+                    </td>
+                  </tr>
+                <?php }; ?>
 
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
           <button class="btn">
             <a href="../ajouter_user.php">Ajouter un Utilisateur</a>
           </button>
@@ -286,33 +288,27 @@ $recordset = $stmt->fetchAll(PDO::FETCH_ASSOC); //tableau indéxé qui contient 
                 <th>Nom du Chien</th>
                 <th>Race</th>
                 <th>Âge</th>
+                <th>Sexe</th>
                 <th>Propriétaire</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>luna</td>
-                <td>rottweiler</td>
-                <td>2 ans</td>
-                <td>toto</td>
-                <td>
-                  <button class="btn">Modifier</button>
-                  <button class="btn">Supprimer</button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>titi</td>
-                <td>Labrador</td>
-                <td>1 an</td>
-                <td>jul</td>
-                <td>
-                  <button class="btn">Modifier</button>
-                  <button class="btn">Supprimer</button>
-                </td>
-              </tr>
+              <?php foreach ($recordset2 as $row) { ?>
+                <tr>
+                  <td><?= hsc($row['id_dog']); ?></td>
+                  <td><?= hsc($row['nom_dog']); ?></td>
+                  <td><?= hsc($row['race_dog']); ?></td>
+                  <td><?= hsc($row['age_dog']); ?></td>
+                  <td><?= hsc($row['sexe_dog']); ?></td>
+                  <td><?= hsc($row['proprietaire_dog']); ?></td>
+                  <td>
+                    <button class="btn"><a href="../users/form.php?id=<?= $row['id_dog'] ?>">Modifier</a></button>
+                    <button class="btn"><a href="../dogs/delete.php?id=<?= $row['id_dog'] ?>">Supprimer</a></button>
+                  </td>
+                </tr>
+              <?php }; ?>
+
             </tbody>
           </table>
           <button class="btn">
