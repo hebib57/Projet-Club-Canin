@@ -187,7 +187,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <td><?= hsc($row['date_cours']); ?></td>
                   <td>
                     <button class="btn"><a href="../users/form.php?id=<?= $row['id_cours'] ?>">Modifier</a></button>
-                    <button class="btn"><a href="../users/delete.php?id=<?= $row['id_cours'] ?>">Supprimer</a></button>
+                    <button class="btn"><a href="../cours/delete.php?id=<?= $row['id_cours'] ?>">Supprimer</a></button>
                   </td>
                 </tr>
               <?php }; ?>
