@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/function.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
 
-//--------------------------------------------------------------------------MODIFICATION USER-------------------------------------------------------------------//
+//--------------------------------------------------------------------------MODIFICATION DOG-------------------------------------------------------------------//
 // Vérifier si le formulaire a été soumis
 if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
 

@@ -1453,6 +1453,7 @@ table th {
   .card-admin_messagerie {
     max-width: 650px;
   }
+  /*-----------------------responsive GESTION USERS------------------*/
   .users .table-container {
     font-size: 12px;
   }
@@ -1481,7 +1482,7 @@ table th {
     gap: 10px;
     justify-content: center;
   }
-
+  /*-----------------------responsive GESTION CHIEN-------------------------*/
   .dogs .table-container {
     font-size: 12px;
   }

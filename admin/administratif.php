@@ -5,13 +5,16 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 
 // $total = 0; //déclarer la variable à 0, si je ne rentre pas dans le if
 $stmt = $db->prepare("SELECT * FROM utilisateur");
-
 $stmt->execute();
 $recordset = $stmt->fetchAll(PDO::FETCH_ASSOC); //tableau indéxé qui contient des tableaux associatifs*/
 
 $stmt = $db->prepare("SELECT * FROM chien");
 $stmt->execute();
 $recordset2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $db->prepare("SELECT * FROM cours");
+$stmt->execute();
+$recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
@@ -159,39 +162,35 @@ $recordset2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <thead>
               <tr>
                 <th>Nom du Cours</th>
-                <th>Date</th>
+                <th>Type de cours</th>
+                <th>Description du cours</th>
+                <th>Âge minimum</th>
+                <th>Âge maximum</th>
+                <th>Râce</th>
+                <th>Sexe</th>
                 <th>Nombre de places disponibles</th>
+                <th>Date du cours</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Éducation de base</td>
-                <td>1er mars 2025</td>
-                <td>10</td>
-                <td>
-                  <button class="btn">Modifier</button>
-                  <button class="btn">Supprimer</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Sociabilisation</td>
-                <td>2 mars 2025</td>
-                <td>12</td>
-                <td>
-                  <button class="btn">Modifier</button>
-                  <button class="btn">Supprimer</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Parcours sportif</td>
-                <td>3 mars 2025</td>
-                <td>8</td>
-                <td>
-                  <button class="btn">Modifier</button>
-                  <button class="btn">Supprimer</button>
-                </td>
-              </tr>
+              <?php foreach ($recordset3 as $row) { ?>
+                <tr>
+                  <td><?= hsc($row['id_cours']); ?></td>
+                  <td><?= hsc($row['type_cours']); ?></td>
+                  <td><?= hsc($row['description_cours']); ?></td>
+                  <td><?= hsc($row['age_min']); ?></td>
+                  <td><?= hsc($row['age_max']); ?></td>
+                  <td><?= hsc($row['race_dog']); ?></td>
+                  <td><?= hsc($row['sexe_dog']); ?></td>
+                  <td><?= hsc($row['place_max']); ?></td>
+                  <td><?= hsc($row['date_cours']); ?></td>
+                  <td>
+                    <button class="btn"><a href="../users/form.php?id=<?= $row['id_cours'] ?>">Modifier</a></button>
+                    <button class="btn"><a href="../users/delete.php?id=<?= $row['id_cours'] ?>">Supprimer</a></button>
+                  </td>
+                </tr>
+              <?php }; ?>
             </tbody>
           </table>
           <button class="btn">

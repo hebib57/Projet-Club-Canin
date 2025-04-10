@@ -50,7 +50,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
     <section class="form-container creation">
         <h2>Ajouter un cours</h2>
-        <form action="ajouter_cours.php" method="POST">
+        <form action="./cours/create.php" method="POST">
             <label for="type_cours">Type de cours</label>
             <select id="type_cours" name="type_cours">
                 <option value="ecole du chiot">Ecole du chiot</option>
@@ -60,25 +60,28 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
                 <option value="flyball">Flyball</option>
                 <option value="protection-defense">Protection & Défense</option>
             </select>
-            <label for="nom_chien">Nom du cours</label>
-            <input type="text" id="nom_chien" name="nom_chien" required />
-            <label for="date_cours">Choisissez une date</label>
-            <input type="date" id="date_cours" name="date_cours" />
-            <label for="race">Race</label>
-            <input type="text" id="race" name="race" required />
-            <label for="race">Nombre de places disponibles</label>
-            <input type="text" id="race" name="race" required />
-
-            <label for="age">Âge (en mois) :</label>
-            <input type="number" id="age" name="age" required />
-
-            <label for="sexe">Sexe :</label>
-            <select id="sexe" name="sexe">
-                <option value="mâle">Mâle</option>
+            <label for="nom_cours">Nom du cours</label>
+            <input type="text" id="nom_cours" name="nom_cours" required />
+            <label for="description_cours">Description du cours</label>
+            <input type="text" id="description_cours" name="description_cours" required>
+            <label for="age_min">Âge minimum requis(en mois) </label>
+            <input type="number" id="age_min" name="age_min" required>
+            <label for="age_max">Âge maximum requis(en mois)</label>
+            <input type="number" id="age_max" name="age_max" required>
+            <label for="race_dog">Race</label>
+            <input type="text" id="race_dog" name="race_dog" required />
+            <label for="sexe_dog">Sexe :</label>
+            <select id="sexe_dog" name="sexe_dog">
+                <option value="male">Mâle</option>
                 <option value="femelle">Femelle</option>
+                <option value="mixte"></option>
             </select>
+            <label for="date_cours">Date du cours</label>
+            <input type="date" id="date_cours" name="date_cours" required />
+            <label for="place_max">Nombre de places disponibles</label>
+            <input type="place" id="place_max" name="place_max" required />
 
-            <button type="submit">Ajouter ce chien</button>
+            <button type="submit">Ajouter ce cours</button>
         </form>
     </section>
 
