@@ -161,6 +161,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <table class="table">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Nom du Cours</th>
                 <th>Type de cours</th>
                 <th>Description du cours</th>
@@ -177,6 +178,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <?php foreach ($recordset3 as $row) { ?>
                 <tr>
                   <td><?= hsc($row['id_cours']); ?></td>
+                  <td><?= hsc($row['nom_cours']); ?></td>
                   <td><?= hsc($row['type_cours']); ?></td>
                   <td><?= hsc($row['description_cours']); ?></td>
                   <td><?= hsc($row['age_min']); ?></td>
@@ -186,7 +188,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <td><?= hsc($row['place_max']); ?></td>
                   <td><?= hsc($row['date_cours']); ?></td>
                   <td>
-                    <button class="btn"><a href="../users/form.php?id=<?= $row['id_cours'] ?>">Modifier</a></button>
+                    <button class="btn"><a href="../cours/form.php?id=<?= $row['id_cours'] ?>">Modifier</a></button>
                     <button class="btn"><a href="../cours/delete.php?id=<?= $row['id_cours'] ?>">Supprimer</a></button>
                   </td>
                 </tr>
