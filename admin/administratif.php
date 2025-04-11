@@ -15,6 +15,10 @@ $recordset2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt = $db->prepare("SELECT * FROM cours");
 $stmt->execute();
 $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $db->prepare("SELECT * FROM coach");
+$stmt->execute();
+$recordset4 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
@@ -32,7 +36,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
   <header class="header2">
     <div class="logo">
-      <img src="../images/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
@@ -69,7 +73,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <ul class="menu-list">
           <li><a href="#dashbord">Tableau de bord</a></li>
           <li><a href="#reservations">Suivi des Réservations</a></li>
-          <li><a href="#cours_programmés">Gestion des Cours</a></li>
+          <li><a href="#cours_programmé">Gestion des Cours</a></li>
           <li><a href="#users">Gestion des Utilisateurs</a></li>
           <li><a href="#coachs">Gestion des Coachs</a></li>
           <li><a href="#dogs">Gestion des Chiens</a></li>
@@ -156,21 +160,21 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </table>
         </section>
 
-        <section class="cours_programmé" id="cours_programmés">
+        <section class="cours_programmé" id="cours_programmé">
           <h2>Gestion des Cours</h2>
           <table class="table">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Nom du Cours</th>
+                <!-- <th>Nom du Cours</th> -->
                 <th>Type de cours</th>
                 <th>Description du cours</th>
-                <th>Âge minimum</th>
-                <th>Âge maximum</th>
-                <th>Râce</th>
+                <th>Âge mini</th>
+                <th>Âge maxi</th>
+                <th>Race</th>
                 <th>Sexe</th>
-                <th>Nombre de places disponibles</th>
-                <th>Date du cours</th>
+                <th>Places disponibles</th>
+                <th>Date prévue</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -178,7 +182,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <?php foreach ($recordset3 as $row) { ?>
                 <tr>
                   <td><?= hsc($row['id_cours']); ?></td>
-                  <td><?= hsc($row['nom_cours']); ?></td>
+                  <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
                   <td><?= hsc($row['type_cours']); ?></td>
                   <td><?= hsc($row['description_cours']); ?></td>
                   <td><?= hsc($row['age_min']); ?></td>
@@ -246,33 +250,27 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Nom du Coach</th>
+                <th>Nom</th>
+                <th>Prénom</th>
                 <th>Email</th>
-                <th>Spécialité</th>
+                <th>Date d'inscription</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>tutu</td>
-                <td>tutu@email.com</td>
-                <td>Dressage, Agilité</td>
-                <td>
-                  <button class="btn">Modifier</button>
-                  <button class="btn">Supprimer</button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>tete</td>
-                <td>tete@email.com</td>
-                <td>Éducation, Sociabilisation</td>
-                <td>
-                  <button class="btn">Modifier</button>
-                  <button class="btn">Supprimer</button>
-                </td>
-              </tr>
+              <?php foreach ($recordset4 as $row) { ?>
+                <tr>
+                  <td><?= hsc($row['id_coach']); ?></td>
+                  <td><?= hsc($row['nom_coach']); ?></td>
+                  <td><?= hsc($row['prenom_coach']); ?></td>
+                  <td><?= hsc($row['email_coach']); ?></td>
+                  <td><?= hsc($row['date_inscription']); ?></td>
+                  <td>
+                    <button class="btn"><a href="../coach/form.php?id=<?= $row['id_coach'] ?>">Modifier</a></button>
+                    <button class="btn"><a href="../coach/delete.php?id=<?= $row['id_coach'] ?>">Supprimer</a></button>
+                  </td>
+                </tr>
+              <?php }; ?>
             </tbody>
           </table>
           <button class="btn">
@@ -441,7 +439,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="footer-section">
         <h3 class="footer-title">Club Canin "Educa Dog"</h3>
         <div class="logo-container">
-          <img src="./images/logo-dog-removebg-preview.png" alt="Educa dog" />
+          <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
         </div>
       </div>
     </div>

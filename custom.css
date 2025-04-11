@@ -22,7 +22,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-image: url(/images/image.jpg);
+  background-image: url(/interface_graphique/image.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -260,7 +260,7 @@ footer p {
   margin-left: 80px;
 }
 .hero {
-  background-image: url(/images/image.jpg);
+  background-image: url(/interface_graphique/image.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -1452,6 +1452,36 @@ table th {
   }
   .card-admin_messagerie {
     max-width: 650px;
+  }
+  /*-----------------------responsive GESTION COURS------------------*/
+  .cours_programmé .table {
+    font-size: 10px;
+  }
+  .cours_programmé .table th {
+    padding: 0px;
+    text-align: center;
+  }
+
+  .cours .table td {
+    padding: 0px;
+    text-align: center;
+  }
+  .cours_programmé td .btn {
+    display: inline-block;
+    padding: 3px;
+    margin-bottom: 20px;
+    margin-right: -6px;
+  }
+  .cours_programmé td .btn a {
+    font-size: 10px;
+    display: block;
+    text-decoration: none;
+  }
+  .cours_programmé td:last-child {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
   }
   /*-----------------------responsive GESTION USERS------------------*/
   .users .table-container {

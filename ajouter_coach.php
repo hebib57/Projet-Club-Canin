@@ -19,7 +19,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 <body>
   <header class="header2">
     <div class="logo">
-      <img src="./images/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
@@ -37,46 +37,27 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
   </header>
   <section class="form-container creation">
     <h2>Ajouter un compte Coach</h2>
-    <form action="#" method="POST">
-      <label for="">Nom</label>
+    <form action="./coach/create.php" method="POST">
+      <label for="nom_coach">Nom</label>
       <input
         type="text"
-        id="name"
-        name="name"
+        id="nom_coach"
+        name="nom_coach"
         placeholder="Entrez le nom du Coach"
         required />
-      <label for="">Prénom</label>
-      <input type="email" placeholder="Entrez le prénom du Coach" />
-      <label for="text">Email</label>
-      <input type="text" placeholder="Entrez l'email du Coach" />
+      <label for="prenom_coach">Prénom</label>
+      <input type="text" id="prenom_coach" name="prenom_coach" placeholder="Entrez le prénom du Coach" required />
+      <label for="email_coach">Email</label>
+      <input type="email" id="email_coach" name="email_coach" placeholder="Entrez l'email du Coach" required />
 
-      <label for="">Adresse Postale</label>
+      <label for="">Date d'inscription</label>
       <input
-        type="text"
-        id="adresse"
-        name="adresse"
-        placeholder="Entrez l'adresse Postale du Coach"
+        type="date"
+        id="date_inscription"
+        name="date_inscription"
+        placeholder=""
         required />
-      <div class="adress_coach">
-        <label for="">Code Postal</label>
-        <input
-          type="text"
-          id="codeP"
-          name="codeP"
-          placeholder="Entrez le code Postal du coach" />
 
-        <label for="">Code Postal</label>
-        <input
-          type="text"
-          id="codeP"
-          name="codeP"
-          placeholder="Entrez le code Postal du coach" />
-        <label for="">Code Postal</label>
-        <input
-          type="text"
-          id="codeP"
-          name="codeP"
-          placeholder="Entrez le code Postal du coach" />
       </div>
       <button type="submit" class="button">Ajouter ce compte Coach</button>
     </form>
@@ -129,7 +110,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
           <h3 class="footer-title">Club Canin "Educa Dog"</h3>
           <div class="logo-container">
             <img
-              src="./images/logo-dog-removebg-preview.png"
+              src="./interface_graphique/logo-dog-removebg-preview.png"
               alt="Educa dog" />
           </div>
         </div>

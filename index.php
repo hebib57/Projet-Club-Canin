@@ -12,7 +12,7 @@
   <header class="header">
     <div class="overlay"></div>
     <div class="logo">
-      <img src="./images/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
@@ -41,7 +41,7 @@
     <div class="bienvenue">
       <h1>Bienvenue au Club CANIN</h1>
       <div class="img_logo">
-        <img src="./images/logo-dog-removebg-preview.png" alt="logo" />
+        <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
       </div>
       <p>
         Offrez à votre chien l'éducation qu'il mérite avec nos cours adaptés à
@@ -66,7 +66,7 @@
     </p>
     <div class="activite">
       <div class="activite_card">
-        <img src="./images/image.jpg" alt="dog" class="img_card" />
+        <img src="./interface_graphique/image.jpg" alt="dog" class="img_card" />
         <div class="card-body">
           <h5 class="activite_card-title">Ecole du chiot</h5>
           <p class="activite_card-text">
@@ -89,7 +89,7 @@
       </div>
 
       <div class="activite_card">
-        <img src="./images/th (5).jpg" alt="dog" class="img_card" />
+        <img src="./interface_graphique/th (5).jpg" alt="dog" class="img_card" />
         <div class="card-body">
           <h5 class="activite_card-title">Éducation canine</h5>
           <p class="activite_card-text">
@@ -109,7 +109,7 @@
         </div>
       </div>
       <div class="activite_card">
-        <img src="./images/th (9).jpg" alt="dog" class="img_card" />
+        <img src="./interface_graphique/th (9).jpg" alt="dog" class="img_card" />
         <div class="card-body">
           <h5 class="activite_card-title">Agilité</h5>
           <p class="activite_card-text">
@@ -133,7 +133,7 @@
 
     <div class="activite">
       <div class="activite_card">
-        <img src="./images/image.jpg" alt="dog" class="img_card" />
+        <img src="./interface_graphique/image.jpg" alt="dog" class="img_card" />
         <div class="card-body">
           <h5 class="activite_card-title">Pistage</h5>
           <p class="activite_card-text">Travail olfactif et recherche</p>
@@ -151,7 +151,7 @@
         </div>
       </div>
       <div class="activite_card">
-        <img src="./images/th (2).jpg" alt="dog" class="img_card" />
+        <img src="./interface_graphique/th (2).jpg" alt="dog" class="img_card" />
         <div class="card-body">
           <h5 class="activite_card-title">Flyball</h5>
           <p class="activite_card-text">
@@ -172,7 +172,7 @@
         </div>
       </div>
       <div class="activite_card">
-        <img src="./images/th (3).jpg" alt="dog" class="img_card" />
+        <img src="./interface_graphique/th (3).jpg" alt="dog" class="img_card" />
         <div class="card-body">
           <h5 class="activite_card-title">Protection & Défense</h5>
           <p class="activite_card-text">
@@ -366,7 +366,7 @@
     </div>
   </section>
   <button id="scrollToTopBtn" onclick="scrollToTop()">
-    <img src="./images/logo-dog-removebg-preview.png" alt="" />
+    <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
   </button>
   <footer>
     <section class="footer">
@@ -416,7 +416,7 @@
           <h3 class="footer-title">Club Canin "Educa Dog"</h3>
           <div class="logo-container">
             <img
-              src="./images/logo-dog-removebg-preview.png"
+              src="./interface_graphique/logo-dog-removebg-preview.png"
               alt="Educa dog" />
           </div>
         </div>

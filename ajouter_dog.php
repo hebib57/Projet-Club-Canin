@@ -18,7 +18,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 <body>
   <header class="header2">
     <div class="logo">
-      <img src="./images/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
@@ -106,7 +106,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
           <h3 class="footer-title">Club Canin "Educa Dog"</h3>
           <div class="logo-container">
             <img
-              src="./images/logo-dog-removebg-preview.png"
+              src="./interface_graphique/logo-dog-removebg-preview.png"
               alt="Educa dog" />
           </div>
         </div>

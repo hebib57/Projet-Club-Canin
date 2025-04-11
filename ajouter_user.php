@@ -18,7 +18,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 <body>
   <header class="header2">
     <div class="logo">
-      <img src="./images/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">

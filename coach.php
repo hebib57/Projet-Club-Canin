@@ -1,6 +1,13 @@
 <?php
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
+
+
+$stmt = $db->prepare("SELECT * FROM cours");
+$stmt->execute();
+$recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 
@@ -19,7 +26,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 <body>
   <header class="header2">
     <div class="logo">
-      <img src="./images/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
@@ -56,7 +63,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
         <ul class="menu-list">
           <li><a href="#dashbord">Tableau de bord</a></li>
-          <li><a href="#cours_programmés">Gestion des Cours</a></li>
+          <li><a href="#cours_programmé">Gestion des Cours</a></li>
           <li><a href="#reservations">Suivi des réservations</a></li>
           <li><a href="#eval">Evaluation</a></li>
           <li><a href="#messagerie">Messagerie</a></li>
@@ -168,48 +175,47 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
             </table>
           </section>
 
-          <section id="cours_programmés">
+          <section id="cours_programmé">
             <h2>Gestion des Cours</h2>
             <table class="table">
               <thead>
                 <tr>
-                  <th>Nom du Cours</th>
-                  <th>Date</th>
-                  <th>Nombre de places disponibles</th>
+                  <th>ID</th>
+                  <!-- <th>Nom du Cours</th> -->
+                  <th>Type de cours</th>
+                  <th>Description du cours</th>
+                  <th>Âge mini</th>
+                  <th>Âge maxi</th>
+                  <th>Race</th>
+                  <th>Sexe</th>
+                  <th>Places disponibles</th>
+                  <th>Date prévue</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Éducation de base</td>
-                  <td>1er mars 2025</td>
-                  <td>10</td>
-                  <td>
-                    <button class="btn">Modifier</button>
-                    <button class="btn">Supprimer</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Sociabilisation</td>
-                  <td>2 mars 2025</td>
-                  <td>12</td>
-                  <td>
-                    <button class="btn">Modifier</button>
-                    <button class="btn">Supprimer</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Parcours sportif</td>
-                  <td>3 mars 2025</td>
-                  <td>8</td>
-                  <td>
-                    <button class="btn">Modifier</button>
-                    <button class="btn">Supprimer</button>
-                  </td>
-                </tr>
+                <?php foreach ($recordset3 as $row) { ?>
+                  <tr>
+                    <td><?= hsc($row['id_cours']); ?></td>
+                    <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
+                    <td><?= hsc($row['type_cours']); ?></td>
+                    <td><?= hsc($row['description_cours']); ?></td>
+                    <td><?= hsc($row['age_min']); ?></td>
+                    <td><?= hsc($row['age_max']); ?></td>
+                    <td><?= hsc($row['race_dog']); ?></td>
+                    <td><?= hsc($row['sexe_dog']); ?></td>
+                    <td><?= hsc($row['place_max']); ?></td>
+                    <td><?= hsc($row['date_cours']); ?></td>
+                    <td>
+                      <button class="btn"><a href="../cours/form.php?id=<?= $row['id_cours'] ?>">Modifier</a></button>
+                      <button class="btn"><a href="../cours/delete.php?id=<?= $row['id_cours'] ?>">Supprimer</a></button>
+                    </td>
+                  </tr>
+                <?php }; ?>
               </tbody>
             </table>
-            <button class="btn">Ajouter un Cours</button>
+            <button class="btn">
+              <a href="../ajouter_cours.php">Ajouter un Cours</a></button>
           </section>
 
           <section class="card-coach2" id="eval">
@@ -345,7 +351,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
       <div class="footer-section">
         <h3 class="footer-title">Club Canin "Educa Dog"</h3>
         <div class="logo-container">
-          <img src="./images/logo-dog-removebg-preview.png" alt="Educa dog" />
+          <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
         </div>
       </div>
     </div>
