@@ -4,11 +4,6 @@
 const burgerMenu = document.getElementById("burgerMenu");
 const navbar = document.querySelector(".navbar ul");
 
-// Ajoute un événement de clic pour activer/désactiver le menu
-// burgerMenu.addEventListener("click", () => {
-//   navbar.classList.toggle("active");
-// });
-
 // Gestion du clic sur le burger menu
 burgerMenu.addEventListener("click", () => {
   // Si le menu est fermé, on l'ouvre
@@ -30,3 +25,19 @@ const sidebar = document.querySelector(".sidebar");
 sidebarMenu.addEventListener("click", () => {
   sidebar.classList.toggle("sidebar-active");
 });
+
+/* CONFIRMATION DE SUPPRESSION---------------------------*/
+function confirmationDeleteMessage() {
+  return confirm("Êtes-vous sûr de vouloir supprimer ce Message ?");
+}
+
+/*AFFICHAGE DATE-HEURE-----------------------------------------------*/
+
+function afficherHeure() {
+  const instant = new Date();
+  const heure = instant.toLocaleTimeString();
+  const date = instant.toLocaleDateString();
+  document.getElementById("date").textContent = `${date} ${heure}`;
+}
+setInterval(afficherHeure, 1000);
+afficherHeure();

@@ -4,18 +4,19 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
 
-//--------------------------------------------------------SUPPRESSION D'UN CHIEN---------------------------------------------------------------------------//
+//--------------------------------------------------------SUPPRESSION D'UN EVENEMENT---------------------------------------------------------------------------//
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = (int)$_GET['id']; // Cast en entier pour éviter les injections ou erreurs de type
 
     try {
-        $stmt = $db->prepare("DELETE FROM chien WHERE id_dog=:id_dog"); //DELETE toujours suivi de WHERE
-        $stmt->execute([":id_dog" => $_GET['id']]);
+
+        $stmt = $db->prepare("DELETE FROM evenement WHERE id_event = :id_event;");
+
+        $stmt->execute([":id_event" => $_GET['id']]);
 
         if ($stmt->rowCount() > 0) {
-            $message = 'Chien supprimé avec succès';
+            $message = 'Evènement supprimé avec succès';
         } else {
-            $message = 'Aucun chien trouvé avec cet identifiant';
+            $message = 'Aucun évènement trouvé avec cet identifiant';
         }
     } catch (PDOException $e) {
         $message = 'Erreur lors de la suppression: ' . $e->getMessage();
@@ -24,10 +25,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $redirectUrl = '';
     switch ($_SESSION['role_name']) {
         case 'admin':
-            $redirectUrl = '../admin/administratif.php#dogs';
+            $redirectUrl = '../admin/administratif.php#events';
+            break;
+        case 'coach':
+            $redirectUrl = '../coach.php#cours_programmé';
             break;
         case 'utilisateur':
-            $redirectUrl = '../user.php#dogs';
+            $redirectUrl = '../user.php#cours_programmé';
             break;
         default:
             $redirectUrl = '../index.php';

@@ -3,13 +3,18 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/function.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
 
-// Initialisation du formulaire (nécessaire pour que l'on puisse ajouter un produit et le modifier avec le même formulaire)
+$stmt = $db->prepare("SELECT * FROM race ");
+$stmt->execute();
+$races = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+// initialisation du formulaire (ajouter et modifier avec le même formulaire)
 $dog = "";
 $nom_dog = "";
 $age_dog = "";
 $race_dog = "";
 $sexe_dog = "";
-$proprietaire_dog = "";
+$id_utilisateur = "";
 $date = date("Y-m-d");
 
 
@@ -24,7 +29,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
         $age_dog = $row['age_dog'];
         $race_dog = $row['race_dog'];
         $sexe_dog = $row['sexe_dog'];
-        $proprietaire_dog = $row['proprietaire_dog'];
+        $id_utilisateur = $row['id_utilisateur'];
         $date = $row['date_inscription'];
     };
 };
@@ -70,12 +75,28 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <input type="text" name="nom_dog" id="nom_dog" value="<?= hsc($nom_dog) ?>">
                 <label for="age_dog">Age</label>
                 <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
-                <label for="race_dog">Râce</label>
-                <input type="text" name="race_dog" id="race_dog" value="<?= hsc($race_dog) ?>">
+
+                <label for="race">Râce</label>
+                <select name="race" id="race" required>
+                    <?php
+                    foreach ($races as $race) {
+                        $selected = ($race['nom_race'] == $race_dog) ? 'selected' : '';
+                        echo '<option value="' . hsc($race['nom_race']) . '" ' . $selected . '>' . hsc($race['nom_race']) . '</option>';
+                    } ?>
+                </select>
+
+
+
+
+
+
+
+                <!-- <label for="race_dog">Râce</label>
+                <input type="text" name="race_dog" id="race_dog" value="<?= hsc($race_dog) ?>"> -->
                 <label for="sexe_dog">Sexe</label>
                 <input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
-                <label for="proprietaire_dog">Propriétaire</label>
-                <input type="text" name="proprietaire_dog" id="proprietaire_dog" value="<?= hsc($proprietaire_dog) ?>">
+                <label for="id_utilisateur">Propriétaire</label>
+                <input type="text" name="id_utilisateur" id="id_utilisateur" value="<?= hsc($id_utilisateur) ?>">
                 <label for="date_inscription">Date d'inscription</label>
                 <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
                 <input type="hidden" name="id_dog" value="<?= hsc($dog) ?>">
@@ -84,7 +105,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
 
 
             </form>
-            <button class="btn2__modif"><a href="../admin/administratif.php">Retour</a></button>
+            <button class="btn2__modif"><a href="../admin/administratif.php#dogs">Retour</a></button>
         </div>
     </section>
 

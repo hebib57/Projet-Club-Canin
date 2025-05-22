@@ -45,3 +45,23 @@ function scrollToTop() {
     behavior: "smooth", // annimation fluide
   });
 }
+
+/*moteur de recherche----------------------------------------------*/
+
+new TomSelect("#destinataires", {
+  plugins: ["remove_button"],
+  placeholder: "Rechercher un ou plusieurs destinataires...",
+  maxOptions: 1000, // limite d'affichage dans la dropdown
+  searchField: ["text"], // permet la recherche sur les noms
+});
+
+/*AFFICHAGE DATE-HEURE-----------------------------------------------*/
+
+function afficherHeure() {
+  const instant = new Date();
+  const heure = instant.toLocaleTimeString();
+  const date = instant.toLocaleDateString();
+  document.getElementById("date").textContent = `${date} ${heure}`;
+}
+setInterval(afficherHeure, 1000);
+afficherHeure();

@@ -5,38 +5,80 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
 
 //--------------------------------------------------------------------AJOUT D'UN UTILISATEUR-----------------------------------------------------------------------------//
-//vérifie si le formulaire a été soumis
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //récupérer les valeurs du formulaire
-    $nom = $_POST['nom_utilisateur'];
-    $prenom = $_POST['prenom_utilisateur'];
-    $email = $_POST['admin_mail'];
-    $password = password_hash($_POST['admin_password'], PASSWORD_DEFAULT);
-    $phone = $_POST['telephone_utilisateur'];
-    $role = $_POST['role_utilisateur'];
-    $date = $_POST['date_inscription'];
+    // Sécurisation des données
+    $nom = $_POST['nom_utilisateur'] ?? '';
+    $prenom = $_POST['prenom_utilisateur'] ?? '';
+    $email = $_POST['admin_mail'] ?? '';
+    $password = password_hash($_POST['admin_password'] ?? '', PASSWORD_DEFAULT);
+    $phone = $_POST['telephone_utilisateur'] ?? '';
+    $id_role = $_POST['id_role'] ?? null;
+    // $date = $_POST['date_inscription'] ?? date('Y-m-d');
 
-    // requête pour insérer un user dans la BDD
-    $sql = "INSERT INTO utilisateur (nom_utilisateur, prenom_utilisateur, admin_mail, admin_password, telephone_utilisateur, role, date_inscription)
-                VALUES(:nom_utilisateur, :prenom_utilisateur, :admin_mail, :admin_password, :telephone_utilisateur, :role_utilisateur, :date_inscription)";
-    $stmt = $db->prepare($sql);
+    try {
+      
+        $db->beginTransaction();
 
-    //execution de la requête
-    if ($stmt->execute([
-        ':nom_utilisateur' => $nom,
-        ':prenom_utilisateur' => $prenom,
-        ':admin_mail' => $email,
-        ':admin_password' => $password,
-        ':telephone_utilisateur' => $phone,
-        ':role_utilisateur' => $role,
-        ':date_inscription' => $date
-    ])) {
+        $sqlUser = "INSERT INTO utilisateur (
+                        nom_utilisateur, prenom_utilisateur, admin_mail, admin_password, telephone_utilisateur 
+                    ) VALUES (
+                        :nom_utilisateur, :prenom_utilisateur, :admin_mail, :admin_password, :telephone_utilisateur 
+                    )";
+        $stmtUser = $db->prepare($sqlUser);
 
-        echo "<script>alert('" . hsc('Utilisateur ajouté avec succès') . "'); window.location.href = '../admin/administratif.php';</script>";
-    } else {
-        echo "<script>alert('" . hsc('Erreur lors de l\'ajout de l\'utilisateur') . "'); window.location.href = '../admin/administratif.php';</script>";
+
+        $stmtUser->execute([
+            ':nom_utilisateur' => $nom,
+            ':prenom_utilisateur' => $prenom,
+            ':admin_mail' => $email,
+            ':admin_password' => $password,
+            ':telephone_utilisateur' => $phone
+            // ':date_inscription' => $date
+        ]);
+
+        // recup id inséré
+        $id_utilisateur = $db->lastInsertId();
+
+
+
+        $sqlRole = "INSERT INTO utilisateur_role (id_utilisateur, id_role)
+                    VALUES (:id_utilisateur, :id_role)";
+        $stmtRole = $db->prepare($sqlRole);
+        $stmtRole->execute([
+            ':id_utilisateur' => $id_utilisateur,
+            ':id_role' => $id_role
+        ]);
+
+
+      
+        $db->commit();
+        $message = "Utilisateur ajouté avec succès";
+    } catch (PDOException $e) {
+        // Annule la transaction en cas d'erreur
+        $db->rollBack();
+        error_log($e->getMessage()); 
+
+        $message = "Erreur lors de l'ajout de l'utilisateur";
     }
+
+    switch ($_SESSION['role_name']) {
+        case 'admin':
+            $redirectUrl = '../admin/administratif.php';
+            break;
+        case 'coach':
+            $redirectUrl = '../coach.php';
+            break;
+        case 'utilisateur':
+            $redirectUrl = '../user.php';
+            break;
+        default:
+            $redirectUrl = '../index.php'; 
+    }
+
+    echo "<script>alert('" . hsc($message) . "'); window.location.href = '$redirectUrl';</script>";
 }
+
 exit();
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------//

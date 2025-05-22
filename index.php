@@ -12,7 +12,7 @@
   <header class="header">
     <div class="overlay"></div>
     <div class="logo">
-      <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
@@ -23,9 +23,6 @@
         <li><a href="#nous_trouver">Nous trouver</a></li>
         <li><a href="#nous_contacter">Nous contacter</a></li>
         <li><a href="./admin/login.php" class="button">Se connecter</a></li>
-        <li><a href="user.php">utilisateur</a></li>
-        <li><a href="../admin/administratif.php">Admin</a></li>
-        <li><a href="coach.php">Coach</a></li>
       </ul>
     </nav>
 
@@ -39,7 +36,7 @@
   <section class="hero" id="accueil">
     <div class="hero-overlay"></div>
     <div class="bienvenue">
-      <h1>Bienvenue au Club CANIN</h1>
+      <h1>Bienvenue au Club CANIN "Educa Dog"</h1>
       <div class="img_logo">
         <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
       </div>

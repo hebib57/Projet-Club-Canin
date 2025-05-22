@@ -5,28 +5,28 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
 
 
-
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coach</title>
-  <link rel="stylesheet" href="custom.css" />
+  <title>Ajouter un utilisateur</title>
+  <link rel="stylesheet" href="../custom.css" />
 </head>
 
 <body>
   <header class="header2">
     <div class="logo">
-      <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
         <li><a href="index.php">Accueil</a></li>
-        <li><a href="user.php">utilisateur</a></li>
-        <li><a href="./admin/administratif.php">Admin</a></li>
-        <li><a href="coach.php">Coach</a></li>
+        <li><a href="login.php">Se connecter</a></li>
+        <li><a href="reservation.html">Réservation</a></li>
+        <li><a href="suivi.html">Suivi </a></li>
+        <li><a href="evenement.html">Evènements</a></li>
       </ul>
     </nav>
     <button class="navbar__burger-menu-toggle" id="burgerMenu">
@@ -36,32 +36,28 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
     </button>
   </header>
   <section class="form-container creation">
-    <h2>Ajouter un compte Coach</h2>
-    <form action="./coach/create.php" method="POST">
-      <label for="nom_coach">Nom</label>
-      <input
-        type="text"
-        id="nom_coach"
-        name="nom_coach"
-        placeholder="Entrez le nom du Coach"
-        required />
-      <label for="prenom_coach">Prénom</label>
-      <input type="text" id="prenom_coach" name="prenom_coach" placeholder="Entrez le prénom du Coach" required />
-      <label for="email_coach">Email</label>
-      <input type="email" id="email_coach" name="email_coach" placeholder="Entrez l'email du Coach" required />
-
-      <label for="">Date d'inscription</label>
-      <input
-        type="date"
-        id="date_inscription"
-        name="date_inscription"
-        placeholder=""
-        required />
-
-      </div>
-      <button type="submit" class="button">Ajouter ce compte Coach</button>
+    <h2>Créer un compte utilisateur</h2>
+    <form action="../users/create.php" method="POST">
+      <label for="nom_utilisateur">Nom</label>
+      <input type="text" id="nom_utilisateur" name="nom_utilisateur" required>
+      <label for="prenom_utilisateur">Prénom</label>
+      <input type="text" id="prenom_utilisateur" name="prenom_utilisateur" required />
+      <label for="admin_mail">Email</label>
+      <input type="email" id="admin_mail" name="admin_mail" required />
+      <label for="password">Mot de passe</label>
+      <input type="password" id="admin_password" name="admin_password" required />
+      <label for="telephone_utilisateur">Téléphone</label>
+      <input type="number" id="telephone_utilisateur" name="telephone_utilisateur" required />
+      <label for="text">Rôle</label>
+      <select name="id_role" required>
+        <option value="1">Admin</option>
+        <option value="2">Coach</option>
+        <option value="3">Utilisateur</option>
+      </select>
+      <button type="submit">Ajouter ce compte utilisateur</button>
     </form>
   </section>
+
   <footer>
     <section class="footer">
       <div class="footer-container">
@@ -110,7 +106,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
           <h3 class="footer-title">Club Canin "Educa Dog"</h3>
           <div class="logo-container">
             <img
-              src="./interface_graphique/logo-dog-removebg-preview.png"
+              src="./images/logo-dog-removebg-preview.png"
               alt="Educa dog" />
           </div>
         </div>
@@ -120,7 +116,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
       </p>
     </section>
   </footer>
-  <script src="../index.js"></script>
+  <script src="./index.js"></script>
 </body>
 
 </html>

@@ -1,12 +1,73 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_coach.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
+
+$prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour afficher
+
+$id_utilisateur = $_SESSION['user_id'] ?? null;
+
+$nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
+
+
+// ercup les messages reçus
+$sql = "SELECT m.*, u.prenom_utilisateur, u.nom_utilisateur 
+FROM message m
+JOIN utilisateur u ON m.id_expediteur = u.id_utilisateur
+WHERE m.id_destinataire = :id_utilisateur
+AND m.contenu IS NOT NULL 
+ORDER BY m.date_envoi DESC";
+
+$stmt = $db->prepare($sql);
+$stmt->execute([':id_utilisateur' => $_SESSION['user_id']]);
+$recordset_messages = $stmt->fetchAll();
 
 
 $stmt = $db->prepare("SELECT * FROM cours");
 $stmt->execute();
-$recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+$query = "
+SELECT 
+    r.id_reservation,
+    r.date_reservation,
+
+    u.id_utilisateur,
+    u.nom_utilisateur, 
+
+    d.id_dog,
+    d.nom_dog,             
+
+    s.id_seance,
+    s.date_seance,
+    s.heure_seance,
+    s.places_disponibles,
+    s.duree_seance,
+    s.statut_seance,
+
+    c.type_cours,
+    c.nom_cours,
+
+    coach.nom_utilisateur AS nom_coach
+
+FROM reservation r
+INNER JOIN seance s ON r.id_seance = s.id_seance
+INNER JOIN cours c ON s.id_cours = c.id_cours
+INNER JOIN utilisateur u ON r.id_utilisateur = u.id_utilisateur
+INNER JOIN chien d ON r.id_dog = d.id_dog
+
+-- Coach assigné à la séance (optionnel si tu as un coach pour chaque séance)
+LEFT JOIN utilisateur coach ON coach.id_utilisateur = s.id_utilisateur
+LEFT JOIN utilisateur_role ur ON coach.id_utilisateur = ur.id_utilisateur
+LEFT JOIN role role_coach ON ur.id_role = role_coach.id_role AND role_coach.nom_role = 'coach'
+
+ORDER BY r.date_reservation DESC;
+";
+
+$stmt = $db->query($query);
+$recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 ?>
 
@@ -26,7 +87,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
   <header class="header2">
     <div class="logo">
-      <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
@@ -42,10 +103,11 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </button>
   </header>
   <div class="title">
-    <h2>Bienvenue Coach, voici le résumé de vos activités au Club.</h2>
+    <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
   </div>
 
   <main class="container_bord">
+
     <section class="dashbord">
       <div class="sidebar">
         <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
@@ -56,8 +118,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="sidebar-header">
           <div class="user-avatar">C</div>
           <div class="user-info">
-            <h3>Francky</h3>
-            <p>Coach</p>
+            <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
           </div>
         </div>
 
@@ -68,17 +129,19 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <li><a href="#eval">Evaluation</a></li>
           <li><a href="#messagerie">Messagerie</a></li>
           <li><a href="#">Paramètres du compte</a></li>
-          <li><a href="#">Déconnexion</a></li>
+          <li><a href="./admin/logout.php">Déconnexion</a></li>
         </ul>
       </div>
-
+      <div>
+        <span id="date">
+        </span>
+      </div>
       <section class="container-coach" id="dashbord">
+
         <div class="card-coach">
           <div>
             <h2>Tableau de bord</h2>
-            <div>
-              <span id="current-date">Mardi 18 mars 2025</span>
-            </div>
+
           </div>
           <div class="notification">
             <strong>Rappel :</strong> Vous avez 3 séances aujourd'hui et 2
@@ -143,39 +206,50 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
           <section class="reservations" id="reservations">
             <h2>Suivi des Réservations</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>ID Réservation</th>
-                  <th>Utilisateur</th>
-                  <th>Cours</th>
-                  <th>Chien</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>toto</td>
-                  <td>École du Chiot</td>
-                  <td>luna</td>
-                  <td>10/04/2025</td>
-                  <td>Réservé</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>tete</td>
-                  <td>Éducation</td>
-                  <td>luna</td>
-                  <td>12/04/2025</td>
-                  <td>En attente</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID Réservation</th>
+                    <th>Nom du coach</th>
+                    <th>Utilisateur</th>
+                    <th>Type de cours</th>
+                    <th>Nom Cours</th>
+                    <th>Nom du chien</th>
+                    <th>Date Séance</th>
+                    <th>Heure Séance</th>
+                    <th>Date Réservation</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <?php foreach ($recordset_reservation as $reserv): ?>
+
+                    <td><?= hsc($reserv['id_reservation']); ?></td>
+                    <td><?= hsc($reserv['nom_coach']); ?></td>
+                    <td><?= hsc($reserv['nom_utilisateur']); ?></td>
+                    <td><?= hsc($reserv['type_cours']); ?></td>
+                    <td><?= hsc($reserv['nom_cours']); ?></td>
+                    <td><?= hsc($reserv['nom_dog']); ?></td>
+                    <td><?= hsc($reserv['date_seance']); ?></td>
+                    <td><?= hsc($reserv['heure_seance']); ?></td>
+                    <td><?= hsc($reserv['date_reservation']); ?></td>
+                    <td>
+                      
+                      <form method="post" action="./reservations/delete_reservation.php" style="display: inline;">
+                        <input type="hidden" name="id_reservation" value="<?= hsc($reserv['id_reservation']); ?>">
+                        <button type="submit" class="btn" onclick=" return confirmationDeleteReservation();">Supprimer</button>
+                      </form>
+                    </td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
           </section>
 
-          <section id="cours_programmé">
+          <section id="cours_programmé" class="cours_programmé">
             <h2>Gestion des Cours</h2>
             <table class="table">
               <thead>
@@ -194,7 +268,7 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($recordset3 as $row) { ?>
+                <?php foreach ($recordset_cours as $row) { ?>
                   <tr>
                     <td><?= hsc($row['id_cours']); ?></td>
                     <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
@@ -270,37 +344,41 @@ $recordset3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <section class="card-coach_messagerie" id="messagerie">
             <div>
               <h2>Messagerie</h2>
-              <button class="btn">Nouveau message</button>
-            </div>
+              <div class="card-header">
+                <button class="btn"><a href="../messages/message_send.php">Nouveau message</a></button>
+                <button><a class="btn" href="../messages/inbox.php">boite de réception</a></button>
 
-            <table>
-              <thead>
-                <tr>
-                  <th>De</th>
-                  <th>Sujet</th>
-                  <th>Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Abdel</td>
-                  <td>Planification des cours pour avril</td>
-                  <td>17/03/2025</td>
-                  <td>
-                    <button class="btn">Lire</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Toto Titi</td>
-                  <td>Question sur le progrès de Luna</td>
-                  <td>16/03/2025</td>
-                  <td>
-                    <button class="btn">Lire</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              </div>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>De</th>
+                    <th>Sujet</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                    <th>lu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($recordset_messages as $msg): ?>
+                    <tr>
+                      <td><?= hsc($msg['prenom_utilisateur'] . ' ' . $msg['nom_utilisateur']) ?></td>
+                      <td><?= substr(hsc($msg['sujet_message']), 0, 30) ?>...</td>
+                      <td><?= hsc(date('d/m/Y H:i', strtotime($msg['date_envoi']))) ?></td>
+
+
+                      <td>
+                        <button><a class="btn" href="../messages/message_read.php?id_message=<?= $msg['id_message'] ?>">Lire</a></button>
+                        <button><a class="btn" href="../messages/message_delete.php?id=<?= $msg['id_message'] ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
+
+                      </td>
+                      <td><?= hsc($msg['lu'] ? 'Oui' : 'Non') ?></td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+
+              </table>
           </section>
         </div>
       </section>

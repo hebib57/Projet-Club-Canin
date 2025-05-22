@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/function.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
 
-// Initialisation du formulaire (nécessaire pour que l'on puisse ajouter un produit et le modifier avec le même formulaire)
+// initialisation du formulaire (ajouter et modifier avec le même formulaire)
 $cours = "";
 $nom_cours = "";
 $type_cours = "";
@@ -34,6 +34,14 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
         $place_max = $row['place_max'];
     };
 };
+
+
+
+$stmt = $db->prepare("SELECT * FROM race ");
+$stmt->execute();
+$races = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 ?>
 
@@ -70,12 +78,12 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
     <section>
 
         <div class="modification">
-            <h2>Modifier Compte</h2>
-            <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
+            <h2>Modifier Cours</h2>
+            <form class="modif" action="../cours/create.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
                 <label for="nom_cours">Nom du cours</label>
                 <input type="text" name="nom_cours" id="nom_cours" value="<?= hsc($nom_cours) ?>">
                 <label for="type_cours">Type de cours</label>
-                <select id="type_cours" name="type_cours" id="type_cours" value="<?= hsc($type_cours) ?>">
+                <select id="type_cours" name="type_cours" value="<?= hsc($type_cours) ?>">
                     <option value="ecole du chiot">Ecole du chiot</option>
                     <option value="education canine">Ecole canine</option>
                     <option value="agilite">Agilité</option>
@@ -87,10 +95,22 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <input type="number" name="age_min" id="age_min" value="<?= hsc($age_min) ?>">
                 <label for="age_max">Age maximum</label>
                 <input type="number" name="age_max" id="age_max" value="<?= hsc($age_max) ?>">
-                <label for="race_dog">Râce</label>
-                <input type="text" name="race_dog" id="race_dog" value="<?= hsc($race_dog) ?>">
+
+                <label for="race">Râce</label>
+                <select name="race" id="race" required>
+                    <?php
+                    foreach ($races as $race) {
+                        $selected = ($race['nom_race'] == $race_dog) ? 'selected' : '';
+                        echo '<option value="' . hsc($race['nom_race']) . '" ' . $selected . '>' . hsc($race['nom_race']) . '</option>';
+                    } ?>
+                </select>
                 <label for="sexe_dog">Sexe</label>
-                <input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
+                <select name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
+                    <option value="male">Mâle</option>
+                    <option value="femelle">Femelle</option>
+                </select>
+
+
                 <label for="description_cours">Description du cours</label>
                 <input type="text" name="description_cours" id="description_cours" value="<?= hsc($description_cours) ?>">
                 <label for="date_cours">Date du cours</label>
@@ -102,8 +122,10 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <input class="btn__modif" type="submit" value="Enregistrer">
 
 
+
+
             </form>
-            <button class="btn2__modif"><a href="../admin/administratif.php">Retour</a></button>
+            <button class="btn2__modif"><a href="../admin/administratif.php#cours">Retour</a></button>
         </div>
     </section>
 

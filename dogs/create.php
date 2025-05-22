@@ -4,34 +4,59 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
 
+
+
 //--------------------------------------------------------------------AJOUT D'UN CHIEN-----------------------------------------------------------------------------//
-//vérifie si le formulaire a été soumis
+//verifie soumission formulaire
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //récupérer les valeurs du formulaire
+    //recup valeurs du formulaire
     $nom_dog = $_POST['nom_dog'];
     $age_dog = $_POST['age_dog'];
     $race_dog = $_POST['race_dog'];
     $sexe_dog = $_POST['sexe_dog'];
-    $proprietaire_dog = $_POST['proprietaire_dog'];
+    $id_utilisateur = $_POST['id_utilisateur'];
 
-    // requête pour insérer un user dans la BDD
-    $sql = "INSERT INTO chien (nom_dog, age_dog, race_dog, sexe_dog, proprietaire_dog)
-                VALUES(:nom_dog, :age_dog, :race_dog, :sexe_dog, :proprietaire_dog)";
-    $stmt = $db->prepare($sql);
+    try {
+        // inserer dog dans BDD
+        $sql = "INSERT INTO chien (nom_dog, age_dog, race_dog, sexe_dog, id_utilisateur)
+                VALUES(:nom_dog, :age_dog, :race_dog, :sexe_dog, :id_utilisateur)";
+        $stmt = $db->prepare($sql);
 
-    //execution de la requête
-    if ($stmt->execute([
-        ':nom_dog' => $nom_dog,
-        ':age_dog' => $age_dog,
-        ':race_dog' => $race_dog,
-        ':sexe_dog' => $sexe_dog,
-        ':proprietaire_dog' => $proprietaire_dog,
-    ])) {
+        if ($stmt->execute([
+            ':nom_dog' => $nom_dog,
+            ':age_dog' => $age_dog,
+            ':race_dog' => $race_dog,
+            ':sexe_dog' => $sexe_dog,
+            ':id_utilisateur' => $id_utilisateur,
+        ])) {
 
-        echo "<script>alert('" . hsc('Chien ajouté avec succès') . "'); window.location.href = '../admin/administratif.php';</script>";
-    } else {
-        echo "<script>alert('" . hsc('Erreur lors de l\'ajout du chien') . "'); window.location.href = '../admin/administratif.php';</script>";
+            $message = "Chien ajouté avec succès";
+        } else {
+            $message = "Erreur lors de l'ajout du chien";
+        }
+    } catch (PDOException $e) {
+        // Annule la transaction en cas d'erreur
+        $db->rollBack();
+        error_log($e->getMessage()); // Log pour debug
+
+        $message = "Erreur lors de l'ajout du chien";
     }
+
+    switch ($_SESSION['role_name']) {
+        case 'admin':
+            $redirectUrl = '../admin/administratif.php#dogs';
+            break;
+        case 'coach':
+            $redirectUrl = '../coach.php';
+            break;
+        case 'utilisateur':
+            $redirectUrl = '../user.php#dogs';
+            break;
+        default:
+            $redirectUrl = '../index.php';
+    }
+
+    echo "<script>alert('" . hsc($message) . "'); window.location.href = '$redirectUrl';</script>";
 }
 exit();
 

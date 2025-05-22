@@ -7,3 +7,21 @@ function hsc($string)
         return htmlspecialchars($string);
     }
 };
+
+
+function cleanFilename($str)
+{ //fonction qui remplace des caractères par d'autres caractères
+    $result = strtolower($str); //pour mettre tout en minuscule
+
+    $charKo = ["à", "â", " ", "'", "\\"]; //dans le cas d'un \ mettre un \\ (car \ annule le caractère suivant)
+    $charOk = ["a", "a", "-", "-", ""];
+    $result = str_replace($charKo, $charOk, $result);
+
+
+    return trim($result, "-");
+}
+
+
+
+
+function HandleImageUpload() {};

@@ -3,30 +3,29 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/function.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
 
-$utilisateur = "";
-$nom = "";
-$prenom = "";
-$email = "";
-$password = "";
-$phone = "";
-$id_role = "";
-// $date = date("Y-m-d");
+
+$dog = "";
+$nom_dog = "";
+$age_dog = "";
+$race_dog = "";
+$sexe_dog = "";
+$proprietaire_dog = "";
+$date = date("Y-m-d");
 
 
 if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
-    $stmt = $db->prepare("SELECT * FROM utilisateur WHERE id_utilisateur = :id_utilisateur");
-    $stmt->bindValue(":id_utilisateur", $_GET["id"]);
+    $stmt = $db->prepare("SELECT * FROM chien WHERE id_dog = :id_dog");
+    $stmt->bindValue(":id_dog", $_GET["id"]);
     $stmt->execute();
 
     if ($row = $stmt->fetch()) {
-        $utilisateur = $row['id_utilisateur'];
-        $nom = $row['nom_utilisateur'];
-        $prenom = $row['prenom_utilisateur'];
-        $email = $row['admin_mail'];
-        $password = $row['admin_password'];
-        $phone = $row['telephone_utilisateur'];
-        $id_role = $row['id_role'];
-        // $date = $row['date_inscription'];
+        $dog = $row['id_dog'];
+        $nom_dog = $row['nom_dog'];
+        $age_dog = $row['age_dog'];
+        $race_dog = $row['race_dog'];
+        $sexe_dog = $row['sexe_dog'];
+        $proprietaire_dog = $row['proprietaire_dog'];
+        $date = $row['date_inscription'];
     };
 };
 
@@ -62,36 +61,31 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
 
 
     </header>
+
     <section>
 
         <div class="modification">
-            <h2>Modifier Compte</h2>
+            <h2>S'inscrire à ce cours</h2>
             <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
-                <label for="nom_utilisateur">Nom</label>
-                <input type="text" name="nom_utilisateur" id="nom_utilisateur" value="<?= hsc($nom) ?>">
-                <label for="prenom_utilisateur">Prénom</label>
-                <input type="text" name="prenom_utilisateur" id="prenom_utilisateur" value="<?= hsc($prenom) ?>">
-                <label for="admin_mail">Email</label>
-                <input type="email" name="admin_mail" id="admin_mail" value="<?= hsc($email) ?>">
-                <label for="admin_password">Mot de passe</label>
-                <input type="password" name="admin_password" id="admin_password" value="<?= hsc($password) ?>">
-                <label for="telephone_utilisateur">Téléphone</label>
-                <input type="tel" name="telephone_utilisateur" id="telephone_utilisateur" value="<?= hsc($phone) ?>">
-                <label for="role">Rôle</label>
-
-                <select id="id_role" name="id_role" value="<?= hsc($id_role) ?>" required>
-                    <option value="admin">admin</option>
-                    <option value="coach">coach</option>
-                    <option value="utilisateur">utilisateur</option>
-
-                </select>
-                <input type="hidden" name="id_utilisateur" value="<?= hsc($utilisateur) ?>">
+                <label for="nom_dog">Nom</label>
+                <input type="text" name="nom_dog" id="nom_dog" value="<?= hsc($nom_dog) ?>">
+                <label for="age_dog">Age</label>
+                <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
+                <label for="race_dog">Râce</label>
+                <input type="text" name="race_dog" id="race_dog" value="<?= hsc($race_dog) ?>">
+                <label for="sexe_dog">Sexe</label>
+                <input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
+                <label for="proprietaire_dog">Propriétaire</label>
+                <input type="text" name="proprietaire_dog" id="proprietaire_dog" value="<?= hsc($proprietaire_dog) ?>">
+                <label for="date_inscription">Date d'inscription</label>
+                <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
+                <input type="hidden" name="id_dog" value="<?= hsc($dog) ?>">
                 <input type="hidden" name="formCU" value="ok">
                 <input class="btn__modif" type="submit" value="Enregistrer">
 
 
             </form>
-            <button class="btn2__modif"><a href="../admin/administratif.php#admins">Retour</a></button>
+            <button class="btn2__modif"><a href="../admin/administratif.php">Retour</a></button>
         </div>
     </section>
 

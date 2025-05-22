@@ -1,6 +1,15 @@
 <?php
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
+
+
+$stmt = $db->prepare("SELECT * FROM race ");
+$stmt->execute();
+$races = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
 ?>
 
 
@@ -11,22 +20,22 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ajouter un utilisateur</title>
-  <link rel="stylesheet" href="custom.css" />
+  <title>Club CANIN - Accueil</title>
+  <link rel="stylesheet" href="../custom.css" />
 </head>
 
 <body>
   <header class="header2">
     <div class="logo">
-      <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
+      <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
         <li><a href="index.php">Accueil</a></li>
-        <li><a href="login.php">Se connecter</a></li>
-        <li><a href="reservation.html">Réservation</a></li>
-        <li><a href="suivi.html">Suivi </a></li>
-        <li><a href="evenement.html">Evènements</a></li>
+        <li><a href="login.php" class="button">Se connecter</a></li>
+        <li><a href="user.php">utilisateur</a></li>
+        <li><a href="./admin/administratif.php">Admin</a></li>
+        <li><a href="coach.php">Coach</a></li>
       </ul>
     </nav>
     <button class="navbar__burger-menu-toggle" id="burgerMenu">
@@ -36,23 +45,36 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
     </button>
   </header>
   <section class="form-container creation">
-    <h2>Créer un compte utilisateur</h2>
-    <form action="./users/create.php" method="POST">
-      <label for="nom_utilisateur">Nom</label>
-      <input type="text" id="nom_utilisateur" name="nom_utilisateur" required>
-      <label for="prenom_utilisateur">Prénom</label>
-      <input type="text" id="prenom_utilisateur" name="prenom_utilisateur" required />
-      <label for="admin_mail">Email</label>
-      <input type="email" id="admin_mail" name="admin_mail" required />
-      <label for="password">Mot de passe</label>
-      <input type="password" id="admin_password" name="admin_password" required />
-      <label for="telephone_utilisateur">Téléphone</label>
-      <input type="number" id="telephone_utilisateur" name="telephone_utilisateur" required />
-      <label for="text">Rôle</label>
-      <input type="role" id="role_utilisateur" name="role_utilisateur" required />
-      <label for="date">Date d'inscription</label>
-      <input type="date" id="date_inscription" name="date_inscription" required />
-      <button type="submit">Ajouter ce compte utilisateur</button>
+    <h2>Ajouter un chien</h2>
+    <form action="create.php" method="POST">
+      <label for="nom_dog">Nom du chien</label>
+      <input type="text" id="nom_dog" name="nom_dog" required />
+
+      <label for="race">Râce</label>
+      <select name="race" id="race" required>
+        <?php
+        foreach ($races as $race) {
+          $selected = ($race['nom_race'] == $race_dog) ? 'selected' : '';
+          echo '<option value="' . hsc($race['nom_race']) . '" ' . $selected . '>' . hsc($race['nom_race']) . '</option>';
+        } ?>
+      </select>
+
+      <!-- <label for="race_dog">Race</label>
+      <input type="text" id="race_dog" name="race_dog" required /> -->
+
+
+
+      <label for="age_dog">Âge (en mois)</label>
+      <input type="number" id="age_dog" name="age_dog" required />
+
+      <label for="sexe_dog">Sexe</label>
+      <select id="sexe_dog" name="sexe_dog">
+        <option value="mâle">Mâle</option>
+        <option value="femelle">Femelle</option>
+      </select>
+      <label for="id_utilisateur">Propriétaire</label>
+      <input type="text" id="id_utilisateur" name="id_utilisateur" required />
+      <button type="submit">Ajouter ce chien</button>
     </form>
   </section>
 
@@ -104,7 +126,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
           <h3 class="footer-title">Club Canin "Educa Dog"</h3>
           <div class="logo-container">
             <img
-              src="./images/logo-dog-removebg-preview.png"
+              src="./interface_graphique/logo-dog-removebg-preview.png"
               alt="Educa dog" />
           </div>
         </div>
@@ -114,7 +136,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
       </p>
     </section>
   </footer>
-  <script src="./index.js"></script>
+  <script src="../index.js"></script>
 </body>
 
 </html>

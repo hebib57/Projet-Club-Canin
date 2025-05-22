@@ -28,28 +28,29 @@
 
   <section class="form-container creation">
     <h2>Créer un compte</h2>
-    <form action="" method="post">
+    <form action="../users/create.php" method="POST">
       <label for="name">Nom</label>
       <input type="text" id="name" name="name" />
-      <label for="email">Prénom</label>
-      <input type="email" id="email" name="email" />
-      <label for="phone">Email</label>
-      <input type="" id="" name="" />
-      <label for="email">Téléphone</label>
-      <input type="email" />
-      <label for="email">Adresse postale</label>
-      <input type="email" />
-      <label for="email">Code postal</label>
-      <input type="email" />
-      <label for="email">Ville</label>
-      <input type="email" />
-      <label for="email">Pays</label>
-      <input type="email" />
-      <label for="email">Mot de passe</label>
-      <input type="email" />
-      <label for="email">Confirmation mot de passe</label>
-      <input type="email" />
-      <button type="submit">Créer mon compte</button>
+      <label for="prenom_utilisateur">Prénom</label>
+      <input type="text" id="prenom_utilisateur" name="prenom_utilisateur" required />
+      <label for="admin_mail">Email</label>
+
+      <input type="password" id="admin_password" name="admin_password" required />
+      <label for="telephone_utilisateur">Téléphone</label>
+      <input type="number" id="telephone_utilisateur" name="telephone_utilisateur" required />
+      <label for="text">Rôle</label>
+      <select name="id_role" required>
+        <!-- <option value="1">Admin</option> -->
+        <option value="2">Coach</option>
+        <option value="3">Utilisateur</option>
+      </select>
+
+      <label for="password">Mot de passe</label>
+      <input type="password" id="admin_password" name="admin_password" required />
+      <label for="date">Date d'inscription</label>
+      <input type="date" id="date_inscription" name="date_inscription" required />
+      <button type="submit">Créer mon compte utilisateur</button>
+
     </form>
   </section>
   <footer>

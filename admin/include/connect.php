@@ -1,7 +1,7 @@
 <?php
 
 try {
-    $db = new PDO("mysql:host=localhost;dbname=club-canin;charset=utf8", "root", "");
+    $db = new PDO("mysql:host=localhost;dbname=club-canin2;charset=utf8", "root", "");
 } catch (Exception $e) {
     die($e->getMessage());
 }

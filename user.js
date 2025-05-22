@@ -24,3 +24,30 @@ const sidebar = document.querySelector(".sidebar");
 sidebarMenu.addEventListener("click", () => {
   sidebar.classList.toggle("sidebar-active");
 });
+
+/*POPUP MODAL----------------------------------------------------*/
+
+function openModal(idCours) {
+  document.getElementById("modal_id_cours").value = idCours;
+  document.getElementById("reservationModal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("reservationModal").style.display = "none";
+}
+
+/*CONFIRMATION DE SUPPRESSION---------------------------------------*/
+function confirmationDeleteMessage() {
+  return confirm("Êtes-vous sûr de vouloir supprimer ce Message ?");
+}
+
+/*AFFICHAGE DATE-HEURE-----------------------------------------------*/
+
+function afficherHeure() {
+  const instant = new Date();
+  const heure = instant.toLocaleTimeString();
+  const date = instant.toLocaleDateString();
+  document.getElementById("date").textContent = `${date} ${heure}`;
+}
+setInterval(afficherHeure, 1000);
+afficherHeure();
