@@ -30,8 +30,8 @@ $stmt = $db->prepare("SELECT s.id_seance, s.id_cours, c.nom_cours, u.nom_utilisa
                       LEFT JOIN utilisateur u ON u.id_utilisateur = s.id_utilisateur
                     ");
 $stmt->execute();
-
 $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // recup le nombre de messages reçu
 $stmt = $db->prepare("SELECT COUNT(*) FROM message WHERE id_destinataire = ?");
 $stmt->execute([$_SESSION['user_id']]);
@@ -57,7 +57,7 @@ $stmt = $db->prepare("SELECT COUNT(*) FROM chien WHERE id_utilisateur = ?");
 $stmt->execute([$id_utilisateur]);
 $nombre_dogs = $stmt->fetchColumn();
 
-// recup le nombre de cours réservés
+// recup le nombre de cours réservés pour l'utilisateur connecté
 $stmt = $db->prepare("SELECT COUNT(*) FROM reservation WHERE id_utilisateur = ?");
 $stmt->execute([$id_utilisateur]);
 $nombre_cours_reserves = $stmt->fetchColumn();
@@ -96,6 +96,11 @@ $stmt = $db->prepare("SELECT * FROM evenement");
 $stmt->execute();
 $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// recup le nombre total des évènements pour l'utilisateur connecté
+$stmt = $db->prepare("SELECT COUNT(*) FROM inscription_evenement WHERE id_utilisateur = ?");
+$stmt->execute([$id_utilisateur]);
+$total_event_user = $stmt->fetchColumn();
+
 //----------------------------------------------------------------------------------//
 
 if ($id_utilisateur) {
@@ -117,6 +122,7 @@ if ($id_utilisateur) {
     $stmt = $db->prepare("SELECT nom_utilisateur FROM utilisateur WHERE id_utilisateur = ?");
     $stmt->execute([$id_utilisateur]);
     $user_name = $stmt->fetchColumn();
+
     // Si séance trouvée, inscrire ou désinscrire l'utilisateur
     if ($id_seance) {
       if ($_POST['action'] === 'inscrire') {
@@ -230,8 +236,8 @@ if ($id_utilisateur) {
             <p>Cours réservés</p>
           </div>
           <div class="suiv-card">
-            <h3>12</h3>
-            <p>Séances terminées</p>
+            <h3><?= hsc($total_event_user) ?></h3>
+            <p>Évènements réservés</p>
           </div>
 
         </div>
