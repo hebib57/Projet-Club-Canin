@@ -68,10 +68,7 @@ ORDER BY r.date_reservation DESC;
 $stmt = $db->query($query);
 $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// recup tous les évènements
-$stmt = $db->prepare("SELECT * FROM evenement");
-$stmt->execute();
-$recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 ?>
 
