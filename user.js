@@ -27,23 +27,23 @@ sidebarMenu.addEventListener("click", () => {
 
 /*POPUP MODAL Reservation Cours----------------------------------------------------*/
 
-function openModal(idCours) {
+function openCoursModal(idCours) {
   document.getElementById("modal_id_cours").value = idCours;
   document.getElementById("reservationModal").style.display = "flex";
 }
 
-function closeModal() {
+function closeCoursModal() {
   document.getElementById("reservationModal").style.display = "none";
 }
 
 /*POPUP MODAL Inscription Evenement----------------------------------*/
 
-function openModal(idEvent) {
+function openEventModal(idEvent) {
   document.getElementById("modal_id_event").value = idEvent;
   document.getElementById("inscriptionModal").style.display = "flex";
 }
 
-function closeModal() {
+function closeEventModal() {
   document.getElementById("inscriptionModal").style.display = "none";
 }
 

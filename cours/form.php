@@ -97,7 +97,7 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="number" name="age_max" id="age_max" value="<?= hsc($age_max) ?>">
 
                 <label for="race">Râce</label>
-                <select name="race" id="race" required>
+                <select name="race_dog" id="race_dog" required>
                     <?php
                     foreach ($races as $race) {
                         $selected = ($race['nom_race'] == $race_dog) ? 'selected' : '';

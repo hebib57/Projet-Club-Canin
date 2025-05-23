@@ -108,7 +108,7 @@ if ($id_utilisateur) {
   //recup chiens utilisateur
   $stmt = $db->prepare("SELECT id_dog, nom_dog, race_dog, age_dog FROM chien WHERE id_utilisateur = ?");
   $stmt->execute([$id_utilisateur]);
-  $dog = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   // Gére l'inscription/désinscription
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_cours'], $_POST['action'])) {
@@ -295,7 +295,7 @@ if ($id_utilisateur) {
                     <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>">
                     <input type="hidden" name="id_cours" value="<?= hsc($row["id_cours"]); ?>">
                     <?php if (!in_array($row["id_cours"], $utilisateur)): ?>
-                      <button type="button" class="btn" onclick="openModal(<?= $row['id_cours'] ?>)">S'inscrire</button>
+                      <button type="button" class="btn" onclick="openCoursModal(<?= $row['id_cours'] ?>)">S'inscrire</button>
                     <?php else: ?>
                       <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
                     <?php endif;
@@ -335,12 +335,12 @@ if ($id_utilisateur) {
                 <td><?= hsc($row['heure_event']); ?></td>
                 <td><?= hsc($row['place_max']); ?></td>
                 <td>
-                  <form method="post" action="./reservations/process_reservation-u.php" style="display: inline;">
+                  <form method="post" action="./inscription_event/process_inscription_event.php" style="display: inline;">
                     <!-- <input type="hidden" name="id_dog" value="<?= hsc($row["id_dog"]); ?>"> -->
                     <!-- <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>"> -->
                     <input type="hidden" name="id_event" value="<?= hsc($row["id_event"]); ?>">
                     <?php if (!in_array($row["id_event"], $utilisateur)): ?>
-                      <button type="button" class="btn" onclick="openModal(<?= $row['id_event'] ?>)">S'inscrire</button>
+                      <button type="button" class="btn" onclick="openEventModal(<?= $row['id_event'] ?>)">S'inscrire</button>
                     <?php else: ?>
                       <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
                     <?php endif;
@@ -414,25 +414,25 @@ if ($id_utilisateur) {
             </div>
             <div class="card-body">
               <ul class="dog-list">
-                <?php foreach ($dog as $dog2): ?>
+                <?php foreach ($dogs as $dog): ?>
                   <li class="dog-item">
                     <div class="dog-avatar">
                       <img src="/interface_graphique/chien.jpg" alt="my_dog">
                     </div>
                     <div class="dog-info">
-                      <h4><?= hsc($dog2['nom_dog']) ?></h4>
-                      <p><?= hsc($dog2['race_dog']) ?>, <?= hsc($dog2['age_dog']) ?> mois</p>
+                      <h4><?= hsc($dog['nom_dog']) ?></h4>
+                      <p><?= hsc($dog['race_dog']) ?>, <?= hsc($dog['age_dog']) ?> mois</p>
                       <p>
                         Dernière activité:
-                        <?= hsc($dog2['nom_dog']) ?>
-                        <?= hsc($dog2['nom_dog']) ?>
+                        <?= hsc($dog['nom_dog']) ?>
+                        <?= hsc($dog['nom_dog']) ?>
 
                       </p>
                     </div>
                     <div class="dog-actions">
                       <button class="btn"><a href="#">Détails</a></button>
-                      <button class="btn"><a href="../dogs/form.php?id=<?= $dog2['id_dog'] ?>">Modifier</a></button>
-                      <button class="btn"><a href="../dogs/delete.php?id=<?= $dog2['id_dog'] ?>" onclick="return confirmationDeleteDog();">Supprimer</a></button>
+                      <button class="btn"><a href="../dogs/form.php?id=<?= $dog['id_dog'] ?>">Modifier</a></button>
+                      <button class="btn"><a href="../dogs/delete.php?id=<?= $dog['id_dog'] ?>" onclick="return confirmationDeleteDog();">Supprimer</a></button>
                     </div>
                   </li>
 
@@ -597,7 +597,7 @@ if ($id_utilisateur) {
   <!-- Modal pour choisir un chien pour la réservation d'un cours-->
   <div id="reservationModal" class="modal" style="display: none;">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
+      <span class="close" onclick="closeCoursModal()">&times;</span>
       <h3>Choisissez un chien pour ce cours</h3>
 
       <form method="post" action="../reservations/process_reservation-u.php">
@@ -605,17 +605,17 @@ if ($id_utilisateur) {
 
         <input type="hidden" name="action" value="inscrire">
         <label for="id_dog">Votre chien :</label>
-        <select name="id_dog" id="id_dog" required>
+        <select name="id_dog" id="id_dog_reservation" required>
           <option value="">-- Sélectionner un chien --</option>
 
           <?php
-          foreach ($dog as $dog): ?>
+          foreach ($dogs as $dog): ?>
             <option value="<?= hsc($dog['id_dog']) ?>"><?= hsc($dog['nom_dog']) ?></option>
           <?php endforeach; ?>
         </select>
 
         <button type="submit" name="action" value="inscrire" class="btn">Confirmer l'inscription</button>
-        <button type="button" class="btn" onclick="closeModal()">Annuler</button>
+        <button type="button" class="btn" onclick="closeCoursModal()">Annuler</button>
       </form>
     </div>
   </div>
@@ -623,7 +623,7 @@ if ($id_utilisateur) {
   <!-- Modal pour choisir un chien pour l'inscription à un évènement-->
   <div id="inscriptionModal" class="modal" style="display: none;">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
+      <span class="close" onclick="closeEventModal()">&times;</span>
       <h3>Choisissez un chien pour cet évènement</h3>
 
       <form method="post" action="../inscription_event/process_inscription_event.php">
@@ -631,17 +631,17 @@ if ($id_utilisateur) {
 
         <input type="hidden" name="action" value="inscrire">
         <label for="id_dog">Votre chien :</label>
-        <select name="id_dog" id="id_dog" required>
+        <select name="id_dog" id="id_dog_event" required>
           <option value="">-- Sélectionner un chien --</option>
 
           <?php
-          foreach ($dog as $dog): ?>
+          foreach ($dogs as $dog): ?>
             <option value="<?= hsc($dog['id_dog']) ?>"><?= hsc($dog['nom_dog']) ?></option>
           <?php endforeach; ?>
         </select>
 
         <button type="submit" name="action" value="inscrire" class="btn">Confirmer l'inscription</button>
-        <button type="button" class="btn" onclick="closeModal()">Annuler</button>
+        <button type="button" class="btn" onclick="closeEventModal()">Annuler</button>
       </form>
     </div>
   </div>
