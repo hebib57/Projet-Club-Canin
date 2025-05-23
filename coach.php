@@ -129,6 +129,7 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <ul class="menu-list">
           <li><a href="#dashbord">Tableau de bord</a></li>
           <li><a href="#cours_programmé">Gestion des Cours</a></li>
+          <li><a href="#events">Gestion des Évènements</a></li>
           <li><a href="#reservations">Suivi des réservations</a></li>
           <li><a href="#eval">Evaluation</a></li>
           <li><a href="#messagerie">Messagerie</a></li>
@@ -298,7 +299,7 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
           <section class="events" id="events">
-            <h2>Gestion des Événements</h2>
+            <h2>Gestion des Évènements</h2>
             <table>
               <thead>
                 <tr>

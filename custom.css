@@ -229,7 +229,11 @@ footer p {
   width: 1200px;
   margin-left: 250px;
 }
-
+.dashbord .admin_container .events {
+  max-width: 1200px;
+  width: 100%;
+  transform: translateX(-250px);
+}
 .container_bord .dashbord .admin_container .reservations {
   max-width: 1200px;
 }
@@ -728,6 +732,10 @@ section ul {
   background-color: #ff9800;
 }
 
+.container_bord .dashbord .events {
+  max-width: 1200px;
+  margin-left: 250px;
+}
 .content {
   width: 1200px;
   margin-left: 250px;
@@ -1090,6 +1098,11 @@ button:hover {
   font-size: 18px;
   font-weight: bold;
   color: #333;
+}
+
+.card-coach .events {
+  width: 100%;
+  transform: translateX(-250px);
 }
 .btn_coach {
   background-color: #4caf50;

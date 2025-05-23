@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description_cours = $_POST['description_cours'];
     $age_min = $_POST['age_min'];
     $age_max = $_POST['age_max'];
-    $race_dog = $_POST['race_dog'];
+    // $race_dog = $_POST['race_dog'];
     $sexe_dog = $_POST['sexe_dog'];
     $place_max = $_POST['place_max'];
     $date_cours = $_POST['date_cours'];

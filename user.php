@@ -91,6 +91,11 @@ SELECT
 $stmt = $db->query($query);
 $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// recup tous les évènements
+$stmt = $db->prepare("SELECT * FROM evenement");
+$stmt->execute();
+$recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 //----------------------------------------------------------------------------------//
 
 if ($id_utilisateur) {
@@ -108,7 +113,7 @@ if ($id_utilisateur) {
     $stmt = $db->prepare("SELECT id_seance FROM seance WHERE id_cours = ? LIMIT 1");
     $stmt->execute([$id_cours]);
     $id_seance = $stmt->fetchColumn();
-   
+
     $stmt = $db->prepare("SELECT nom_utilisateur FROM utilisateur WHERE id_utilisateur = ?");
     $stmt->execute([$id_utilisateur]);
     $user_name = $stmt->fetchColumn();
@@ -138,7 +143,6 @@ if ($id_utilisateur) {
     header("Location: user.php");
     exit();
   }
-
 }
 
 
@@ -203,6 +207,7 @@ if ($id_utilisateur) {
         <ul class="menu-list">
           <li><a href="#dashbord">Tableau de bord</a></li>
           <li><a href="#cours_programmé">Cours programmés</a></li>
+          <li><a href="#events">Évènements programmés</a></li>
           <li><a href="#dogs">Mes chiens</a></li>
           <li><a href="#">Mes réservations</a></li>
           <li><a href="#suivi">Progression</a></li>
@@ -250,6 +255,9 @@ if ($id_utilisateur) {
           </div>
         </div>
       </section>
+
+
+
       <section class="tab_bord" id="cours_programmé">
         <h2>Cours programmés</h2>
         <table class="table">
@@ -299,6 +307,53 @@ if ($id_utilisateur) {
         </table>
       </section>
 
+      <section class="events" id="events">
+        <h2>Événements programmés</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom de l'Événement</th>
+              <th>Date</th>
+              <th>Heure</th>
+              <th>Places disponibles</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($recordset_event as $row) { ?>
+              <tr>
+                <td><?= hsc($row['id_event']); ?></td>
+                <td><?= hsc($row['nom_event']); ?></td>
+                <td><?= hsc($row['date_event']); ?></td>
+                <td><?= hsc($row['heure_event']); ?></td>
+                <td><?= hsc($row['place_max']); ?></td>
+                <td>
+                  <form method="post" action="./reservations/process_reservation-u.php" style="display: inline;">
+                    <!-- <input type="hidden" name="id_dog" value="<?= hsc($row["id_dog"]); ?>"> -->
+                    <!-- <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>"> -->
+                    <input type="hidden" name="id_event" value="<?= hsc($row["id_event"]); ?>">
+                    <?php if (!in_array($row["id_event"], $utilisateur)): ?>
+                      <button type="button" class="btn" onclick="openModal(<?= $row['id_event'] ?>)">S'inscrire</button>
+                    <?php else: ?>
+                      <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
+                    <?php endif;
+                    ?>
+
+                  </form>
+                </td>
+
+                <!-- <td>
+                  <button class="btn"><a href="../evenement/form.php?id=<?= $row['id_event'] ?>">Modifier</a></button>
+                  <button class="btn"><a href="../evenement/delete.php?id=<?= $row['id_event'] ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
+                </td> -->
+              </tr>
+            <?php }; ?>
+          </tbody>
+        </table>
+        <!-- <button class="btn">
+          <a href="../evenement/form.php">Ajouter un Événement</a></button> -->
+      </section>
 
       <section class="reservations-user" id="reservations">
         <h2>Suivi des Réservations</h2>
@@ -327,7 +382,7 @@ if ($id_utilisateur) {
                   <td><?= hsc($reserv['heure_seance']); ?></td>
                   <td><?= hsc($reserv['date_reservation']); ?></td>
                   <td>
-                    
+
                     <form method="post" action="../reservations/delete_reservation.php" style="display: inline;">
                       <input type="hidden" name="id_reservation" value="<?= hsc($reserv['id_reservation']); ?>">
                       <button type="submit" class="btn" onclick=" return confirmationDelete();">Supprimer</button>
@@ -533,14 +588,40 @@ if ($id_utilisateur) {
     </section>
   </footer>
   <script src="./user.js"></script>
-  <!-- Modal pour choisir un chien -->
-  <div id="reservationModal" class="modal" style="display: none;">   
+  <!-- Modal pour choisir un chien pour la réservation d'un cours-->
+  <div id="reservationModal" class="modal" style="display: none;">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <h3>Choisissez un chien pour ce cours</h3>
 
       <form method="post" action="../reservations/process_reservation-u.php">
         <input type="hidden" name="id_cours" id="modal_id_cours">
+
+        <input type="hidden" name="action" value="inscrire">
+        <label for="id_dog">Votre chien :</label>
+        <select name="id_dog" id="id_dog" required>
+          <option value="">-- Sélectionner un chien --</option>
+
+          <?php
+          foreach ($dog as $dog): ?>
+            <option value="<?= hsc($dog['id_dog']) ?>"><?= hsc($dog['nom_dog']) ?></option>
+          <?php endforeach; ?>
+        </select>
+
+        <button type="submit" name="action" value="inscrire" class="btn">Confirmer l'inscription</button>
+        <button type="button" class="btn" onclick="closeModal()">Annuler</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal pour choisir un chien pour l'inscription à un évènement-->
+  <div id="inscriptionModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Choisissez un chien pour cet évènement</h3>
+
+      <form method="post" action="../inscription_event/process_inscription_event.php">
+        <input type="hidden" name="id_event" id="modal_id_event">
 
         <input type="hidden" name="action" value="inscrire">
         <label for="id_dog">Votre chien :</label>

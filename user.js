@@ -25,7 +25,7 @@ sidebarMenu.addEventListener("click", () => {
   sidebar.classList.toggle("sidebar-active");
 });
 
-/*POPUP MODAL----------------------------------------------------*/
+/*POPUP MODAL Reservation Cours----------------------------------------------------*/
 
 function openModal(idCours) {
   document.getElementById("modal_id_cours").value = idCours;
@@ -34,6 +34,17 @@ function openModal(idCours) {
 
 function closeModal() {
   document.getElementById("reservationModal").style.display = "none";
+}
+
+/*POPUP MODAL Inscription Evenement----------------------------------*/
+
+function openModal(idEvent) {
+  document.getElementById("modal_id_event").value = idEvent;
+  document.getElementById("inscriptionModal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("inscriptionModal").style.display = "none";
 }
 
 /*CONFIRMATION DE SUPPRESSION---------------------------------------*/
