@@ -244,13 +244,13 @@ if ($id_utilisateur) {
         <div class="tab_bord-card">
           <div class="card">
             <h3>Cours programmés</h3>
-            <p><?= $cours_programme ?> cours programmés </p>
+            <p><?= hsc($cours_programme) ?> cours programmés </p>
             <button class="btn">Voir les détails</button>
           </div>
 
           <div class="card">
             <h3>Messages reçus</h3>
-            <p><?= $nombre_message ?></p>
+            <p><?= hsc($nombre_message) ?></p>
             <button class="btn">Voir mes messages</button>
           </div>
 
@@ -295,7 +295,7 @@ if ($id_utilisateur) {
                     <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>">
                     <input type="hidden" name="id_cours" value="<?= hsc($row["id_cours"]); ?>">
                     <?php if (!in_array($row["id_cours"], $utilisateur)): ?>
-                      <button type="button" class="btn" onclick="openCoursModal(<?= $row['id_cours'] ?>)">S'inscrire</button>
+                      <button type="button" class="btn" onclick="openCoursModal(<?= hsc($row['id_cours']) ?>)">S'inscrire</button>
                     <?php else: ?>
                       <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
                     <?php endif;
@@ -303,10 +303,7 @@ if ($id_utilisateur) {
 
                   </form>
                 </td>
-                <!-- <td>
-                  <button class="btn"><a href="../cours/form.php?id=<?= $row['id_cours'] ?>">Modifier</a></button>
-                  <button class="btn"><a href="../cours/delete.php?id=<?= $row['id_cours'] ?>" onclick="return confirmationDelete();">Supprimer</a></button>
-                </td> -->
+
               </tr>
             <?php }; ?>
           </tbody>
@@ -340,7 +337,7 @@ if ($id_utilisateur) {
                     <!-- <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>"> -->
                     <input type="hidden" name="id_event" value="<?= hsc($row["id_event"]); ?>">
                     <?php if (!in_array($row["id_event"], $utilisateur)): ?>
-                      <button type="button" class="btn" onclick="openEventModal(<?= $row['id_event'] ?>)">S'inscrire</button>
+                      <button type="button" class="btn" onclick="openEventModal(<?= hsc($row['id_event']) ?>)">S'inscrire</button>
                     <?php else: ?>
                       <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
                     <?php endif;
@@ -431,8 +428,8 @@ if ($id_utilisateur) {
                     </div>
                     <div class="dog-actions">
                       <button class="btn"><a href="#">Détails</a></button>
-                      <button class="btn"><a href="../dogs/form.php?id=<?= $dog['id_dog'] ?>">Modifier</a></button>
-                      <button class="btn"><a href="../dogs/delete.php?id=<?= $dog['id_dog'] ?>" onclick="return confirmationDeleteDog();">Supprimer</a></button>
+                      <button class="btn"><a href="../dogs/form.php?id=<?= hsc($dog['id_dog']) ?>">Modifier</a></button>
+                      <button class="btn"><a href="../dogs/delete.php?id=<?= hsc($dog['id_dog']) ?>" onclick="return confirmationDeleteDog();">Supprimer</a></button>
                     </div>
                   </li>
 
@@ -516,12 +513,12 @@ if ($id_utilisateur) {
 
             <?php foreach ($recordset_messages as $msg): ?>
               <tr>
-                <td><?= hsc($msg['prenom_utilisateur'] . ' ' . $msg['nom_utilisateur']) ?></td>
+                <td><?= hsc($msg['prenom_utilisateur'] . ' ' . hsc($msg['nom_utilisateur'])) ?></td>
                 <td><?= substr(hsc($msg['sujet_message']), 0, 30) ?>...</td>
-                <td><?= hsc(date('d/m/Y H:i', strtotime($msg['date_envoi']))) ?></td>
+                <td><?= hsc(date('d/m/Y H:i', strtotime(hsc($msg['date_envoi'])))) ?></td>
                 <td>
-                  <button><a class="btn" href="../messages/message_read.php?id_message=<?= $msg['id_message'] ?>">Lire</a></button>
-                  <button><a class="btn" href="../messages/message_delete.php?id=<?= $msg['id_message'] ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
+                  <button><a class="btn" href="../messages/message_read.php?id_message=<?= hsc($msg['id_message']) ?>">Lire</a></button>
+                  <button><a class="btn" href="../messages/message_delete.php?id=<?= hsc($msg['id_message']) ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
                 </td>
                 <td><?= hsc($msg['lu'] ? 'Oui' : 'Non') ?></td>
               </tr>

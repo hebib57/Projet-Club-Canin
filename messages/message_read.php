@@ -121,15 +121,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['contenu'], $_POST['de
 
 
 
-        <h3>Message de <?= hsc($message['prenom_utilisateur'] . ' ' . $message['nom_utilisateur']) ?></h3>
+        <h3>Message de <?= hsc($message['prenom_utilisateur'] . ' ' . hsc($message['nom_utilisateur'])) ?></h3>
         <p><strong>Sujet :</strong> <?= hsc($message['sujet_message']) ?></p>
         <p><strong>Message :</strong><?= hsc($message['contenu']) ?></p>
-        <p><strong>Date :</strong> <?= hsc(date('d/m/Y H:i', strtotime($message['date_envoi']))) ?></p>
+        <p><strong>Date :</strong> <?= hsc(date('d/m/Y H:i', strtotime(hsc($message['date_envoi'])))) ?></p>
 
         <p><strong>Contenu :</strong><br><?= nl2br(hsc($message['contenu'])) ?></p>
 
         <form method="POST" style="margin-top: 20px;">
-            <input type="hidden" name="destinataires" value="<?= $message['id_expediteur'] ?>">
+            <input type="hidden" name="destinataires" value="<?= hsc($message['id_expediteur']) ?>">
             <input type="hidden" name="sujet_message" value="RE: <?= hsc($message['sujet_message']) ?>">
             <textarea name="contenu" rows="5" cols="50" placeholder="Votre réponse..."></textarea><br>
             <button type="submit">Répondre</button>

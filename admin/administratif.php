@@ -49,6 +49,10 @@ $query = "
 
 $recordset_dog = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
+// recup les inscriptions aux evenements
+$stmt = $db->prepare("SELECT * FROM inscription_evenement");
+$stmt->execute();
+$recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 $stmt = $db->prepare("SELECT * FROM cours");
@@ -201,42 +205,82 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <div class="tab_bord-card">
             <div class="card">
               <h3>Cours à venir</h3>
-              <p><?= $total_cours ?> </p>
+              <p><?= hsc($total_cours) ?> </p>
               <button class="btn">Voir les cours</button>
             </div>
 
             <div class="card">
               <h3>Réservations en cours</h3>
-              <p><?= $total_reservations ?> </p>
+              <p><?= hsc($total_reservations) ?> </p>
               <button class="btn">Voir les réservations</button>
             </div>
 
             <div class="card">
               <h3>Utilisateurs Inscrits</h3>
-              <p><?= $total_utilisateurs ?> </p>
+              <p><?= hsc($total_utilisateurs) ?> </p>
               <button class="btn">Voir les utilisateurs</button>
             </div>
           </div>
           <div class="tab_bord-card">
             <div class="card">
               <h3>Chiens Inscrits</h3>
-              <p><?= $total_dogs ?> </p>
+              <p><?= hsc($total_dogs) ?> </p>
               <button class="btn">Voir les chiens</button>
             </div>
 
             <div class="card">
               <h3>Messages reçus</h3>
-              <p><?= $total_messages ?> </p>
+              <p><?= hsc($total_messages) ?> </p>
               <button class="btn">Voir les messages</button>
             </div>
 
             <div class="card">
               <h3>Evenements prévus</h3>
-              <p><?= $total_event ?></p>
+              <p><?= hsc($total_event) ?></p>
               <button class="btn">Voir les évènements</button>
             </div>
           </div>
         </div>
+
+        <section class="inscriptions_event" id="inscriptions_event">
+          <h2>Suivi des Inscriptions Évènements</h2>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Utilisateur</th>
+                  <th>Nom du chien</th>
+                  <th>Nom Évènement</th>
+                  <!-- <th>Date Séance</th>
+                  <th>Heure Séance</th> -->
+                  <th>Date Inscription</th>
+                  <th>Action</th>
+                </tr>
+              </thead><?php foreach ($recordset_inscription_event as $inscription): ?>
+
+                <tbody>
+                  <tr>
+                    <td><?= hsc($inscription['id_inscription']); ?></td>
+                    <td><?= hsc($inscription['id_utilisateur']); ?></td>
+                    <td><?= hsc($inscription['id_dog']); ?></td>
+                    <td><?= hsc($inscription['id_event']); ?></td>
+
+                    <td><?= hsc($inscription['date_inscription']); ?></td>
+                    <td>
+                      <!-- Option de suppression ou gestion -->
+                      <form method="post" action="../inscription_event/delete_inscription_event.php" style="display: inline;">
+                        <input type="hidden" name="id_inscription" value="<?= hsc($inscription['id_inscription']); ?>">
+                        <button type="submit" class="btn" onclick=" return confirmationDeleteInscription();">Supprimer</button>
+                      </form>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+          </div>
+        </section>
+
 
         <section class="reservations" id="reservations">
           <h2>Suivi des Réservations</h2>
@@ -320,8 +364,8 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= hsc($row['place_max']); ?></td>
                     <td><?= hsc($row['date_cours']); ?></td>
                     <td>
-                      <button class="btn"><a href="../cours/form.php?id=<?= $row['id_cours'] ?>">Modifier</a></button>
-                      <button class="btn"><a href="../cours/delete.php?id=<?= $row['id_cours'] ?>" onclick="return confirmationDeleteCours();">Supprimer</a></button>
+                      <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
+                      <button class="btn"><a href="../cours/delete.php?id=<?= hsc($row['id_cours']) ?>" onclick="return confirmationDeleteCours();">Supprimer</a></button>
                     </td>
                   </tr>
                 <?php }; ?>
@@ -367,8 +411,8 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             echo hsc($date->format('d/m/Y')); ?></td>
                       <td>
                       <td>
-                        <button class="btn"><a href="../users/form.php?id=<?= $row['id_utilisateur'] ?>">Modifier</a></button>
-                        <button class="btn"><a href="../users/delete.php?id=<?= $row['id_utilisateur'] ?>" onclick="return confirmationDeleteAdmin();">Supprimer</a></button>
+                        <button class="btn"><a href="../users/form.php?id=<?= hsc($row['id_utilisateur']) ?>">Modifier</a></button>
+                        <button class="btn"><a href="../users/delete.php?id=<?= hsc($row['id_utilisateur']) ?>" onclick="return confirmationDeleteAdmin();">Supprimer</a></button>
                       </td>
                     </tr>
                   <?php }; ?>
@@ -412,8 +456,8 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                       <td> <?php $date = new DateTime($row['date_inscription']);
                             echo hsc($date->format('d/m/Y')); ?></td>
                       <td>
-                        <button class="btn"><a href="../users/form.php?id=<?= $row['id_utilisateur'] ?>">Modifier</a></button>
-                        <button class="btn"><a href="../users/delete.php?id=<?= $row['id_utilisateur'] ?>" onclick="return confirmationDeleteUser();">Supprimer</a></button>
+                        <button class="btn"><a href="../users/form.php?id=<?= hsc($row['id_utilisateur']) ?>">Modifier</a></button>
+                        <button class="btn"><a href="../users/delete.php?id=<?= hsc($row['id_utilisateur']) ?>" onclick="return confirmationDeleteUser();">Supprimer</a></button>
                       </td>
                     </tr>
                   <?php }; ?>
@@ -457,8 +501,8 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             echo hsc($date->format('d/m/Y')); ?></td>
                       <td>
                       <td>
-                        <button class="btn"><a href="../users/form.php?id=<?= $row['id_utilisateur'] ?>">Modifier</a></button>
-                        <button class="btn"><a href="../users/delete.php?id=<?= $row['id_utilisateur'] ?>" onclick="return confirmationDeleteCoach();">Supprimer</a></button>
+                        <button class="btn"><a href="../users/form.php?id=<?= hsc($row['id_utilisateur']) ?>">Modifier</a></button>
+                        <button class="btn"><a href="../users/delete.php?id=<?= hsc($row['id_utilisateur']) ?>" onclick="return confirmationDeleteCoach();">Supprimer</a></button>
                       </td>
                     </tr>
                   <?php }; ?>
@@ -501,8 +545,8 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                           echo hsc($date->format('d/m/Y')); ?></td>
                     <td>
                     <td>
-                      <button class="btn"><a href="../dogs/form.php?id=<?= $row['id_dog'] ?>">Modifier</a></button>
-                      <button class="btn"><a href="../dogs/delete.php?id=<?= $row['id_dog'] ?>" onclick="return confirmationDeleteDog();">Supprimer</a></button>
+                      <button class="btn"><a href="../dogs/form.php?id=<?= hsc($row['id_dog']) ?>">Modifier</a></button>
+                      <button class="btn"><a href="../dogs/delete.php?id=<?= hsc($row['id_dog']) ?>" onclick="return confirmationDeleteDog();">Supprimer</a></button>
                     </td>
                   </tr>
                 <?php }; ?>
@@ -538,8 +582,8 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <td><?= hsc($row['place_max']); ?></td>
 
                   <td>
-                    <button class="btn"><a href="../evenement/form.php?id=<?= $row['id_event'] ?>">Modifier</a></button>
-                    <button class="btn"><a href="../evenement/delete.php?id=<?= $row['id_event'] ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
+                    <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
+                    <button class="btn"><a href="../evenement/delete.php?id=<?= hsc($row['id_event']) ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
                   </td>
                 </tr>
               <?php }; ?>
@@ -572,8 +616,8 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= substr(hsc($msg['sujet_message']), 0, 30) ?>...</td>
                     <td><?= hsc(date('d/m/Y H:i', strtotime($msg['date_envoi']))) ?></td>
                     <td>
-                      <button><a class="btn" href="../messages/message_read.php?id_message=<?= $msg['id_message'] ?>">Lire</a></button>
-                      <button><a class="btn" href="../messages/message_delete.php?id=<?= $msg['id_message'] ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
+                      <button><a class="btn" href="../messages/message_read.php?id_message=<?= hsc($msg['id_message']) ?>">Lire</a></button>
+                      <button><a class="btn" href="../messages/message_delete.php?id=<?= hsc($msg['id_message']) ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
                     </td>
                     <td><?= hsc($msg['lu'] ? 'Oui' : 'Non') ?></td>
                   </tr>

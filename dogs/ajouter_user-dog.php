@@ -48,7 +48,7 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <input type="text" id="race_dog" name="race_dog" required /> -->
 
             <label for="race">Râce</label>
-            <select name="race" id="race" required>
+            <select name="race_dog" id="race_dog" required>
                 <?php
                 foreach ($races as $race) {
                     $selected = ($race['nom_race'] == $race_dog) ? 'selected' : '';

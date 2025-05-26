@@ -7,12 +7,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
 
 if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
 
-  
+
     if (isset($_POST["id_utilisateur"]) && !empty($_POST["id_utilisateur"])) {
         $id_utilisateur = $_POST["id_utilisateur"];
 
         if ($id_utilisateur == "0") {
-            
+
             $stmt = $db->prepare("INSERT INTO utilisateur (
                 nom_utilisateur,
                 prenom_utilisateur,
@@ -44,7 +44,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             // $stmt->bindValue(":date_inscription", $_POST["date_inscription"]);
 
             $stmt->execute();
-            $id = $db->lastInsertId(); 
+            $id = $db->lastInsertId();
             echo "Utilisateur ajouté avec succès!";
         } else {
 
@@ -59,9 +59,15 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
                 WHERE id_utilisateur = :id_utilisateur");
 
 
-            $password_hashed = password_hash($_POST['admin_password'], PASSWORD_DEFAULT);
+            // $password_hashed = password_hash($_POST['admin_password'], PASSWORD_DEFAULT);
+            //hashage du nouveau mdp sinon on garde l'ancien
+            if (!empty($_POST['admin_password'])) {
+                $password_hashed = password_hash($_POST['admin_password'], PASSWORD_DEFAULT);
+            } else {
+                $password_hashed = $uer['admin_password'];
+            }
 
-        
+
             $stmt->bindValue(":nom_utilisateur", $_POST["nom_utilisateur"]);
             $stmt->bindValue(":prenom_utilisateur", $_POST["prenom_utilisateur"]);
             $stmt->bindValue(":admin_mail", $_POST["admin_mail"]);
@@ -69,7 +75,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             $stmt->bindValue(":telephone_utilisateur", $_POST["telephone_utilisateur"]);
             // $stmt->bindValue(":nom_role", $_POST["nom_role"]);
             // $stmt->bindValue(":date_inscription", $_POST["date_inscription"]);
-            $stmt->bindValue(":id_utilisateur", $id_utilisateur); 
+            $stmt->bindValue(":id_utilisateur", $id_utilisateur);
 
             if ($stmt->execute()) {
                 echo "<script>alert('" . hsc('Utilisateur modifié avec succès') . "'); window.location.href = '../admin/administratif.php';</script>";

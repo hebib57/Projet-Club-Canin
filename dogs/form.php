@@ -84,17 +84,15 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                         echo '<option value="' . hsc($race['nom_race']) . '" ' . $selected . '>' . hsc($race['nom_race']) . '</option>';
                     } ?>
                 </select>
+                <!-- <label for="sexe_dog">Sexe</label>
+                <input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>"> -->
+
+                <select id="sexe_dog" name="sexe_dog">
+                    <option value="mâle">Mâle</option>
+                    <option value="femelle">Femelle</option>
+                </select>
 
 
-
-
-
-
-
-                <!-- <label for="race_dog">Râce</label>
-                <input type="text" name="race_dog" id="race_dog" value="<?= hsc($race_dog) ?>"> -->
-                <label for="sexe_dog">Sexe</label>
-                <input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
                 <label for="id_utilisateur">Propriétaire</label>
                 <input type="text" name="id_utilisateur" id="id_utilisateur" value="<?= hsc($id_utilisateur) ?>">
                 <label for="date_inscription">Date d'inscription</label>

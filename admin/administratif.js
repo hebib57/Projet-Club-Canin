@@ -62,6 +62,10 @@ function confirmationDeleteEvent() {
   return confirm("Êtes-vous sûr de vouloir supprimer cet évènement ?");
 }
 
+function confirmationDeleteInscription() {
+  return confirm("Êtes-vous sûr de vouloir supprimer cet inscription ?");
+}
+
 /* Temporisation affichage "cours ajouté" page Admin---------------*/
 
 

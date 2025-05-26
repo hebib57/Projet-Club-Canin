@@ -1,4 +1,3 @@
-
 <?php require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
 if (isset($_POST['admin_mail']) && isset($_POST['admin_password'])) {
@@ -10,18 +9,18 @@ if (isset($_POST['admin_mail']) && isset($_POST['admin_password'])) {
   LEFT JOIN role r ON ur.id_role = r.id_role
   WHERE u.admin_mail = :admin_mail
 ");
- 
+
   $stmt->bindValue(':admin_mail', $_POST['admin_mail']);
   $stmt->execute();
- 
+
 
 
   if ($utilisateur = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
     if (password_verify($_POST['admin_password'], $utilisateur['admin_password'])) {
-	
+
       session_start();
-      
+
       $_SESSION["is_logged"] = "oui";
       $_SESSION["user_id"] = $utilisateur["id_utilisateur"];
       $_SESSION["role_id"] = $utilisateur["id_role"];
@@ -29,15 +28,15 @@ if (isset($_POST['admin_mail']) && isset($_POST['admin_password'])) {
       $_SESSION["user_email"] = $utilisateur["admin_mail"];
       $_SESSION['prenom_utilisateur'] = $utilisateur['prenom_utilisateur'];
 
-     
+
       switch ($utilisateur["id_role"]) {
-        case 1: 
+        case 1:
           header("Location: /admin/administratif.php");
           break;
-        case 2: 
+        case 2:
           header("Location: /coach.php");
           break;
-        case 3: 
+        case 3:
           header("Location: /user.php");
           break;
         default:
@@ -45,8 +44,8 @@ if (isset($_POST['admin_mail']) && isset($_POST['admin_password'])) {
           exit;
       }
 
-      
-      exit(); 
+
+      exit();
     } else {
       echo "id ou mot de passe incorrect;";
     }

@@ -73,6 +73,11 @@ $stmt = $db->prepare("SELECT * FROM evenement");
 $stmt->execute();
 $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// recup les inscriptions aux evenements
+$stmt = $db->prepare("SELECT * FROM inscription_evenement");
+$stmt->execute();
+$recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 
@@ -286,8 +291,8 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= hsc($row['place_max']); ?></td>
                     <td><?= hsc($row['date_cours']); ?></td>
                     <td>
-                      <button class="btn"><a href="../cours/form.php?id=<?= $row['id_cours'] ?>">Modifier</a></button>
-                      <button class="btn"><a href="../cours/delete.php?id=<?= $row['id_cours'] ?>">Supprimer</a></button>
+                      <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
+                      <button class="btn"><a href="../cours/delete.php?id=<?= hsc($row['id_cours']) ?>">Supprimer</a></button>
                     </td>
                   </tr>
                 <?php }; ?>
@@ -297,6 +302,45 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <a href="../ajouter_cours.php">Ajouter un Cours</a></button>
           </section>
 
+
+          <section class="inscriptions_event" id="inscriptions_event">
+            <h2>Suivi des Inscriptions Évènements</h2>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Utilisateur</th>
+                    <th>Nom du chien</th>
+                    <th>Nom Évènement</th>
+                    <!-- <th>Date Séance</th>
+                  <th>Heure Séance</th> -->
+                    <th>Date Inscription</th>
+                    <th>Action</th>
+                  </tr>
+                </thead><?php foreach ($recordset_inscription_event as $inscription): ?>
+
+                  <tbody>
+                    <tr>
+                      <td><?= hsc($inscription['id_inscription']); ?></td>
+                      <td><?= hsc($inscription['id_utilisateur']); ?></td>
+                      <td><?= hsc($inscription['id_dog']); ?></td>
+                      <td><?= hsc($inscription['id_event']); ?></td>
+
+                      <td><?= hsc($inscription['date_inscription']); ?></td>
+                      <td>
+                        <!-- Option de suppression ou gestion -->
+                        <form method="post" action="../inscription_event/delete_inscription_event.php" style="display: inline;">
+                          <input type="hidden" name="id_inscription" value="<?= hsc($inscription['id_inscription']); ?>">
+                          <button type="submit" class="btn" onclick=" return confirmationDeleteInscription();">Supprimer</button>
+                        </form>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                  </tbody>
+              </table>
+            </div>
+          </section>
 
           <section class="events" id="events">
             <h2>Gestion des Évènements</h2>
@@ -321,8 +365,8 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= hsc($row['place_max']); ?></td>
 
                     <td>
-                      <button class="btn"><a href="../evenement/form.php?id=<?= $row['id_event'] ?>">Modifier</a></button>
-                      <button class="btn"><a href="../evenement/delete.php?id=<?= $row['id_event'] ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
+                      <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
+                      <button class="btn"><a href="../evenement/delete.php?id=<?= hsc($row['id_event']) ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
                     </td>
                   </tr>
                 <?php }; ?>
@@ -405,14 +449,14 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tbody>
                   <?php foreach ($recordset_messages as $msg): ?>
                     <tr>
-                      <td><?= hsc($msg['prenom_utilisateur'] . ' ' . $msg['nom_utilisateur']) ?></td>
+                      <td><?= hsc($msg['prenom_utilisateur'] . ' ' . hsc($msg['nom_utilisateur'])) ?></td>
                       <td><?= substr(hsc($msg['sujet_message']), 0, 30) ?>...</td>
-                      <td><?= hsc(date('d/m/Y H:i', strtotime($msg['date_envoi']))) ?></td>
+                      <td><?= hsc(date('d/m/Y H:i', strtotime(hsc($msg['date_envoi'])))) ?></td>
 
 
                       <td>
-                        <button><a class="btn" href="../messages/message_read.php?id_message=<?= $msg['id_message'] ?>">Lire</a></button>
-                        <button><a class="btn" href="../messages/message_delete.php?id=<?= $msg['id_message'] ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
+                        <button><a class="btn" href="../messages/message_read.php?id_message=<?= hsc($msg['id_message']) ?>">Lire</a></button>
+                        <button><a class="btn" href="../messages/message_delete.php?id=<?= hsc($msg['id_message']) ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
 
                       </td>
                       <td><?= hsc($msg['lu'] ? 'Oui' : 'Non') ?></td>
