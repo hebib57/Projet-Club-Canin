@@ -3,19 +3,26 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/function.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
 
+
+
+
 $stmt = $db->prepare("SELECT * FROM race ");
 $stmt->execute();
 $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 // initialisation du formulaire (ajouter et modifier avec le même formulaire)
-$dog = "";
+$id_dog = 0;
+
+// $dog = "";
 $nom_dog = "";
 $age_dog = "";
-$race_dog = "";
+// $race_dog = "";
 $sexe_dog = "";
 $id_utilisateur = "";
 $date = date("Y-m-d");
+
+
 
 
 if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
@@ -24,15 +31,19 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
     $stmt->execute();
 
     if ($row = $stmt->fetch()) {
-        $dog = $row['id_dog'];
+        $id_dog = $row['id_dog'];
+
+        // $dog = $row['id_dog'];
         $nom_dog = $row['nom_dog'];
         $age_dog = $row['age_dog'];
-        $race_dog = $row['race_dog'];
+        // $race_dog = $row['race_dog'];
         $sexe_dog = $row['sexe_dog'];
         $id_utilisateur = $row['id_utilisateur'];
         $date = $row['date_inscription'];
     };
 };
+
+
 
 ?>
 
@@ -66,22 +77,28 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
 
 
     </header>
+
+
+
+
     <section>
 
         <div class="modification">
             <h2>Modifier Compte</h2>
             <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
+                <label for="photo_dog">Photo :</label>
+                <input type="file" name="photo_dog" accept="image/*">
                 <label for="nom_dog">Nom</label>
                 <input type="text" name="nom_dog" id="nom_dog" value="<?= hsc($nom_dog) ?>">
                 <label for="age_dog">Age</label>
                 <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
 
-                <label for="race">Râce</label>
-                <select name="race" id="race" required>
+                <label for="id_race">Râce</label>
+                <select name="id_race" id="id_race" required>
                     <?php
                     foreach ($races as $race) {
-                        $selected = ($race['nom_race'] == $race_dog) ? 'selected' : '';
-                        echo '<option value="' . hsc($race['nom_race']) . '" ' . $selected . '>' . hsc($race['nom_race']) . '</option>';
+                        // $selected = ($race['id_race'] == $race_dog) ? 'selected' : '';
+                        echo '<option value="' . hsc($race['id_race']) .  '">' . hsc($race['nom_race']) . '</option>';
                     } ?>
                 </select>
                 <!-- <label for="sexe_dog">Sexe</label>
@@ -97,10 +114,9 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <input type="text" name="id_utilisateur" id="id_utilisateur" value="<?= hsc($id_utilisateur) ?>">
                 <label for="date_inscription">Date d'inscription</label>
                 <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
-                <input type="hidden" name="id_dog" value="<?= hsc($dog) ?>">
+                <input type="hidden" name="id_dog" value="<?= hsc($id_dog) ?>">
                 <input type="hidden" name="formCU" value="ok">
                 <input class="btn__modif" type="submit" value="Enregistrer">
-
 
             </form>
             <button class="btn2__modif"><a href="../admin/administratif.php#dogs">Retour</a></button>

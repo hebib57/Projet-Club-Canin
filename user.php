@@ -37,6 +37,8 @@ $stmt = $db->prepare("SELECT COUNT(*) FROM message WHERE id_destinataire = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $nombre_message = $stmt->fetchColumn();
 
+// $stmt = $db->prepare("INSERT INTO chien (nom_dog, race_dog, age_dog, id_utilisateur, photo_dog) VALUES (?, ?, ?, ?, ?)");
+// $stmt->execute([$nom_dog, $race_dog, $age_dog, $id_utilisateur, $photo_dog]);
 
 
 
@@ -106,7 +108,7 @@ $total_event_user = $stmt->fetchColumn();
 if ($id_utilisateur) {
 
   //recup chiens utilisateur
-  $stmt = $db->prepare("SELECT id_dog, nom_dog, race_dog, age_dog FROM chien WHERE id_utilisateur = ?");
+  $stmt = $db->prepare("SELECT id_dog, nom_dog, id_race, age_dog, photo_dog FROM chien WHERE id_utilisateur = ?");
   $stmt->execute([$id_utilisateur]);
   $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -407,18 +409,21 @@ if ($id_utilisateur) {
           <div class="card">
             <div class="card-header">
               <h3>Mes chiens</h3>
-              <a href="../dogs/ajouter_user-dog.php" class="btn">+ Ajouter un chien</a>
+              <a href="../dogs/form.php" class="btn">+ Ajouter un chien</a>
             </div>
             <div class="card-body">
               <ul class="dog-list">
                 <?php foreach ($dogs as $dog): ?>
                   <li class="dog-item">
                     <div class="dog-avatar">
-                      <img src="/interface_graphique/chien.jpg" alt="my_dog">
+                      <!-- <img src="/interface_graphique/chien.jpg" alt="my_dog"> -->
+
+                      <img src=" <?= "../upload/xs_" . hsc($dog['photo_dog']) ?>" alt="photo chien">
+
                     </div>
                     <div class="dog-info">
                       <h4><?= hsc($dog['nom_dog']) ?></h4>
-                      <p><?= hsc($dog['race_dog']) ?>, <?= hsc($dog['age_dog']) ?> mois</p>
+                      <p><?= hsc($dog['id_race']) ?>, <?= hsc($dog['id_race']) ?> mois</p>
                       <p>
                         Dernière activité:
                         <?= hsc($dog['nom_dog']) ?>
