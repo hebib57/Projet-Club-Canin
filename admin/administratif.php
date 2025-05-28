@@ -32,11 +32,12 @@ $query = "
     SELECT 
        c.id_dog,
        c.nom_dog,
-       c.race_dog,
+       c.id_race,
        c.age_dog,
        c.sexe_dog,
        u.nom_utilisateur,
-       c.date_inscription
+       c.date_inscription,
+       c.photo_dog
 
     FROM 
         chien c
@@ -536,7 +537,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <tr>
                     <td><?= hsc($row['id_dog']); ?></td>
                     <td><?= hsc($row['nom_dog']); ?></td>
-                    <td><?= hsc($row['race_dog']); ?></td>
+                    <td><?= hsc($row['id_race']); ?></td>
                     <td><?= hsc($row['age_dog']); ?></td>
                     <td><?= hsc($row['sexe_dog']); ?></td>
                     <td><?= hsc($row['nom_utilisateur']); ?></td>
