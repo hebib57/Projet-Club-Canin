@@ -37,12 +37,14 @@ $query = "
        c.sexe_dog,
        u.nom_utilisateur,
        c.date_inscription,
-       c.photo_dog
+       c.photo_dog,
+       r.nom_race
 
     FROM 
         chien c
         
         JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
+        JOIN race r ON c.id_race = r.id_race
        
     ORDER BY c.date_inscription DESC;
 ";
@@ -537,7 +539,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <tr>
                     <td><?= hsc($row['id_dog']); ?></td>
                     <td><?= hsc($row['nom_dog']); ?></td>
-                    <td><?= hsc($row['id_race']); ?></td>
+                    <td><?= hsc($row['nom_race']); ?></td>
                     <td><?= hsc($row['age_dog']); ?></td>
                     <td><?= hsc($row['sexe_dog']); ?></td>
                     <td><?= hsc($row['nom_utilisateur']); ?></td>
@@ -556,7 +558,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </table>
           </div>
           <button class="btn">
-            <a href="../dogs/ajouter_dog.php">Ajouter un Chien</a>
+            <a href="../dogs/form.php">Ajouter un Chien</a>
           </button>
         </section>
 

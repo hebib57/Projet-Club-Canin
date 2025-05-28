@@ -108,7 +108,7 @@ $total_event_user = $stmt->fetchColumn();
 if ($id_utilisateur) {
 
   //recup chiens utilisateur
-  $stmt = $db->prepare("SELECT id_dog, nom_dog, id_race, age_dog, photo_dog FROM chien WHERE id_utilisateur = ?");
+  $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog FROM chien AS c INNER JOIN race AS r ON c.id_race = r.id_race WHERE c.id_utilisateur = ?");
   $stmt->execute([$id_utilisateur]);
   $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -423,16 +423,19 @@ if ($id_utilisateur) {
                     </div>
                     <div class="dog-info">
                       <h4><?= hsc($dog['nom_dog']) ?></h4>
-                      <p><?= hsc($dog['id_race']) ?>, <?= hsc($dog['id_race']) ?> mois</p>
-                      <p>
-                        Dernière activité:
-                        <?= hsc($dog['nom_dog']) ?>
-                        <?= hsc($dog['nom_dog']) ?>
-
-                      </p>
+                      <p>Râce : <?= hsc($dog['nom_race']) ?></p>
+                      <p>Age : <?= hsc($dog['age_dog']) ?> mois</p>
+                      <p>Sexe : <?= hsc($dog['sexe_dog']) ?></p>
                     </div>
                     <div class="dog-actions">
-                      <button class="btn"><a href="#">Détails</a></button>
+                      <button class="btn btn-details"
+                        data-nom="<?= hsc($dog['nom_dog']) ?>"
+                        data-race="<?= hsc($dog['nom_race']) ?>"
+                        data-age="<?= hsc($dog['age_dog']) ?>"
+                        data-sexe="<?= hsc($dog['sexe_dog']) ?>"
+                        data-photo="<?= hsc($dog['photo_dog']) ?>">
+                        Détails
+                      </button>
                       <button class="btn"><a href="../dogs/form.php?id=<?= hsc($dog['id_dog']) ?>">Modifier</a></button>
                       <button class="btn"><a href="../dogs/delete.php?id=<?= hsc($dog['id_dog']) ?>" onclick="return confirmationDeleteDog();">Supprimer</a></button>
                     </div>
@@ -442,6 +445,17 @@ if ($id_utilisateur) {
               </ul>
             </div>
           </div>
+        </div>
+        <div id="dogModal" class="modal_dog" style="display: none;">
+          <div class="modal_detail">
+            <span class="close">X</span>
+            <img id="modal_photo-dog" alt="chien" style="max-width: 100%;">
+            <h4 id="modal-nom"></h4>
+            <p><strong>Race :</strong> <span id="modal-race"></span></p>
+            <p><strong>Âge :</strong> <span id="modal-age"></span> mois</p>
+            <p><strong>Sexe :</strong> <span id="modal-sexe"></span></p>
+          </div>
+
         </div>
       </section>
       <section class="suivi" id="suivi">

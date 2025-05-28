@@ -36,6 +36,37 @@ function closeCoursModal() {
   document.getElementById("reservationModal").style.display = "none";
 }
 
+/*POPUP MODAL USER Dog------------------------------------------------*/
+
+const modal = document.getElementById("dogModal");
+const modalPhoto = document.getElementById("modal_photo-dog");
+const modalNom = document.getElementById("modal-nom");
+const modalRace = document.getElementById("modal-race");
+const modalAge = document.getElementById("modal-age");
+const modalSexe = document.getElementById("modal-sexe");
+const closeBtn = modal.querySelector(".close");
+
+document.querySelectorAll(".btn-details").forEach((button) => {
+  button.addEventListener("click", () => {
+    modalPhoto.src = "../upload/md_" + button.dataset.photo;
+    modalNom.textContent = button.dataset.nom;
+    modalRace.textContent = button.dataset.race;
+    modalAge.textContent = button.dataset.age;
+    modalSexe.textContent = button.dataset.sexe;
+    modal.style.display = "block";
+  });
+});
+
+closeBtn.onclick = () => {
+  modal.style.display = "none";
+};
+
+window.onclick = function (event) {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
+
 /*POPUP MODAL Inscription Evenement----------------------------------*/
 
 function openEventModal(idEvent) {
