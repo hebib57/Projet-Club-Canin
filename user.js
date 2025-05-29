@@ -44,6 +44,8 @@ const modalNom = document.getElementById("modal-nom");
 const modalRace = document.getElementById("modal-race");
 const modalAge = document.getElementById("modal-age");
 const modalSexe = document.getElementById("modal-sexe");
+const modalDateInscription = document.getElementById("modal-date_inscription");
+const modalCategorie = document.getElementById("modal-categorie");
 const closeBtn = modal.querySelector(".close");
 
 document.querySelectorAll(".btn-details").forEach((button) => {
@@ -53,6 +55,8 @@ document.querySelectorAll(".btn-details").forEach((button) => {
     modalRace.textContent = button.dataset.race;
     modalAge.textContent = button.dataset.age;
     modalSexe.textContent = button.dataset.sexe;
+    modalDateInscription.textContent = button.dataset.date_inscription;
+    modalCategorie.textContent = button.dataset.categorie;
     modal.style.display = "block";
   });
 });

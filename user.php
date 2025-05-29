@@ -108,7 +108,8 @@ $total_event_user = $stmt->fetchColumn();
 if ($id_utilisateur) {
 
   //recup chiens utilisateur
-  $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog FROM chien AS c INNER JOIN race AS r ON c.id_race = r.id_race WHERE c.id_utilisateur = ?");
+  $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog, c.date_inscription, c.categorie
+                       FROM chien AS c INNER JOIN race AS r ON c.id_race = r.id_race WHERE c.id_utilisateur = ?");
   $stmt->execute([$id_utilisateur]);
   $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -433,7 +434,9 @@ if ($id_utilisateur) {
                         data-race="<?= hsc($dog['nom_race']) ?>"
                         data-age="<?= hsc($dog['age_dog']) ?>"
                         data-sexe="<?= hsc($dog['sexe_dog']) ?>"
-                        data-photo="<?= hsc($dog['photo_dog']) ?>">
+                        data-photo="<?= hsc($dog['photo_dog']) ?>"
+                        data-date_inscription="<?= hsc($dog['date_inscription']) ?>"
+                        data-categorie="<?= hsc($dog['categorie']) ?>">
                         Détails
                       </button>
                       <button class="btn"><a href="../dogs/form.php?id=<?= hsc($dog['id_dog']) ?>">Modifier</a></button>
@@ -454,6 +457,9 @@ if ($id_utilisateur) {
             <p><strong>Race :</strong> <span id="modal-race"></span></p>
             <p><strong>Âge :</strong> <span id="modal-age"></span> mois</p>
             <p><strong>Sexe :</strong> <span id="modal-sexe"></span></p>
+            <p><strong>Date d'inscription :</strong> <span id="modal-date_inscription"></span></p>
+            <p><strong>Catégorie :</strong> <span id="modal-categorie"></span></p>
+
           </div>
 
         </div>
