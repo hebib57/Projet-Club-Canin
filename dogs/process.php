@@ -4,7 +4,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/config.php";
 
-
 //--------------------------------------------------------------------------MODIFICATION DOG-------------------------------------------------------------------//
 // Vérifier si le formulaire a été soumis
 if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
@@ -64,6 +63,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
                     sexe_dog = :sexe_dog,
                     id_utilisateur = :id_utilisateur,
                     date_inscription = :date_inscription
+                    
                     WHERE id_dog = :id_dog");
 
 
