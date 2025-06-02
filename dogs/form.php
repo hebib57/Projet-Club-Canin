@@ -149,7 +149,9 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                         <input type="hidden" name="id_utilisateur" value="<?= hsc($id_utilisateur) ?>">
                     <?php endif; ?>
                 <?php else: ?>
-                    <p style="color:red" ;>Aucun propriétaire sélectionné.</p>
+                    <label for="nom_utilisateur">Propriétaire</label>
+                    <input type="text" id="nom_utilisateur" value="<?= hsc($nom_utilisateur) ?>" readonly>
+                    <input type="hidden" name="id_utilisateur" value="<?= hsc($id_utilisateur) ?>">
                 <?php endif; ?>
 
 
