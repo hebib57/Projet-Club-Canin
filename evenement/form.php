@@ -70,7 +70,7 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="modification">
             <h2>Modifier Evènement</h2>
-            <form class="modif" action="../evenement/create.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
+            <form class="modif" action="../evenement/process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
                 <label for="nom_event">Nom de l'évènement</label>
                 <input type="text" name="nom_event" id="nom_event" value="<?= hsc($nom_event) ?>">
                 <label for="date_event">Date de l'évènement</label>

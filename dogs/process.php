@@ -47,7 +47,6 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             $stmt->bindValue(":sexe_dog", $_POST["sexe_dog"]);
             $stmt->bindValue(":id_utilisateur", $_POST["id_utilisateur"]);
             $stmt->bindValue(":date_inscription", $_POST["date_inscription"]);
-
             $stmt->execute();
             $id = $db->lastInsertId(); // Récupère l'ID du nouveeau chien
 
@@ -62,8 +61,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
                     id_race = :id_race,
                     sexe_dog = :sexe_dog,
                     id_utilisateur = :id_utilisateur,
-                    date_inscription = :date_inscription
-                    
+                    date_inscription = :date_inscription                    
                     WHERE id_dog = :id_dog");
 
 

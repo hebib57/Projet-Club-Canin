@@ -10,14 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Sécurisation des données
     $nom = $_POST['nom_utilisateur'] ?? '';
     $prenom = $_POST['prenom_utilisateur'] ?? '';
-    $email = $_POST['admin_mail'] ?? '';
+    $email = filter_var($_POST['admin_mail'] ?? '', FILTER_VALIDATE_EMAIL);
     $password = password_hash($_POST['admin_password'] ?? '', PASSWORD_DEFAULT);
     $phone = $_POST['telephone_utilisateur'] ?? '';
     $id_role = $_POST['id_role'] ?? null;
     // $date = $_POST['date_inscription'] ?? date('Y-m-d');
 
     try {
-      
+
         $db->beginTransaction();
 
         $sqlUser = "INSERT INTO utilisateur (
@@ -51,13 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]);
 
 
-      
+
         $db->commit();
         $message = "Utilisateur ajouté avec succès";
     } catch (PDOException $e) {
         // Annule la transaction en cas d'erreur
         $db->rollBack();
-        error_log($e->getMessage()); 
+        error_log($e->getMessage());
 
         $message = "Erreur lors de l'ajout de l'utilisateur";
     }
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $redirectUrl = '../user.php';
             break;
         default:
-            $redirectUrl = '../index.php'; 
+            $redirectUrl = '../index.php';
     }
 
     echo "<script>alert('" . hsc($message) . "'); window.location.href = '$redirectUrl';</script>";
