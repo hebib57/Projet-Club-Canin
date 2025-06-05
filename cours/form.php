@@ -79,7 +79,7 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="modification">
             <h2>Modifier Cours</h2>
-            <form class="modif" action="../cours/create.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
+            <form class="modif" action="../cours/process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
                 <label for="nom_cours">Nom du cours</label>
                 <input type="text" name="nom_cours" id="nom_cours" value="<?= hsc($nom_cours) ?>">
                 <label for="type_cours">Type de cours</label>
