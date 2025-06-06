@@ -717,9 +717,15 @@ section ul {
   list-style: none;
   margin-top: 30px;
 }
+.menu-list li a img {
+  margin-left: 60px;
+  flex-shrink: 0;
+  margin-right: -20px;
+}
 
 .menu-list li {
   margin: -3px 0;
+  /* display: table-caption; */
 }
 
 .menu-list a {
@@ -728,14 +734,20 @@ section ul {
   font-size: 18px;
   padding: 12px 15px;
   border-radius: 6px;
-  display: table-caption;
+  /* display: table-caption; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   transition: background-color 0.3s ease;
 }
 
 .menu-list a:hover {
   background-color: #ff9800;
+  margin-right: -20px;
 }
-
+.menu-list li a img:hover {
+  margin-right: 20px;
+}
 .container_bord .dashbord .events {
   max-width: 1200px;
   margin-left: 250px;
