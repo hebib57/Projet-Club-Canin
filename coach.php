@@ -132,14 +132,22 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <ul class="menu-list">
-          <li><a href="#dashbord">Tableau de bord</a></li>
-          <li><a href="#cours_programmé">Gestion des Cours</a></li>
-          <li><a href="#events">Gestion des Évènements</a></li>
-          <li><a href="#reservations">Suivi des réservations</a></li>
-          <li><a href="#eval">Evaluation</a></li>
-          <li><a href="#messagerie">Messagerie</a></li>
-          <li><a href="#">Paramètres du compte</a></li>
-          <li><a href="./admin/logout.php">Déconnexion</a></li>
+          <li><a href="#dashbord">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+          <li><a href="#cours_programmé">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+          "></a></li>
+          <li><a href="#events">Gestion des Évènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+          <li><a href="#reservations">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+          <li><a href="#eval">Evaluation <img src="../interface_graphique/img-eval.png" alt="evaluations" width="40px
+          "></a></li>
+          <li><a href="#messagerie">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+          <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+          <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
         </ul>
       </div>
       <div>
