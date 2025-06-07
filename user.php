@@ -214,15 +214,24 @@ if ($id_utilisateur) {
         </div>
 
         <ul class="menu-list">
-          <li><a href="#dashbord">Tableau de bord</a></li>
-          <li><a href="#cours_programmé">Cours programmés</a></li>
-          <li><a href="#events">Évènements programmés</a></li>
-          <li><a href="#dogs">Mes chiens</a></li>
-          <li><a href="#">Mes réservations</a></li>
-          <li><a href="#suivi">Progression</a></li>
-          <li><a href="#messagerie">Messagerie</a></li>
-          <li><a href="#">Paramètres du compte</a></li>
-          <li><a href="./admin/logout.php">Déconnexion</a></li>
+          <li><a href="#dashbord">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+          <li><a href="#cours_programmé">Cours programmés <img src="../interface_graphique/training-program.png" alt=cours" width="40px
+          "></a></li>
+          <li><a href="#events">Évènements programmés <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+          <li><a href="#dogs">Mes chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
+          "></a></li>
+          <li><a href="#">Mes réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+          <li><a href="#suivi">Progression <img src="../interface_graphique/online-reservation.png" alt="progression" width="40px
+          "></a></li>
+          <li><a href="#messagerie">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+          <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+          <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
         </ul>
       </div>
 

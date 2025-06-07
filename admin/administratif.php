@@ -191,23 +191,23 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <ul class="menu-list">
           <li><a href="#dashbord">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
           "></a></li>
-          <li><a href="#reservations">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="dashboard" width="40px
+          <li><a href="#reservations">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
           "></a></li>
-          <li><a href="#cours_programmé">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="dashboard" width="40px
+          <li><a href="#cours_programmé">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
           "></a></li>
           <li><a href="#users">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
           "></a></li>
-          <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="users" width="40px
+          <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
           "></a></li>
-          <li><a href="#dogs">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="users" width="40px
+          <li><a href="#dogs">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
           "></a></li>
-          <li><a href="#events">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="users" width="40px
+          <li><a href="#events">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
           "></a></li>
-          <li><a href="#messagerie">Messagerie <img src="../interface_graphique/mail.png" alt="users" width="40px
+          <li><a href="#messagerie">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
           "></a></li>
-          <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="users" width="40px
+          <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
           "></a></li>
-          <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="users" width="40px
+          <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>
         </ul>
       </div>
