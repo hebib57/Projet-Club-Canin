@@ -70,6 +70,13 @@ window.onclick = function (event) {
     modal.style.display = "none";
   }
 };
+/*CONFIRMATION DESINSCRIPTION CHIEN à EVENEMENT----------------*/
+
+function confirmDesinscriptionEvent() {
+  return confirm(
+    "Êtes-vous sûr de vouloir désinscrire votre chien de cet Evenement"
+  );
+}
 
 /*POPUP MODAL Inscription Evenement----------------------------------*/
 

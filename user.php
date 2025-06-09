@@ -103,6 +103,37 @@ $stmt = $db->prepare("SELECT COUNT(*) FROM inscription_evenement WHERE id_utilis
 $stmt->execute([$id_utilisateur]);
 $total_event_user = $stmt->fetchColumn();
 
+//recup les events auxquel ce user est inscrit
+
+$stmt = $db->prepare("SELECT id_event FROM inscription_evenement WHERE id_utilisateur = ?");
+$stmt->execute([$id_utilisateur]);
+$events_inscrits = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+$sql = "
+SELECT 
+    e.id_event,
+    e.nom_event, 
+    e.date_event, 
+    e.heure_event, 
+    e.place_max,
+    c.nom_dog,
+    c.id_dog
+FROM 
+    inscription_evenement ie
+JOIN 
+    evenement e ON ie.id_event = e.id_event
+JOIN 
+    chien c ON ie.id_dog = c.id_dog
+WHERE 
+    c.id_utilisateur = ?
+ORDER BY 
+    e.date_event DESC
+";
+$stmt = $db->prepare($sql);
+$stmt->execute([$id_utilisateur]);
+$event_user_dog = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 //----------------------------------------------------------------------------------//
 
 if ($id_utilisateur) {
@@ -224,7 +255,7 @@ if ($id_utilisateur) {
           "></a></li>
           <li><a href="#">Mes réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
           "></a></li>
-          <li><a href="#suivi">Progression <img src="../interface_graphique/online-reservation.png" alt="progression" width="40px
+          <li><a href="#suivi">Progression <img src="../interface_graphique/img-progress.png" alt="progression" width="40px
           "></a></li>
           <li><a href="#messagerie">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
           "></a></li>
@@ -276,6 +307,44 @@ if ($id_utilisateur) {
 
 
 
+      <section class="events" id="events">
+        <h2>Événements réservés</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom de l'Événement</th>
+              <th>Date</th>
+              <th>Heure</th>
+              <th>Places disponibles</th>
+              <th>Nom du chien</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($event_user_dog as $row) { ?>
+              <tr>
+                <td><?= hsc($row['id_event']); ?></td>
+                <td><?= hsc($row['nom_event']); ?></td>
+                <td><?= hsc($row['date_event']); ?></td>
+                <td><?= hsc($row['heure_event']); ?></td>
+                <td><?= hsc($row['place_max']); ?></td>
+                <td><?= hsc($row['nom_dog']); ?></td>
+                <td>
+                  <form method="post" action="./inscription_event/process_inscription_event.php" onsubmit="return confirmDesinscriptionEvent();" style="display:inline;">
+                    <input type="hidden" name="id_event" value="<?= hsc($row['id_event']); ?>">
+                    <input type="hidden" name="id_dog" value="<?= hsc($row['id_dog']); ?>">
+                    <input type="hidden" name="action" value="desinscrire">
+                    <button type="submit" class="btn">Se désinscrire</button>
+                  </form>
+                </td>
+              </tr>
+            <?php }; ?>
+          </tbody>
+        </table>
+      </section>
+
+
       <section class="tab_bord" id="cours_programmé">
         <h2>Cours programmés</h2>
         <table class="table">
@@ -303,7 +372,6 @@ if ($id_utilisateur) {
 
                 <td>
                   <form method="post" action="./reservations/process_reservation-u.php" style="display: inline;">
-                    <!-- <input type="hidden" name="id_dog" value="<?= hsc($row["id_dog"]); ?>"> -->
                     <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>">
                     <input type="hidden" name="id_cours" value="<?= hsc($row["id_cours"]); ?>">
                     <?php if (!in_array($row["id_cours"], $utilisateur)): ?>
@@ -336,6 +404,7 @@ if ($id_utilisateur) {
             </tr>
           </thead>
           <tbody>
+            <?php var_dump($event_user_dog); ?>
             <?php foreach ($recordset_event as $row) { ?>
               <tr>
                 <td><?= hsc($row['id_event']); ?></td>
@@ -344,30 +413,20 @@ if ($id_utilisateur) {
                 <td><?= hsc($row['heure_event']); ?></td>
                 <td><?= hsc($row['place_max']); ?></td>
                 <td>
-                  <form method="post" action="./inscription_event/process_inscription_event.php" style="display: inline;">
-                    <!-- <input type="hidden" name="id_dog" value="<?= hsc($row["id_dog"]); ?>"> -->
-                    <!-- <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>"> -->
-                    <input type="hidden" name="id_event" value="<?= hsc($row["id_event"]); ?>">
+                  <form method="post" action="./inscription_event/process_inscription_event.php" style="display:inline;">
+                    <input type="hidden" name="id_event" value="<?= hsc($row['id_event']); ?>">
                     <?php if (!in_array($row["id_event"], $utilisateur)): ?>
                       <button type="button" class="btn" onclick="openEventModal(<?= hsc($row['id_event']) ?>)">S'inscrire</button>
                     <?php else: ?>
                       <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
                     <?php endif;
                     ?>
-
                   </form>
                 </td>
-
-                <!-- <td>
-                  <button class="btn"><a href="../evenement/form.php?id=<?= $row['id_event'] ?>">Modifier</a></button>
-                  <button class="btn"><a href="../evenement/delete.php?id=<?= $row['id_event'] ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
-                </td> -->
               </tr>
             <?php }; ?>
           </tbody>
         </table>
-        <!-- <button class="btn">
-          <a href="../evenement/form.php">Ajouter un Événement</a></button> -->
       </section>
 
       <section class="reservations-user" id="reservations">
@@ -426,10 +485,7 @@ if ($id_utilisateur) {
                 <?php foreach ($dogs as $dog): ?>
                   <li class="dog-item">
                     <div class="dog-avatar">
-                      <!-- <img src="/interface_graphique/chien.jpg" alt="my_dog"> -->
-
                       <img src=" <?= "../upload/xs_" . hsc($dog['photo_dog']) ?>" alt="photo chien">
-
                     </div>
                     <div class="dog-info">
                       <h4><?= hsc($dog['nom_dog']) ?></h4>

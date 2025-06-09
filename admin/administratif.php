@@ -53,7 +53,19 @@ $query = "
 $recordset_dog = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
 // recup les inscriptions aux evenements
-$stmt = $db->prepare("SELECT * FROM inscription_evenement");
+$stmt = $db->prepare("
+  SELECT 
+  i.id_inscription,
+  i.date_inscription,
+  u.nom_utilisateur,
+  d.nom_dog,
+  e.nom_event
+   FROM inscription_evenement i 
+   JOIN utilisateur u ON i.id_utilisateur = u.id_utilisateur
+   JOIN chien d ON i.id_dog = d.id_dog
+   JOIN evenement e ON i.id_event = e.id_event
+   ORDER BY i.date_inscription DESC;
+   ");
 $stmt->execute();
 $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -275,10 +287,9 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tbody>
                   <tr>
                     <td><?= hsc($inscription['id_inscription']); ?></td>
-                    <td><?= hsc($inscription['id_utilisateur']); ?></td>
-                    <td><?= hsc($inscription['id_dog']); ?></td>
-                    <td><?= hsc($inscription['id_event']); ?></td>
-
+                    <td><?= hsc($inscription['nom_utilisateur']); ?></td>
+                    <td><?= hsc($inscription['nom_dog']); ?></td>
+                    <td><?= hsc($inscription['nom_event']); ?></td>
                     <td><?= hsc($inscription['date_inscription']); ?></td>
                     <td>
                       <!-- Option de suppression ou gestion -->
