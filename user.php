@@ -404,7 +404,6 @@ if ($id_utilisateur) {
             </tr>
           </thead>
           <tbody>
-            <?php var_dump($event_user_dog); ?>
             <?php foreach ($recordset_event as $row) { ?>
               <tr>
                 <td><?= hsc($row['id_event']); ?></td>
@@ -534,19 +533,31 @@ if ($id_utilisateur) {
         <h2>Suivi et Progression</h2>
         <div class="selection">
           <label for="dog-select">Sélectionner un chien :</label>
-          <select id="dog-select" name="dog">
-            <option value="dog1">toto</option>
-            <option value="dog2">titi</option>
-            <option value="dog3">tata</option>
+          <select name="id_dog" id="id_dog_user" required>
+            <option value="">-- Sélectionner un chien --</option>
+            <?php foreach ($dogs as $dog): ?>
+              <option
+                value="<?= hsc($dog['id_dog']) ?>"
+                data-nom="<?= hsc($dog['nom_dog']) ?>"
+                data-race="<?= hsc($dog['nom_race']) ?>"
+                data-age="<?= hsc($dog['age_dog']) ?>"
+                data-date="<?= hsc($dog['date_inscription']) ?>">
+                <?= hsc($dog['nom_dog']) ?>
+              </option>
+            <?php endforeach; ?>
           </select>
         </div>
-        <div class="dog-info">
+
+        <div id="dog-info" class="dog-info" style="display: none; margin-top: 20px;">
           <h3>Informations sur le chien</h3>
-          <p><strong>Nom :</strong> toto</p>
-          <p><strong>Race :</strong> chiouaoua</p>
-          <p><strong>Âge :</strong> 1 an</p>
-          <p><strong>Dernière visite :</strong> 14 octobre 2025</p>
+          <p><strong>Nom :</strong><span id="info-nom"></span></p>
+          <p><strong>Râce :</strong><span id="info-race"></span></p>
+          <p><strong>Age :</strong><span id="info-age"></span></p>
+          <p><strong>derniere :</strong><span id="info-date"></span></p>
         </div>
+
+
+
         <div class="progress">
           <h3>Suivi des progrès</h3>
           <table class="progress-table">

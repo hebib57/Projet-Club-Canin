@@ -104,3 +104,27 @@ function afficherHeure() {
 }
 setInterval(afficherHeure, 1000);
 afficherHeure();
+
+/*AFFICHAGE DYNAMIQUE INFOS PROGERSSION DU CHIEN SELECTIONNé---------------------*/
+
+const selectDog = document.getElementById("id_dog_user");
+const dogInfoDiv = document.getElementById("dog-info");
+const nomSpan = document.getElementById("info-nom");
+const raceSpan = document.getElementById("info-race");
+const ageSpan = document.getElementById("info-age");
+const dateSpan = document.getElementById("info-date");
+
+selectDog.addEventListener("change", function () {
+  const selectedOption = this.options[this.selectedIndex];
+
+  if (selectedOption.value) {
+    nomSpan.textContent = selectedOption.dataset.nom;
+    raceSpan.textContent = selectedOption.dataset.race;
+    ageSpan.textContent = selectedOption.dataset.age;
+    dateSpan.textContent = selectedOption.dataset.date;
+
+    dogInfoDiv.style.display = "block";
+  } else {
+    dogInfoDiv.style.display = "none";
+  }
+});
