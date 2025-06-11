@@ -89,9 +89,14 @@ function closeEventModal() {
   document.getElementById("inscriptionModal").style.display = "none";
 }
 
-/*CONFIRMATION DE SUPPRESSION---------------------------------------*/
+/*CONFIRMATION DE SUPPRESSION MESSAGE---------------------------------------*/
 function confirmationDeleteMessage() {
   return confirm("Êtes-vous sûr de vouloir supprimer ce Message ?");
+}
+
+/*CONFIRMATION DE SUPPRESSION CHIEN---------------------------------------*/
+function confirmationDeleteDog() {
+  return confirm("Êtes-vous sûr de vouloir supprimer ce Chien ?");
 }
 
 /*AFFICHAGE DATE-HEURE-----------------------------------------------*/
@@ -113,6 +118,7 @@ const nomSpan = document.getElementById("info-nom");
 const raceSpan = document.getElementById("info-race");
 const ageSpan = document.getElementById("info-age");
 const dateSpan = document.getElementById("info-date");
+const categorieSpan = document.getElementById("info-categorie");
 
 selectDog.addEventListener("change", function () {
   const selectedOption = this.options[this.selectedIndex];
@@ -122,6 +128,7 @@ selectDog.addEventListener("change", function () {
     raceSpan.textContent = selectedOption.dataset.race;
     ageSpan.textContent = selectedOption.dataset.age;
     dateSpan.textContent = selectedOption.dataset.date;
+    categorieSpan.textContent = selectedOption.dataset.categorie;
 
     dogInfoDiv.style.display = "block";
   } else {

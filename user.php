@@ -486,19 +486,20 @@ if ($id_utilisateur) {
                     </div>
                     <div class="dog-info">
                       <h4><?= hsc($dog['nom_dog']) ?></h4>
+                      <p>Catégorie : <?= hsc($dog['categorie']) ?></p>
                       <p>Râce : <?= hsc($dog['nom_race']) ?></p>
                       <p>Age : <?= hsc($dog['age_dog']) ?> mois</p>
                       <p>Sexe : <?= hsc($dog['sexe_dog']) ?></p>
                     </div>
                     <div class="dog-actions">
                       <button class="btn btn-details"
+                        data-categorie="<?= hsc($dog['categorie']) ?>"
                         data-nom="<?= hsc($dog['nom_dog']) ?>"
                         data-race="<?= hsc($dog['nom_race']) ?>"
                         data-age="<?= hsc($dog['age_dog']) ?>"
                         data-sexe="<?= hsc($dog['sexe_dog']) ?>"
                         data-photo="<?= hsc($dog['photo_dog']) ?>"
-                        data-date_inscription="<?= hsc($dog['date_inscription']) ?>"
-                        data-categorie="<?= hsc($dog['categorie']) ?>">
+                        data-date_inscription="<?= hsc($dog['date_inscription']) ?>">
                         Détails
                       </button>
                       <button class="btn"><a href="../dogs/form.php?id=<?= hsc($dog['id_dog']) ?>">Modifier</a></button>
@@ -538,6 +539,7 @@ if ($id_utilisateur) {
                 value="<?= hsc($dog['id_dog']) ?>"
                 data-nom="<?= hsc($dog['nom_dog']) ?>"
                 data-race="<?= hsc($dog['nom_race']) ?>"
+                data-categorie="<?= hsc($dog['categorie']) ?>"
                 data-age="<?= hsc($dog['age_dog']) ?>"
                 data-date="<?= hsc($dog['date_inscription']) ?>">
                 <?= hsc($dog['nom_dog']) ?>
@@ -549,9 +551,11 @@ if ($id_utilisateur) {
         <div id="dog-info" class="dog-info" style="display: none; margin-top: 20px;">
           <h3>Informations sur le chien</h3>
           <p><strong>Nom :</strong><span id="info-nom"></span></p>
+          <p><strong>Catégorie :</strong><span id="info-categorie"></span></p>
           <p><strong>Râce :</strong><span id="info-race"></span></p>
           <p><strong>Age :</strong><span id="info-age"></span></p>
           <p><strong>derniere :</strong><span id="info-date"></span></p>
+
         </div>
 
 
@@ -689,7 +693,7 @@ if ($id_utilisateur) {
       </p>
     </section>
   </footer>
-  <script src="./user.js"></script>
+  <script src="user.js"></script>
   <!-- Modal pour choisir un chien pour la réservation d'un cours-->
   <div id="reservationModal" class="modal" style="display: none;">
     <div class="modal-content">

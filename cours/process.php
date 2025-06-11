@@ -18,13 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sexe_dog = $_POST['sexe_dog'];
     $place_max = $_POST['place_max'];
     $date_cours = $_POST['date_cours'];
+    $categorie_acceptee = $_POST['categorie_acceptee'];
 
     // inserer dans table cours
     try {
         if (empty($id_cours) || $id_cours == "0") {
 
-            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, age_min, age_max, race_dog, sexe_dog, place_max, date_cours)
-                            VALUES(:nom_cours, :type_cours, :description_cours, :age_min, :age_max, :race_dog, :sexe_dog, :place_max, :date_cours)";
+            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, age_min, age_max, race_dog, sexe_dog, place_max, date_cours, categorie_acceptee)
+                            VALUES(:nom_cours, :type_cours, :description_cours, :age_min, :age_max, :race_dog, :sexe_dog, :place_max, :date_cours, :categorie_acceptee)";
             $stmt = $db->prepare($sql);
 
             $stmt->execute([
@@ -37,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':sexe_dog' => $sexe_dog,
                 ':place_max' => $place_max,
                 ':date_cours' => $date_cours,
+                ':categorie_acceptee' => $categorie_acceptee,
             ]);
             // recup id cours qu'on vient d'ajouter
             $id_cours = $db->lastInsertId();
@@ -63,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     race_dog = :race_dog,
                     sexe_dog = :sexe_dog,
                     place_max = :place_max,
-                    date_cours = :date_cours
+                    date_cours = :date_cours,
+                    categorie_acceptee = :categorie_acceptee
                     WHERE id_cours = :id_cours";
             $stmt = $db->prepare($sql);
             $stmt->execute([
@@ -76,7 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':sexe_dog' => $sexe_dog,
                 ':place_max' => $place_max,
                 ':date_cours' => $date_cours,
-                ':id_cours' => $id_cours
+                ':id_cours' => $id_cours,
+                ':categorie_acceptee' => $categorie_acceptee
             ]);
 
             $message = "Cours modifié avec succès";

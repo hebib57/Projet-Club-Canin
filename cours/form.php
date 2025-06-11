@@ -14,7 +14,7 @@ $sexe_dog = "";
 $description_cours = "";
 $date_cours = date("Y-m-d");
 $place_max = "";
-
+$categorie_acceptee = "";
 
 if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
     $stmt = $db->prepare("SELECT * FROM cours WHERE id_cours = :id_cours");
@@ -32,6 +32,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
         $description_cours = $row['description_cours'];
         $date_cours = $row['date_cours'];
         $place_max = $row['place_max'];
+        $categorie_acceptee = $row['categorie_acceptee'];
     };
 };
 
@@ -39,11 +40,13 @@ $stmt = $db->prepare("SELECT * FROM type_cours");
 $stmt->execute();
 $type_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $db->prepare("SELECT * FROM race ");
+$stmt = $db->prepare("SELECT * FROM race");
 $stmt->execute();
 $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
+$stmt = $db->prepare("SELECT * FROM categorie");
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -98,6 +101,15 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="number" name="age_min" id="age_min" value="<?= hsc($age_min) ?>">
                 <label for="age_max">Age maximum</label>
                 <input type="number" name="age_max" id="age_max" value="<?= hsc($age_max) ?>">
+
+                <label for="categorie_acceptee">Catégorie acceptée</label>
+                <select name="categorie_acceptee" id="categorie_acceptee" required>
+                    <?php
+                    foreach ($categories as $cat) {
+                        $selected = ($cat['nom_categorie'] == $categorie_acceptee) ? 'selected' : '';
+                        echo '<option value="' . hsc($cat['nom_categorie']) . '" ' . $selected . '>' . hsc($cat['nom_categorie']) . '</option>';
+                    } ?>
+                </select>
 
                 <label for="race">Râce</label>
                 <select name="race_dog" id="race_dog" required>
