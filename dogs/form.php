@@ -44,9 +44,10 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
 
 
 
-    $stmt = $db->prepare("SELECT c.*, u.nom_utilisateur 
+    $stmt = $db->prepare("SELECT c.*, u.nom_utilisateur, cat.nom_categorie, cat.id_categorie
     FROM chien c
     JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur 
+    JOIN categorie cat ON c.id_categorie = cat.id_categorie
     WHERE id_dog = :id_dog");
     $stmt->bindValue(":id_dog", $_GET["id"]);
     $stmt->execute();
