@@ -35,7 +35,9 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
     };
 };
 
-
+$stmt = $db->prepare("SELECT * FROM type_cours");
+$stmt->execute();
+$type_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $db->prepare("SELECT * FROM race ");
 $stmt->execute();
@@ -83,13 +85,14 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <label for="nom_cours">Nom du cours</label>
                 <input type="text" name="nom_cours" id="nom_cours" value="<?= hsc($nom_cours) ?>">
                 <label for="type_cours">Type de cours</label>
-                <select id="type_cours" name="type_cours" value="<?= hsc($type_cours) ?>">
-                    <option value="ecole du chiot">Ecole du chiot</option>
-                    <option value="education canine">Ecole canine</option>
-                    <option value="agilite">Agilité</option>
-                    <option value="pistage">Pistage</option>
-                    <option value="flyball">Flyball</option>
-                    <option value="protection-defense">Protection & Défense</option>
+                <select id="type_cours" name="type_cours" required>
+                    <?php
+                    foreach ($type_cours as $type) {
+                        $selected = ($type['nom'] == $type_cours) ? 'selected' : '';
+                        echo '<option value="' . hsc($type['nom']) . '" ' . $selected . '>' . hsc($type['nom']) . '</option>';
+                    }
+
+                    ?>
                 </select>
                 <label for="age_min">Age minimum</label>
                 <input type="number" name="age_min" id="age_min" value="<?= hsc($age_min) ?>">
