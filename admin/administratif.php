@@ -365,8 +365,9 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <!-- <th>Nom du Cours</th> -->
                   <th>Type de cours</th>
                   <th>Description du cours</th>
-                  <th>Âge min</th>
-                  <th>Âge max</th>
+                  <!-- <th>Âge min</th>
+                  <th>Âge max</th> -->
+                  <th>Catégorie</th>
                   <th>Race</th>
                   <th>Sexe</th>
                   <th>Places disponibles</th>
@@ -381,8 +382,9 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
                     <td><?= hsc($row['type_cours']); ?></td>
                     <td><?= hsc($row['description_cours']); ?></td>
-                    <td><?= hsc($row['age_min']); ?></td>
-                    <td><?= hsc($row['age_max']); ?></td>
+                    <!-- <td><?= hsc($row['age_min']); ?></td> -->
+                    <td><?= hsc($row['categorie_acceptee']); ?></td>
+                    <!-- <td><?= hsc($row['age_max']); ?></td> -->
                     <td><?= hsc($row['race_dog']); ?></td>
                     <td><?= hsc($row['sexe_dog']); ?></td>
                     <td><?= hsc($row['place_max']); ?></td>
