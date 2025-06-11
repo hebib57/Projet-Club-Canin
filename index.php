@@ -1,3 +1,6 @@
+<?php session_start(); ?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -51,7 +54,30 @@
         l'épanouissement de votre compagnon à quatre pattes.
       </p>
     </div>
-    <a href="./admin/inscription.php" class="button">S'inscrire maintenant</a>
+
+    <?php
+    if (!isset($_SESSION['is_logged'])) {
+      echo '<a href="./admin/inscription.php" class="button">S\'inscrire maintenant</a>';
+    } else {
+      switch ($_SESSION['role_name']) {
+        case 'admin':
+          $redirectUrl = '../admin/administratif.php';
+          break;
+        case 'coach':
+          $redirectUrl = '../coach.php';
+          break;
+        case 'utilisateur':
+          $redirectUrl = '../user.php';
+          break;
+        default:
+          $redirectUrl = '../index.php';
+      }
+      echo '<a href="' . $redirectUrl . '" class="button">Retour</a>';
+    } ?>
+
+
+
+
   </section>
   <section class="nos_activite" id="nos_activite">
     <h2>Nos Activités</h2>

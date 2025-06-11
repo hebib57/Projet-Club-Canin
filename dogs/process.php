@@ -4,6 +4,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/config.php";
 
+$stmt = $db->prepare("SELECT * FROM categorie");
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 //--------------------------------------------------------------------------MODIFICATION DOG-------------------------------------------------------------------//
 // Vérifier si le formulaire a été soumis
 if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
@@ -19,6 +23,25 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
         $id_dog = $_POST["id_dog"];
 
         if ($id_dog == "0") {
+            $age_dog = (int) $_POST["age_dog"];
+            $id_categorie = null;
+            $nom_categorie = null;
+
+            if ($age_dog !== null) {
+                foreach ($categories as $cat) {
+                    $min = $cat['age_min_mois'];
+                    $max = $cat['age_max_mois'] ?? 9999;
+
+                    if ($age_dog >= $min && $age_dog <= $max) {
+                        $nom_categorie = $cat['nom_categorie'];
+                        $id_categorie = $cat['id_categorie'];
+                        break;
+                    }
+                }
+            }
+
+
+
             // Ajout d'un nouveau chien dans la base de données
             $stmt = $db->prepare("INSERT INTO chien (
                     
@@ -27,7 +50,9 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
                     id_race,
                     sexe_dog,
                     id_utilisateur,
-                    date_inscription
+                    date_inscription,
+                    id_categorie,
+                    categorie
                 ) VALUES (
                   
                     :nom_dog,
@@ -35,7 +60,9 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
                     :id_race,
                     :sexe_dog,
                     :id_utilisateur,
-                    :date_inscription              
+                    :date_inscription,
+                    :id_categorie,
+                    :categorie              
                 )");
 
 
@@ -45,6 +72,8 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             $stmt->bindValue(":age_dog", $_POST["age_dog"]);
             $stmt->bindValue(":id_race", $_POST["id_race"]);
             $stmt->bindValue(":sexe_dog", $_POST["sexe_dog"]);
+            $stmt->bindValue(":categorie", $nom_categorie);
+            $stmt->bindValue(":id_categorie", $id_categorie);
             $stmt->bindValue(":id_utilisateur", $_POST["id_utilisateur"]);
             $stmt->bindValue(":date_inscription", $_POST["date_inscription"]);
             $stmt->execute();

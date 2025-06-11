@@ -14,6 +14,9 @@ if (!isset($_SESSION['nom_utilisateur']) && isset($_SESSION['prenom_utilisateur'
 
 $role = $_SESSION['role_name'] ?? 'utilisateur';
 
+$stmt = $db->prepare("SELECT * FROM categorie");
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $db->prepare("SELECT * FROM race ");
 $stmt->execute();
@@ -33,11 +36,14 @@ $sexe_dog = "";
 $id_utilisateur = "";
 $nom_utilisateur = "";
 $date = date("Y-m-d");
-
-
+$nom_categorie = "";
+$id_categorie = "";
 
 
 if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
+
+
+
     $stmt = $db->prepare("SELECT c.*, u.nom_utilisateur 
     FROM chien c
     JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur 
@@ -56,6 +62,8 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
         $id_utilisateur = $row['id_utilisateur'];
         $nom_utilisateur = $row['nom_utilisateur'];
         $date = $row['date_inscription'];
+        $nom_categorie = $row['nom_categorie'];
+        $id_categorie = $row['id_categorie'];
     };
 };
 
@@ -118,16 +126,18 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <label for="age_dog">Age</label>
                 <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
 
+                <label for="categorie">Catégorie</label>
+                <input type="text" name="categorie" id="categorie" value="<?= hsc($nom_categorie) ?>" readonly>
+
                 <label for="id_race">Râce</label>
                 <select name="id_race" id="id_race" required>
                     <?php
                     foreach ($races as $race) {
-                        // $selected = ($race['id_race'] == $race_dog) ? 'selected' : '';
+
                         echo '<option value="' . hsc($race['id_race']) .  '">' . hsc($race['nom_race']) . '</option>';
                     } ?>
                 </select>
-                <!-- <label for="sexe_dog">Sexe</label>
-                <input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>"> -->
+
 
                 <?php if ($id_dog == 0): ?>
                     <?php if ($role === "admin" || $role === "coach"): ?>

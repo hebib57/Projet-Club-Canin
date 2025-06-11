@@ -101,8 +101,6 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
         <li><a href="../index.php">Accueil</a></li>
-        <li><a href="user.php">utilisateur</a></li>
-        <li><a href="./admin/administratif.php">administratif</a></li>
       </ul>
     </nav>
     <button class="navbar__burger-menu-toggle" id="burgerMenu">

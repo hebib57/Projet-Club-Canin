@@ -66,7 +66,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
 
         <div class="modification">
             <h2>Modifier Compte</h2>
-            <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
+            <form class="modif" action="create.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
                 <label for="nom_utilisateur">Nom</label>
                 <input type="text" name="nom_utilisateur" id="nom_utilisateur" value="<?= hsc($nom) ?>">
                 <label for="prenom_utilisateur">Prénom</label>
