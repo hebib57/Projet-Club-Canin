@@ -79,12 +79,18 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <input type="tel" name="telephone_utilisateur" id="telephone_utilisateur" value="<?= hsc($phone) ?>">
                 <label for="role">Rôle</label>
 
-                <select id="id_role" name="id_role" value="<?= hsc($id_role) ?>" required>
+                <select id="id_role" name="id_role" required>
+                    <option value="1" <?= $id_role == 1 ? 'selected' : '' ?>>admin</option>
+                    <option value="2" <?= $id_role == 2 ? 'selected' : '' ?>>coach</option>
+                    <option value="3" <?= $id_role == 3 ? 'selected' : '' ?>>utilisateur</option>
+                </select>
+
+                <!-- <select id="id_role" name="id_role" value="<?= hsc($id_role) ?>" required>
                     <option value="admin">admin</option>
                     <option value="coach">coach</option>
                     <option value="utilisateur">utilisateur</option>
 
-                </select>
+                </select> -->
                 <input type="hidden" name="id_utilisateur" value="<?= hsc($utilisateur) ?>">
                 <input type="hidden" name="formCU" value="ok">
                 <input class="btn__modif" type="submit" value="Enregistrer">

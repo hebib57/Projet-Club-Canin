@@ -24,7 +24,7 @@ $stmt->execute();
 $cours_programme = $stmt->fetchColumn();
 
 //recup des seances
-$stmt = $db->prepare("SELECT s.id_seance, s.id_cours, c.nom_cours, u.nom_utilisateur, s.date_seance, s.heure_seance, s.places_disponibles
+$stmt = $db->prepare("SELECT s.id_seance, s.id_cours, c.nom_cours, u.nom_utilisateur, u.prenom_utilisateur, s.date_seance, s.heure_seance, s.places_disponibles, c.id_cours
                       FROM seance s 
                       LEFT JOIN cours c ON s.id_cours = c.id_cours
                       LEFT JOIN utilisateur u ON u.id_utilisateur = s.id_utilisateur
@@ -357,13 +357,13 @@ if ($id_utilisateur) {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody><?php var_dump($recordset_cours) ?>
             <?php foreach ($recordset_cours as $row) { ?>
               <tr>
 
                 <td><?= hsc($row['id_seance']); ?></td>
                 <td><?= hsc($row['nom_cours']); ?></td>
-                <td><?= hsc($row['nom_utilisateur']); ?></td>
+                <td><?= hsc($row['prenom_utilisateur'] . ' ' . $row['nom_utilisateur']); ?></td>
                 <td><?= hsc($row['date_seance']); ?></td>
                 <td><?= hsc($row['heure_seance']); ?></td>
                 <td><?= hsc($row['places_disponibles']); ?></td>

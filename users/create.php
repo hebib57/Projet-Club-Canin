@@ -20,9 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $db->beginTransaction();
 
         $sqlUser = "INSERT INTO utilisateur (
-                        nom_utilisateur, prenom_utilisateur, admin_mail, admin_password, telephone_utilisateur 
+                        nom_utilisateur, prenom_utilisateur, admin_mail, admin_password, telephone_utilisateur, id_role 
                     ) VALUES (
-                        :nom_utilisateur, :prenom_utilisateur, :admin_mail, :admin_password, :telephone_utilisateur 
+                        :nom_utilisateur, :prenom_utilisateur, :admin_mail, :admin_password, :telephone_utilisateur, :id_role 
                     )";
         $stmtUser = $db->prepare($sqlUser);
 
@@ -32,8 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':prenom_utilisateur' => $prenom,
             ':admin_mail' => $email,
             ':admin_password' => $password,
-            ':telephone_utilisateur' => $phone
+            ':telephone_utilisateur' => $phone,
             // ':date_inscription' => $date
+            ':id_role' => $id_role
         ]);
 
         // recup id inséré

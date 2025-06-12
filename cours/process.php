@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $place_max = $_POST['place_max'];
     $date_cours = $_POST['date_cours'];
     $categorie_acceptee = $_POST['categorie_acceptee'];
-    $id_coach = $row['id_coach'];
+    $id_coach = $_POST['id_coach'];
 
     // inserer dans table cours
     try {
@@ -46,13 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id_cours = $db->lastInsertId();
 
             //seance cree automatiquement avec ce cours
-            $sql_seance = "INSERT INTO seance (id_cours, date_seance, heure_seance, places_disponibles) 
-                                    VALUES (:id_cours, :date_seance, '10:00:00', :places_disponibles)";
+            $sql_seance = "INSERT INTO seance (id_cours, date_seance, heure_seance, places_disponibles, id_utilisateur) 
+                                    VALUES (:id_cours, :date_seance, '10:00:00', :places_disponibles, :id_utilisateur)";
             $stmt_seance = $db->prepare($sql_seance);
             $stmt_seance->execute([
                 ':id_cours' => $id_cours,
                 ':date_seance' => $date_cours,
-                ':places_disponibles' => $place_max
+                ':places_disponibles' => $place_max,
+                ':id_utilisateur' => $id_coach
             ]);
 
             $message = "Cours ajouté avec succès";

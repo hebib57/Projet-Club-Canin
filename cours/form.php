@@ -40,7 +40,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
 
 $stmt = $db->prepare("SELECT * FROM type_cours");
 $stmt->execute();
-$type_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$type_cours_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $db->prepare("SELECT * FROM race");
 $stmt->execute();
@@ -54,6 +54,10 @@ $stmt = $db->prepare("SELECT id_utilisateur, nom_utilisateur, prenom_utilisateur
 $stmt->execute();
 $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Debug temporaire
+echo "<pre>";
+print_r($coachs);
+echo "</pre>";
 ?>
 
 <!DOCTYPE html>
@@ -96,7 +100,7 @@ $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <label for="type_cours">Type de cours</label>
                 <select id="type_cours" name="type_cours" required>
                     <?php
-                    foreach ($type_cours as $type) {
+                    foreach ($type_cours_list as $type) {
                         $selected = ($type['nom'] == $type_cours) ? 'selected' : '';
                         echo '<option value="' . hsc($type['nom']) . '" ' . $selected . '>' . hsc($type['nom']) . '</option>';
                     }
@@ -108,8 +112,8 @@ $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <option value="">-- Sélectionnez un coach --</option>
                     <?php
                     foreach ($coachs as $coach) {
-                        $selected = ($coach['id_utilisateur'] == $coach) ? 'selected' : '';
-                        echo '<option value="' . hsc($coach['prenom_utilisateur']) . '" ' . $selected . '>' . hsc($coach['nom_utilisateur']) . '</option>';
+                        $selected = ($coach['id_utilisateur'] == $id_coach) ? 'selected' : '';
+                        echo '<option value="' . hsc($coach['id_utilisateur']) . '" ' . $selected . '>' . hsc($coach['nom_utilisateur']) . '</option>';
                     }
 
                     ?>
