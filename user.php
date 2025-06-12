@@ -14,9 +14,9 @@ $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur';
 $utilisateur = [];
 
 //recup des cours
-$stmt = $db->prepare("SELECT * FROM cours");
-$stmt->execute();
-$recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $stmt = $db->prepare("SELECT * FROM cours");
+// $stmt->execute();
+// $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //recup des cours_programme
 $stmt = $db->prepare("SELECT COUNT(*) FROM cours");

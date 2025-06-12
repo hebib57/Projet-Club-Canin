@@ -2,7 +2,7 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 // require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
-
+session_start();
 //--------------------------------------------------------------------AJOUT D'UN UTILISATEUR-----------------------------------------------------------------------------//
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -61,7 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $message = "Erreur lors de l'ajout de l'utilisateur";
     }
 
-    switch ($_SESSION['role_name']) {
+    $role_name = $_SESSION['role_name'] ?? null;
+
+    switch ($role_name) {
         case 'admin':
             $redirectUrl = '../admin/administratif.php';
             break;

@@ -15,6 +15,7 @@ $description_cours = "";
 $date_cours = date("Y-m-d");
 $place_max = "";
 $categorie_acceptee = "";
+$id_coach = "";
 
 if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
     $stmt = $db->prepare("SELECT * FROM cours WHERE id_cours = :id_cours");
@@ -33,6 +34,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
         $date_cours = $row['date_cours'];
         $place_max = $row['place_max'];
         $categorie_acceptee = $row['categorie_acceptee'];
+        $id_coach = $row['id_coach'];
     };
 };
 
@@ -47,6 +49,10 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt = $db->prepare("SELECT * FROM categorie");
 $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $db->prepare("SELECT id_utilisateur, nom_utilisateur, prenom_utilisateur FROM utilisateur WHERE id_role = 2");
+$stmt->execute();
+$coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -93,6 +99,17 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($type_cours as $type) {
                         $selected = ($type['nom'] == $type_cours) ? 'selected' : '';
                         echo '<option value="' . hsc($type['nom']) . '" ' . $selected . '>' . hsc($type['nom']) . '</option>';
+                    }
+
+                    ?>
+                </select>
+                <label for="id_coach">Coach prévu</label>
+                <select id="id_coach" name="id_coach" required>
+                    <option value="">-- Sélectionnez un coach --</option>
+                    <?php
+                    foreach ($coachs as $coach) {
+                        $selected = ($coach['id_utilisateur'] == $coach) ? 'selected' : '';
+                        echo '<option value="' . hsc($coach['prenom_utilisateur']) . '" ' . $selected . '>' . hsc($coach['nom_utilisateur']) . '</option>';
                     }
 
                     ?>

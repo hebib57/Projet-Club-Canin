@@ -38,7 +38,8 @@ $query = "
        u.nom_utilisateur,
        c.date_inscription,
        c.photo_dog,
-       r.nom_race
+       r.nom_race,
+       c.categorie
 
     FROM 
         chien c
@@ -549,6 +550,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tr>
                   <th>ID</th>
                   <th>Nom du Chien</th>
+                  <th>Catégorie</th>
                   <th>Race</th>
                   <th>Âge</th>
                   <th>Sexe</th>
@@ -562,6 +564,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <tr>
                     <td><?= hsc($row['id_dog']); ?></td>
                     <td><?= hsc($row['nom_dog']); ?></td>
+                    <td><?= hsc($row['categorie']); ?></td>
                     <td><?= hsc($row['nom_race']); ?></td>
                     <td><?= hsc($row['age_dog']); ?></td>
                     <td><?= hsc($row['sexe_dog']); ?></td>
@@ -570,6 +573,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td> <?php $date = new DateTime($row['date_inscription']);
                           echo hsc($date->format('d/m/Y')); ?></td>
                     <td>
+
                     <td>
                       <button class="btn"><a href="../dogs/form.php?id=<?= hsc($row['id_dog']) ?>">Modifier</a></button>
                       <button class="btn"><a href="../dogs/delete.php?id=<?= hsc($row['id_dog']) ?>" onclick="return confirmationDeleteDog();">Supprimer</a></button>

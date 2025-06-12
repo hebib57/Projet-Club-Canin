@@ -19,13 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $place_max = $_POST['place_max'];
     $date_cours = $_POST['date_cours'];
     $categorie_acceptee = $_POST['categorie_acceptee'];
+    $id_coach = $row['id_coach'];
 
     // inserer dans table cours
     try {
         if (empty($id_cours) || $id_cours == "0") {
 
-            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, age_min, age_max, race_dog, sexe_dog, place_max, date_cours, categorie_acceptee)
-                            VALUES(:nom_cours, :type_cours, :description_cours, :age_min, :age_max, :race_dog, :sexe_dog, :place_max, :date_cours, :categorie_acceptee)";
+            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, age_min, age_max, race_dog, sexe_dog, place_max, date_cours, categorie_acceptee, id_coach)
+                            VALUES(:nom_cours, :type_cours, :description_cours, :age_min, :age_max, :race_dog, :sexe_dog, :place_max, :date_cours, :categorie_acceptee, :id_coach)";
             $stmt = $db->prepare($sql);
 
             $stmt->execute([
@@ -39,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':place_max' => $place_max,
                 ':date_cours' => $date_cours,
                 ':categorie_acceptee' => $categorie_acceptee,
+                ':id_coach' => $id_coach,
             ]);
             // recup id cours qu'on vient d'ajouter
             $id_cours = $db->lastInsertId();
@@ -66,7 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     sexe_dog = :sexe_dog,
                     place_max = :place_max,
                     date_cours = :date_cours,
-                    categorie_acceptee = :categorie_acceptee
+                    categorie_acceptee = :categorie_acceptee,
+                    id_coach = :id_coach
                     WHERE id_cours = :id_cours";
             $stmt = $db->prepare($sql);
             $stmt->execute([
@@ -80,7 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':place_max' => $place_max,
                 ':date_cours' => $date_cours,
                 ':id_cours' => $id_cours,
-                ':categorie_acceptee' => $categorie_acceptee
+                ':categorie_acceptee' => $categorie_acceptee,
+                ':id_coach' => $id_coach,
             ]);
 
             $message = "Cours modifié avec succès";

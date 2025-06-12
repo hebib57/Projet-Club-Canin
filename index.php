@@ -72,7 +72,7 @@
         default:
           $redirectUrl = '../index.php';
       }
-      echo '<a href="' . $redirectUrl . '" class="button">Retour</a>';
+      echo '<a href="' . $redirectUrl . '" class="button">Mon Compte</a>';
     } ?>
 
 
