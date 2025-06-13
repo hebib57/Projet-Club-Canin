@@ -269,7 +269,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <section class="inscriptions_event" id="inscriptions_event">
-          <h2>Suivi des Inscriptions Évènements</h2>
+          <h2>Évènements réservés</h2>
           <div class="table-container">
             <table>
               <thead>
@@ -305,6 +305,41 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </table>
           </div>
         </section>
+
+        <section class="events" id="events">
+          <h2>Gestion des Événements</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nom de l'Événement</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Places disponibles</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($recordset_event as $row) { ?>
+                <tr>
+                  <td><?= hsc($row['id_event']); ?></td>
+                  <td><?= hsc($row['nom_event']); ?></td>
+                  <td><?= hsc($row['date_event']); ?></td>
+                  <td><?= hsc($row['heure_event']); ?></td>
+                  <td><?= hsc($row['place_max']); ?></td>
+
+                  <td>
+                    <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
+                    <button class="btn"><a href="../evenement/delete.php?id=<?= hsc($row['id_event']) ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
+                  </td>
+                </tr>
+              <?php }; ?>
+            </tbody>
+          </table>
+          <button class="btn">
+            <a href="../evenement/form.php">Ajouter un Événement</a></button>
+        </section>
+
 
 
         <section class="reservations" id="reservations">
@@ -589,39 +624,6 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </button>
         </section>
 
-        <section class="events" id="events">
-          <h2>Gestion des Événements</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nom de l'Événement</th>
-                <th>Date</th>
-                <th>Heure</th>
-                <th>Places disponibles</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($recordset_event as $row) { ?>
-                <tr>
-                  <td><?= hsc($row['id_event']); ?></td>
-                  <td><?= hsc($row['nom_event']); ?></td>
-                  <td><?= hsc($row['date_event']); ?></td>
-                  <td><?= hsc($row['heure_event']); ?></td>
-                  <td><?= hsc($row['place_max']); ?></td>
-
-                  <td>
-                    <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
-                    <button class="btn"><a href="../evenement/delete.php?id=<?= hsc($row['id_event']) ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
-                  </td>
-                </tr>
-              <?php }; ?>
-            </tbody>
-          </table>
-          <button class="btn">
-            <a href="../evenement/form.php">Ajouter un Événement</a></button>
-        </section>
 
         <section class="card-admin_messagerie" id="messagerie">
           <h2>Messagerie</h2>
