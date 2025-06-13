@@ -308,7 +308,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         <section class="reservations" id="reservations">
-          <h2>Suivi des Réservations</h2>
+          <h2>Cours réservés</h2>
           <div class="table-container">
             <table>
               <thead>

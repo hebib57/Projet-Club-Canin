@@ -54,10 +54,6 @@ $stmt = $db->prepare("SELECT id_utilisateur, nom_utilisateur, prenom_utilisateur
 $stmt->execute();
 $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Debug temporaire
-echo "<pre>";
-print_r($coachs);
-echo "</pre>";
 ?>
 
 <!DOCTYPE html>
@@ -118,10 +114,10 @@ echo "</pre>";
 
                     ?>
                 </select>
-                <label for="age_min">Age minimum</label>
+                <!-- <label for="age_min">Age minimum</label>
                 <input type="number" name="age_min" id="age_min" value="<?= hsc($age_min) ?>">
                 <label for="age_max">Age maximum</label>
-                <input type="number" name="age_max" id="age_max" value="<?= hsc($age_max) ?>">
+                <input type="number" name="age_max" id="age_max" value="<?= hsc($age_max) ?>"> -->
 
                 <label for="categorie_acceptee">Catégorie acceptée</label>
                 <select name="categorie_acceptee" id="categorie_acceptee" required>

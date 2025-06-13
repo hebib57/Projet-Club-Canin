@@ -303,6 +303,131 @@ if ($id_utilisateur) {
         </div>
       </section>
 
+      <section class="tab_bord" id="cours_programmé">
+        <h2>Cours programmés</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom du Cours</th>
+              <th>Nom Coach</th>
+              <th>Date de séance</th>
+              <th>Heure de séance</th>
+              <th>Places disponibles</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($recordset_cours as $row) { ?>
+              <tr>
+
+                <td><?= hsc($row['id_seance']); ?></td>
+                <td><?= hsc($row['nom_cours']); ?></td>
+                <td><?= hsc($row['prenom_utilisateur'] . ' ' . $row['nom_utilisateur']); ?></td>
+                <td><?= hsc($row['date_seance']); ?></td>
+                <td><?= hsc($row['heure_seance']); ?></td>
+                <td><?= hsc($row['places_disponibles']); ?></td>
+
+                <td>
+                  <form method="post" action="./reservations/process_reservation-u.php" style="display: inline;">
+                    <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>">
+                    <input type="hidden" name="id_cours" value="<?= hsc($row["id_cours"]); ?>">
+                    <?php if (!in_array($row["id_cours"], $utilisateur)): ?>
+                      <button type="button" class="btn" onclick="openCoursModal(<?= hsc($row['id_cours']) ?>)">S'inscrire</button>
+                    <?php else: ?>
+                      <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
+                    <?php endif;
+                    ?>
+
+                  </form>
+                </td>
+
+              </tr>
+            <?php }; ?>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="reservations-user" id="reservations">
+        <h2>Cours Réservés</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Utilisateur</th>
+                <th>Nom du chien</th>
+                <th>Nom Cours</th>
+                <th>Date Séance</th>
+                <th>Heure Séance</th>
+                <th>Date Réservation</th>
+                <th>Action</th>
+              </tr>
+            </thead><?php foreach ($recordset_reservation as $reserv): ?>
+
+              <tbody>
+                <tr>
+                  <td><?= hsc($reserv['id_reservation']); ?></td>
+                  <td><?= hsc($reserv['nom_utilisateur']); ?></td>
+                  <td><?= hsc($reserv['nom_dog']); ?></td>
+                  <td><?= hsc($reserv['nom_cours']); ?></td>
+                  <td><?= hsc($reserv['date_seance']); ?></td>
+                  <td><?= hsc($reserv['heure_seance']); ?></td>
+                  <td><?= hsc($reserv['date_reservation']); ?></td>
+                  <td>
+
+                    <form method="post" action="../reservations/delete_reservation.php" style="display: inline;">
+                      <input type="hidden" name="id_reservation" value="<?= hsc($reserv['id_reservation']); ?>">
+                      <button type="submit" class="btn" onclick=" return confirmationDelete();">Supprimer</button>
+                    </form>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+              </tbody>
+          </table>
+        </div>
+      </section>
+
+
+
+      <section class="events" id="events">
+        <h2>Événements programmés</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom de l'Événement</th>
+              <th>Date</th>
+              <th>Heure</th>
+              <th>Places disponibles</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($recordset_event as $row) { ?>
+              <tr>
+                <td><?= hsc($row['id_event']); ?></td>
+                <td><?= hsc($row['nom_event']); ?></td>
+                <td><?= hsc($row['date_event']); ?></td>
+                <td><?= hsc($row['heure_event']); ?></td>
+                <td><?= hsc($row['place_max']); ?></td>
+                <td>
+                  <form method="post" action="./inscription_event/process_inscription_event.php" style="display:inline;">
+                    <input type="hidden" name="id_event" value="<?= hsc($row['id_event']); ?>">
+                    <?php if (!in_array($row["id_event"], $utilisateur)): ?>
+                      <button type="button" class="btn" onclick="openEventModal(<?= hsc($row['id_event']) ?>)">S'inscrire</button>
+                    <?php else: ?>
+                      <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
+                    <?php endif;
+                    ?>
+                  </form>
+                </td>
+              </tr>
+            <?php }; ?>
+          </tbody>
+        </table>
+      </section>
+
 
 
       <section class="events" id="events">
@@ -343,128 +468,6 @@ if ($id_utilisateur) {
       </section>
 
 
-      <section class="tab_bord" id="cours_programmé">
-        <h2>Cours programmés</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nom du Cours</th>
-              <th>Nom Coach</th>
-              <th>Date de séance</th>
-              <th>Heure de séance</th>
-              <th>Places disponibles</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody><?php var_dump($recordset_cours) ?>
-            <?php foreach ($recordset_cours as $row) { ?>
-              <tr>
-
-                <td><?= hsc($row['id_seance']); ?></td>
-                <td><?= hsc($row['nom_cours']); ?></td>
-                <td><?= hsc($row['prenom_utilisateur'] . ' ' . $row['nom_utilisateur']); ?></td>
-                <td><?= hsc($row['date_seance']); ?></td>
-                <td><?= hsc($row['heure_seance']); ?></td>
-                <td><?= hsc($row['places_disponibles']); ?></td>
-
-                <td>
-                  <form method="post" action="./reservations/process_reservation-u.php" style="display: inline;">
-                    <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>">
-                    <input type="hidden" name="id_cours" value="<?= hsc($row["id_cours"]); ?>">
-                    <?php if (!in_array($row["id_cours"], $utilisateur)): ?>
-                      <button type="button" class="btn" onclick="openCoursModal(<?= hsc($row['id_cours']) ?>)">S'inscrire</button>
-                    <?php else: ?>
-                      <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
-                    <?php endif;
-                    ?>
-
-                  </form>
-                </td>
-
-              </tr>
-            <?php }; ?>
-          </tbody>
-        </table>
-      </section>
-
-      <section class="events" id="events">
-        <h2>Événements programmés</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nom de l'Événement</th>
-              <th>Date</th>
-              <th>Heure</th>
-              <th>Places disponibles</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($recordset_event as $row) { ?>
-              <tr>
-                <td><?= hsc($row['id_event']); ?></td>
-                <td><?= hsc($row['nom_event']); ?></td>
-                <td><?= hsc($row['date_event']); ?></td>
-                <td><?= hsc($row['heure_event']); ?></td>
-                <td><?= hsc($row['place_max']); ?></td>
-                <td>
-                  <form method="post" action="./inscription_event/process_inscription_event.php" style="display:inline;">
-                    <input type="hidden" name="id_event" value="<?= hsc($row['id_event']); ?>">
-                    <?php if (!in_array($row["id_event"], $utilisateur)): ?>
-                      <button type="button" class="btn" onclick="openEventModal(<?= hsc($row['id_event']) ?>)">S'inscrire</button>
-                    <?php else: ?>
-                      <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
-                    <?php endif;
-                    ?>
-                  </form>
-                </td>
-              </tr>
-            <?php }; ?>
-          </tbody>
-        </table>
-      </section>
-
-      <section class="reservations-user" id="reservations">
-        <h2>Suivi des Réservations</h2>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Utilisateur</th>
-                <th>Nom du chien</th>
-                <th>Nom Cours</th>
-                <th>Date Séance</th>
-                <th>Heure Séance</th>
-                <th>Date Réservation</th>
-                <th>Action</th>
-              </tr>
-            </thead><?php foreach ($recordset_reservation as $reserv): ?>
-
-              <tbody>
-                <tr>
-                  <td><?= hsc($reserv['id_reservation']); ?></td>
-                  <td><?= hsc($reserv['nom_utilisateur']); ?></td>
-                  <td><?= hsc($reserv['nom_dog']); ?></td>
-                  <td><?= hsc($reserv['nom_cours']); ?></td>
-                  <td><?= hsc($reserv['date_seance']); ?></td>
-                  <td><?= hsc($reserv['heure_seance']); ?></td>
-                  <td><?= hsc($reserv['date_reservation']); ?></td>
-                  <td>
-
-                    <form method="post" action="../reservations/delete_reservation.php" style="display: inline;">
-                      <input type="hidden" name="id_reservation" value="<?= hsc($reserv['id_reservation']); ?>">
-                      <button type="submit" class="btn" onclick=" return confirmationDelete();">Supprimer</button>
-                    </form>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-              </tbody>
-          </table>
-        </div>
-      </section>
 
 
 

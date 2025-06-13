@@ -12,8 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nom_cours = $_POST['nom_cours'];
     $type_cours = $_POST['type_cours'];
     $description_cours = $_POST['description_cours'];
-    $age_min = $_POST['age_min'];
-    $age_max = $_POST['age_max'];
+    // $age_min = $_POST['age_min'];
+    // $age_max = $_POST['age_max'];
     $race_dog = $_POST['race_dog'];
     $sexe_dog = $_POST['sexe_dog'];
     $place_max = $_POST['place_max'];
@@ -25,16 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         if (empty($id_cours) || $id_cours == "0") {
 
-            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, age_min, age_max, race_dog, sexe_dog, place_max, date_cours, categorie_acceptee, id_coach)
-                            VALUES(:nom_cours, :type_cours, :description_cours, :age_min, :age_max, :race_dog, :sexe_dog, :place_max, :date_cours, :categorie_acceptee, :id_coach)";
+            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, race_dog, sexe_dog, place_max, date_cours, categorie_acceptee, id_coach)
+                            VALUES(:nom_cours, :type_cours, :description_cours, :race_dog, :sexe_dog, :place_max, :date_cours, :categorie_acceptee, :id_coach)";
             $stmt = $db->prepare($sql);
 
             $stmt->execute([
                 ':nom_cours' => $nom_cours,
                 ':type_cours' => $type_cours,
                 ':description_cours' => $description_cours,
-                ':age_min' => $age_min,
-                ':age_max' => $age_max,
+                // ':age_min' => $age_min,
+                // ':age_max' => $age_max,
                 ':race_dog' => $race_dog,
                 ':sexe_dog' => $sexe_dog,
                 ':place_max' => $place_max,
@@ -63,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     nom_cours = :nom_cours,
                     type_cours = :type_cours,
                     description_cours = :description_cours,
-                    age_min = :age_min,
-                    age_max = :age_max,
+                    -- age_min = :age_min,
+                    -- age_max = :age_max,
                     race_dog = :race_dog,
                     sexe_dog = :sexe_dog,
                     place_max = :place_max,
@@ -77,8 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':nom_cours' => $nom_cours,
                 ':type_cours' => $type_cours,
                 ':description_cours' => $description_cours,
-                ':age_min' => $age_min,
-                ':age_max' => $age_max,
+                // ':age_min' => $age_min,
+                // ':age_max' => $age_max,
                 ':race_dog' => $race_dog,
                 ':sexe_dog' => $sexe_dog,
                 ':place_max' => $place_max,
