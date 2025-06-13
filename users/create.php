@@ -31,7 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         admin_mail = :admin_mail,
                         admin_password = :admin_password,
                         telephone_utilisateur = :telephone_utilisateur,
-                        id_role = :id_role
+                        id_role = :id_role,
+                        date_inscription = :date_inscription
                     WHERE id_utilisateur = :id_utilisateur";
                 $params = [
                     ':nom_utilisateur' => $nom,
@@ -40,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ':admin_password' => $password,
                     ':telephone_utilisateur' => $phone,
                     ':id_role' => $id_role,
-                    ':id_utilisateur' => $id_utilisateur
+                    ':id_utilisateur' => $id_utilisateur,
+                    ':date_inscription' => $date_inscription
                 ];
             } else {
                 $sqlUser = "UPDATE utilisateur SET 
@@ -76,9 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // AJOUT
 
             $sqlUser = "INSERT INTO utilisateur (
-                    nom_utilisateur, prenom_utilisateur, admin_mail, admin_password, telephone_utilisateur, id_role 
+                    nom_utilisateur, prenom_utilisateur, admin_mail, admin_password, telephone_utilisateur, id_role, date_inscription  
                 ) VALUES (
-                    :nom_utilisateur, :prenom_utilisateur, :admin_mail, :admin_password, :telephone_utilisateur, :id_role
+                    :nom_utilisateur, :prenom_utilisateur, :admin_mail, :admin_password, :telephone_utilisateur, :id_role, NOW() 
                 )";
             $stmtUser = $db->prepare($sqlUser);
 
