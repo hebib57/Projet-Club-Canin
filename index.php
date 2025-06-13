@@ -57,8 +57,7 @@
 
     <?php
     if (!isset($_SESSION['is_logged'])) {
-      echo '<a href="./admin/inscription.php" class="button">S\'inscrire maintenant</a>';
-    } else {
+
       switch ($_SESSION['role_name']) {
         case 'admin':
           $redirectUrl = '../admin/administratif.php';

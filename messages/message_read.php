@@ -135,7 +135,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['contenu'], $_POST['de
             <button type="submit">Répondre</button>
         </form>
 
-        <button><a href="../admin/administratif.php#messagerie">Retour à la messagerie</a></button>
+
+        <?php
+        if (!isset($_SESSION['is_logged'])) {
+            echo '<a href="./admin/inscription.php" class="button">S\'inscrire maintenant</a>';
+        } else {
+            switch ($_SESSION['role_name']) {
+                case 'admin':
+                    $redirectUrl = '../admin/administratif.php';
+                    break;
+                case 'coach':
+                    $redirectUrl = '../coach.php';
+                    break;
+                case 'utilisateur':
+                    $redirectUrl = '../user.php';
+                    break;
+                default:
+                    $redirectUrl = '../index.php';
+            }
+            echo '<a href="' . $redirectUrl . '" class="button">Retour à la messagerie</a>';
+        } ?>
+
+        <!-- <button><a href="../admin/administratif.php#messagerie">Retour à la messagerie</a></button> -->
     </section>
 
     <footer>
