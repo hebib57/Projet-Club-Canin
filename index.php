@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php session_start();
+
+
+
+?>
 
 
 <!DOCTYPE html>
@@ -56,23 +60,27 @@
     </div>
 
     <?php
-    if (!isset($_SESSION['is_logged'])) {
+    if (isset($_SESSION['is_logged']) && isset($_SESSION['role_id'])) {
 
-      switch ($_SESSION['role_name']) {
-        case 'admin':
+      switch ($_SESSION['role_id']) {
+        case '1':
           $redirectUrl = '../admin/administratif.php';
           break;
-        case 'coach':
+        case '2':
           $redirectUrl = '../coach.php';
           break;
-        case 'utilisateur':
+        case '3':
           $redirectUrl = '../user.php';
           break;
         default:
           $redirectUrl = '../index.php';
       }
       echo '<a href="' . $redirectUrl . '" class="button">Mon Compte</a>';
-    } ?>
+    } else {
+
+      echo '<a href="./admin/inscription.php" class="button">S\'inscrire maintenant</a>';
+    }
+    ?>
 
 
 
