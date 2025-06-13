@@ -18,7 +18,8 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
                 prenom_utilisateur,
                 admin_mail,
                 admin_password,
-                telephone_utilisateur
+                telephone_utilisateur,
+                id_role
                 -- nom_role,
                 -- date_inscription
             ) VALUES (
@@ -26,7 +27,8 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
                 :prenom_utilisateur,
                 :admin_mail,
                 :admin_password,
-                :telephone_utilisateur
+                :telephone_utilisateur,
+                :id_role
                 -- :nom_role,
                 -- :date_inscription
             )");
@@ -40,6 +42,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             $stmt->bindValue(":admin_mail", $_POST["admin_mail"]);
             $stmt->bindValue(":admin_password", $password_hashed);
             $stmt->bindValue(":telephone_utilisateur", $_POST["telephone_utilisateur"]);
+            $stmt->bindValue(":id_role", $_POST["id_role"]);
             // $stmt->bindValue(":nom_role", $_POST["nom_role"]);
             // $stmt->bindValue(":date_inscription", $_POST["date_inscription"]);
 
@@ -54,7 +57,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
                 admin_mail = :admin_mail,
                 admin_password = :admin_password,
                 telephone_utilisateur = :telephone_utilisateur
-                -- nom_role = :nom_role,
+                id_role = :id_role,
                 -- date_inscription = :date_inscription
                 WHERE id_utilisateur = :id_utilisateur");
 
@@ -73,7 +76,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             $stmt->bindValue(":admin_mail", $_POST["admin_mail"]);
             $stmt->bindValue(":admin_password", $password_hashed);
             $stmt->bindValue(":telephone_utilisateur", $_POST["telephone_utilisateur"]);
-            // $stmt->bindValue(":nom_role", $_POST["nom_role"]);
+            $stmt->bindValue(":id_role", $_POST["id_role"]);
             // $stmt->bindValue(":date_inscription", $_POST["date_inscription"]);
             $stmt->bindValue(":id_utilisateur", $id_utilisateur);
 
