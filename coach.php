@@ -23,7 +23,7 @@ $stmt->execute([':id_utilisateur' => $_SESSION['user_id']]);
 $recordset_messages = $stmt->fetchAll();
 
 
-$stmt = $db->prepare("SELECT * FROM cours");
+$stmt = $db->prepare("SELECT * FROM cours JOIN seance ON cours.id_cours = seance.id_cours");
 $stmt->execute();
 $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -294,7 +294,7 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= hsc($row['age_max']); ?></td>
                     <td><?= hsc($row['race_dog']); ?></td>
                     <td><?= hsc($row['sexe_dog']); ?></td>
-                    <td><?= hsc($row['place_max']); ?></td>
+                    <td><?= hsc($row['places_disponibles']); ?></td>
                     <td><?= hsc($row['date_cours']); ?></td>
                     <td>
                       <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
