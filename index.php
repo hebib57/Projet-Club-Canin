@@ -21,6 +21,28 @@
     <div class="logo">
       <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </div>
+    <?php
+    if (isset($_SESSION['is_logged']) && isset($_SESSION['role_id'])) {
+
+      switch ($_SESSION['role_id']) {
+        case '1':
+          $redirectUrl = '../admin/administratif.php';
+          break;
+        case '2':
+          $redirectUrl = '../coach.php';
+          break;
+        case '3':
+          $redirectUrl = '../user.php';
+          break;
+        default:
+          $redirectUrl = '../index.php';
+      }
+      echo '<a href="' . $redirectUrl . '" class="button">Mon Compte</a>';
+    } else {
+
+      echo '<a href="./admin/inscription.php" class="button">S\'inscrire maintenant</a>';
+    }
+    ?>
     <nav class="navbar">
       <ul class="navbar__burger-menu--closed">
         <li><a href="index.php">Accueil</a></li>
@@ -59,28 +81,7 @@
       </p>
     </div>
 
-    <?php
-    if (isset($_SESSION['is_logged']) && isset($_SESSION['role_id'])) {
 
-      switch ($_SESSION['role_id']) {
-        case '1':
-          $redirectUrl = '../admin/administratif.php';
-          break;
-        case '2':
-          $redirectUrl = '../coach.php';
-          break;
-        case '3':
-          $redirectUrl = '../user.php';
-          break;
-        default:
-          $redirectUrl = '../index.php';
-      }
-      echo '<a href="' . $redirectUrl . '" class="button">Mon Compte</a>';
-    } else {
-
-      echo '<a href="./admin/inscription.php" class="button">S\'inscrire maintenant</a>';
-    }
-    ?>
 
 
 

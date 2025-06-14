@@ -1,91 +1,139 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/function.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
+// require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
+session_start();
+//--------------------------------------------------------------------AJOUT D'UN UTILISATEUR-----------------------------------------------------------------------------//
 
-//--------------------------------------------------------------------------MODIFICATION USER-------------------------------------------------------------------//
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Sécurisation des données
+    $nom = $_POST['nom_utilisateur'] ?? '';
+    $prenom = $_POST['prenom_utilisateur'] ?? '';
+    $email = filter_var($_POST['admin_mail'] ?? '', FILTER_VALIDATE_EMAIL);
+    $password = password_hash($_POST['admin_password'] ?? '', PASSWORD_DEFAULT);
+    $phone = $_POST['telephone_utilisateur'] ?? '';
+    $id_role = $_POST['id_role'] ?? null;
 
-if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
+    try {
+        $db->beginTransaction();
 
+        $id_utilisateur = $_POST['id_utilisateur'] ?? null;
 
-    if (isset($_POST["id_utilisateur"]) && !empty($_POST["id_utilisateur"])) {
-        $id_utilisateur = $_POST["id_utilisateur"];
+        if ($id_utilisateur) {
+            // MODIFICATION
 
-        if ($id_utilisateur == "0") {
-
-            $stmt = $db->prepare("INSERT INTO utilisateur (
-                nom_utilisateur,
-                prenom_utilisateur,
-                admin_mail,
-                admin_password,
-                telephone_utilisateur,
-                id_role
-                -- nom_role,
-                -- date_inscription
-            ) VALUES (
-                :nom_utilisateur,
-                :prenom_utilisateur,
-                :admin_mail,
-                :admin_password,
-                :telephone_utilisateur,
-                :id_role
-                -- :nom_role,
-                -- :date_inscription
-            )");
-
-
-            $password_hashed = password_hash($_POST['admin_password'], PASSWORD_DEFAULT);
-
-            // Liaison des valeurs
-            $stmt->bindValue(":nom_utilisateur", $_POST["nom_utilisateur"]);
-            $stmt->bindValue(":prenom_utilisateur", $_POST["prenom_utilisateur"]);
-            $stmt->bindValue(":admin_mail", $_POST["admin_mail"]);
-            $stmt->bindValue(":admin_password", $password_hashed);
-            $stmt->bindValue(":telephone_utilisateur", $_POST["telephone_utilisateur"]);
-            $stmt->bindValue(":id_role", $_POST["id_role"]);
-            // $stmt->bindValue(":nom_role", $_POST["nom_role"]);
-            // $stmt->bindValue(":date_inscription", $_POST["date_inscription"]);
-
-            $stmt->execute();
-            $id = $db->lastInsertId();
-            echo "Utilisateur ajouté avec succès!";
-        } else {
-
-            $stmt = $db->prepare("UPDATE utilisateur SET
-                nom_utilisateur = :nom_utilisateur,
-                prenom_utilisateur = :prenom_utilisateur,
-                admin_mail = :admin_mail,
-                admin_password = :admin_password,
-                telephone_utilisateur = :telephone_utilisateur
-                id_role = :id_role,
-                -- date_inscription = :date_inscription
-                WHERE id_utilisateur = :id_utilisateur");
-
-
-            // $password_hashed = password_hash($_POST['admin_password'], PASSWORD_DEFAULT);
-            //hashage du nouveau mdp sinon on garde l'ancien
+            // Si le mot de passe est vide, pas mis à jour
             if (!empty($_POST['admin_password'])) {
-                $password_hashed = password_hash($_POST['admin_password'], PASSWORD_DEFAULT);
+                $password = password_hash($_POST['admin_password'], PASSWORD_DEFAULT);
+                $sqlUser = "UPDATE utilisateur SET 
+                        nom_utilisateur = :nom_utilisateur,
+                        prenom_utilisateur = :prenom_utilisateur,
+                        admin_mail = :admin_mail,
+                        admin_password = :admin_password,
+                        telephone_utilisateur = :telephone_utilisateur,
+                        id_role = :id_role
+                       
+                    WHERE id_utilisateur = :id_utilisateur";
+                $params = [
+                    ':nom_utilisateur' => $nom,
+                    ':prenom_utilisateur' => $prenom,
+                    ':admin_mail' => $email,
+                    ':admin_password' => $password,
+                    ':telephone_utilisateur' => $phone,
+                    ':id_role' => $id_role,
+                    ':id_utilisateur' => $id_utilisateur,
+                    // ':date_inscription' => $date_inscription
+                ];
             } else {
-                $password_hashed = $uer['admin_password'];
+                $sqlUser = "UPDATE utilisateur SET 
+                        nom_utilisateur = :nom_utilisateur,
+                        prenom_utilisateur = :prenom_utilisateur,
+                        admin_mail = :admin_mail,
+                        telephone_utilisateur = :telephone_utilisateur,
+                        id_role = :id_role
+                    WHERE id_utilisateur = :id_utilisateur";
+                $params = [
+                    ':nom_utilisateur' => $nom,
+                    ':prenom_utilisateur' => $prenom,
+                    ':admin_mail' => $email,
+                    ':telephone_utilisateur' => $phone,
+                    ':id_role' => $id_role,
+                    ':id_utilisateur' => $id_utilisateur
+                ];
             }
 
+            $stmtUser = $db->prepare($sqlUser);
+            $stmtUser->execute($params);
 
-            $stmt->bindValue(":nom_utilisateur", $_POST["nom_utilisateur"]);
-            $stmt->bindValue(":prenom_utilisateur", $_POST["prenom_utilisateur"]);
-            $stmt->bindValue(":admin_mail", $_POST["admin_mail"]);
-            $stmt->bindValue(":admin_password", $password_hashed);
-            $stmt->bindValue(":telephone_utilisateur", $_POST["telephone_utilisateur"]);
-            $stmt->bindValue(":id_role", $_POST["id_role"]);
-            // $stmt->bindValue(":date_inscription", $_POST["date_inscription"]);
-            $stmt->bindValue(":id_utilisateur", $id_utilisateur);
+            // Mise à jour de la table utilisateur_role
+            $sqlRole = "UPDATE utilisateur_role SET id_role = :id_role WHERE id_utilisateur = :id_utilisateur";
+            $stmtRole = $db->prepare($sqlRole);
+            $stmtRole->execute([
+                ':id_role' => $id_role,
+                ':id_utilisateur' => $id_utilisateur
+            ]);
 
-            if ($stmt->execute()) {
-                echo "<script>alert('" . hsc('Utilisateur modifié avec succès') . "'); window.location.href = '../admin/administratif.php';</script>";
-            } else {
-                echo "<script>alert('" . hsc('Erreur lors de la modification de l\'utilisateur') . "'); window.location.href = '../admin/administratif.php';</script>";
-            }
+            $message = "Utilisateur modifié avec succès";
+        } else {
+            // AJOUT
+
+            $sqlUser = "INSERT INTO utilisateur (
+                    nom_utilisateur, prenom_utilisateur, admin_mail, admin_password, telephone_utilisateur, id_role, date_inscription  
+                ) VALUES (
+                    :nom_utilisateur, :prenom_utilisateur, :admin_mail, :admin_password, :telephone_utilisateur, :id_role, NOW() 
+                )";
+            $stmtUser = $db->prepare($sqlUser);
+
+            $stmtUser->execute([
+                ':nom_utilisateur' => $nom,
+                ':prenom_utilisateur' => $prenom,
+                ':admin_mail' => $email,
+                ':admin_password' => $password,
+                ':telephone_utilisateur' => $phone,
+                ':id_role' => $id_role
+            ]);
+
+            $id_utilisateur = $db->lastInsertId();
+
+            $sqlRole = "INSERT INTO utilisateur_role (id_utilisateur, id_role) VALUES (:id_utilisateur, :id_role)";
+            $stmtRole = $db->prepare($sqlRole);
+            $stmtRole->execute([
+                ':id_utilisateur' => $id_utilisateur,
+                ':id_role' => $id_role
+            ]);
+
+            $message = "Utilisateur ajouté avec succès";
         }
-        exit;
+
+        $db->commit();
+    } catch (PDOException $e) {
+        // Annule la transaction en cas d'erreur
+        $db->rollBack();
+        error_log($e->getMessage());
+
+        // echo "<script>alert('Erreur : " . hsc($e->getMessage()) . "'); window.history.back();</script>";
+        $message = "Erreur lors de l'ajout de l'utilisateur";
     }
+
+    $role_name = $_SESSION['role_name'] ?? null;
+
+    switch ($role_name) {
+        case 'admin':
+            $redirectUrl = '../admin/administratif.php';
+            break;
+        case 'coach':
+            $redirectUrl = '../coach.php';
+            break;
+        case 'utilisateur':
+            $redirectUrl = '../user.php';
+            break;
+        default:
+            $redirectUrl = '../index.php';
+    }
+
+    echo "<script>alert('" . hsc($message) . "'); window.location.href = '$redirectUrl';</script>";
 }
+
+exit();
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------//

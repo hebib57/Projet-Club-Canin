@@ -34,7 +34,7 @@
 
     <section class="form-container creation">
       <h2>Créer un compte</h2>
-      <form action="../users/create.php" method="POST">
+      <form action="../users/process.php" method="POST">
         <label for="nom_utilisateur">Nom</label>
         <input type="text" id="nom_utilisateur" name="nom_utilisateur" />
         <label for="prenom_utilisateur">Prénom</label>

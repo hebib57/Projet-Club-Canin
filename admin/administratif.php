@@ -515,7 +515,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                       <td><?= hsc($row['telephone_utilisateur']); ?></td>
                       <!-- <td><?= hsc($row['nom_role']); ?></td> -->
                       <!-- <td><?= hsc($row['date_inscription']); ?></td> -->
-                      <td> <?php $date = new DateTime($row['date_inscription']);
+                      <td> <?php
                             echo hsc($date->format('d/m/Y')); ?></td>
                       <td>
                         <button class="btn"><a href="../users/form.php?id=<?= hsc($row['id_utilisateur']) ?>">Modifier</a></button>
