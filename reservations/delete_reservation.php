@@ -8,19 +8,27 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
 
 if (isset($_POST['id_reservation']) && is_numeric($_POST['id_reservation'])) {
-    $id = (int)$_POST['id_reservation']; 
+    $id = (int)$_POST['id_reservation'];
 
     try {
-       
+
+        $stmt = $db->prepare("SELECT id_seance FROM reservation WHERE id_reservation=:id_reservation");
+        $stmt->execute([":id_reservation" => $id]);
+        $id_seance = $stmt->fetchColumn();
+
         $stmt = $db->prepare("DELETE FROM reservation WHERE id_reservation=:id_reservation");
-       
         $stmt->execute([":id_reservation" => $id]);
 
-        
+
         if ($stmt->rowCount() > 0) {
+
+            $compteur = $db->prepare("UPDATE seance SET places_disponibles = places_disponibles + 1 WHERE id_seance = :id_seance");
+            $compteur->execute([":id_seance" => $id_seance]);
+
+
             $message = 'Réservation supprimée avec succès';
         } else {
-           
+
             $message = 'Aucune réservation trouvée avec cet identifiant';
         }
     } catch (PDOException $e) {
@@ -28,7 +36,7 @@ if (isset($_POST['id_reservation']) && is_numeric($_POST['id_reservation'])) {
         $message = "Erreur lors de la suppression : " . $e->getMessage();
     }
 
-    
+
     $redirectUrl = '';
     switch ($_SESSION['role_name']) {
         case 'admin':
@@ -40,12 +48,12 @@ if (isset($_POST['id_reservation']) && is_numeric($_POST['id_reservation'])) {
         case 'utilisateur':
             $redirectUrl = '../user.php#reservations';
             break;
-       
+
         default:
-            $redirectUrl = '../index.php'; 
+            $redirectUrl = '../index.php';
     }
 
-  
+
     echo "<script>alert('" . hsc($message) . "'); window.location.href = '$redirectUrl';</script>";
 }
-exit(); 
+exit();

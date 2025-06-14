@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // $age_max = $_POST['age_max'];
     $race_dog = $_POST['race_dog'];
     $sexe_dog = $_POST['sexe_dog'];
-    $place_max = $_POST['place_max'];
+    $places_disponibles = $_POST['places_disponibles'];
     $date_cours = $_POST['date_cours'];
     $categorie_acceptee = $_POST['categorie_acceptee'];
     $id_coach = $_POST['id_coach'];
@@ -25,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         if (empty($id_cours) || $id_cours == "0") {
 
-            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, race_dog, sexe_dog, place_max, date_cours, categorie_acceptee, id_coach)
-                            VALUES(:nom_cours, :type_cours, :description_cours, :race_dog, :sexe_dog, :place_max, :date_cours, :categorie_acceptee, :id_coach)";
+            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, race_dog, sexe_dog, places_disponibles, date_cours, categorie_acceptee, id_coach)
+                            VALUES(:nom_cours, :type_cours, :description_cours, :race_dog, :sexe_dog, :places_disponibles, :date_cours, :categorie_acceptee, :id_coach)";
             $stmt = $db->prepare($sql);
 
             $stmt->execute([
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // ':age_max' => $age_max,
                 ':race_dog' => $race_dog,
                 ':sexe_dog' => $sexe_dog,
-                ':place_max' => $place_max,
+                ':places_disponibles' => $places_disponibles,
                 ':date_cours' => $date_cours,
                 ':categorie_acceptee' => $categorie_acceptee,
                 ':id_coach' => $id_coach,
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt_seance->execute([
                 ':id_cours' => $id_cours,
                 ':date_seance' => $date_cours,
-                ':places_disponibles' => $place_max,
+                ':places_disponibles' => $places_disponibles,
                 ':id_utilisateur' => $id_coach
             ]);
 
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     -- age_max = :age_max,
                     race_dog = :race_dog,
                     sexe_dog = :sexe_dog,
-                    place_max = :place_max,
+                    places_disponibles = :places_disponibles,
                     date_cours = :date_cours,
                     categorie_acceptee = :categorie_acceptee,
                     id_coach = :id_coach
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // ':age_max' => $age_max,
                 ':race_dog' => $race_dog,
                 ':sexe_dog' => $sexe_dog,
-                ':place_max' => $place_max,
+                ':places_disponibles' => $places_disponibles,
                 ':date_cours' => $date_cours,
                 ':id_cours' => $id_cours,
                 ':categorie_acceptee' => $categorie_acceptee,
