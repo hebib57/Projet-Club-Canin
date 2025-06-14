@@ -16,13 +16,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Recup séance liée au cours
-    $stmt = $db->prepare("SELECT id_seance FROM seance WHERE id_cours = ? LIMIT 1");
+    $stmt = $db->prepare("SELECT id_seance, places_disponibles FROM seance WHERE id_cours = ? LIMIT 1");
     $stmt->execute([$id_cours]);
-    $id_seance = $stmt->fetchColumn();
+    $seance = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$id_seance) {
+    if (!$seance) {
         die("Séance introuvable");
     }
+
+    $id_seance = $seance['id_seance'];
+    $places_disponibles = $seance['places_disponibles'];
+
+    if ($places_disponibles <= 0) {
+        echo "<script>alert('Plus de places disponibles pour ce cours'); window.location.href = '../user.php';</script>";
+        exit;
+    }
+
+
 
     // Vérifier si la réservation existe déjà
     $check = $db->prepare("
@@ -44,6 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $success = $stmt->execute([$id_utilisateur, $id_seance, $id_dog]);
 
     if ($success) {
+        $compteur = $db->prepare("UPDATE seance SET places_disponibles = places_disponibles - 1 WHERE id_seance = ?");
+        $compteur->execute([$id_seance]);
+
         echo "<script>alert('Cours réservé avec succès'); window.location.href = '../user.php';</script>";
     } else {
         echo "<script>alert('Erreur lors de la réservation du cours'); window.location.href = '../user.php';</script>";
