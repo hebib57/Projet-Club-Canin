@@ -85,12 +85,14 @@ SELECT
         JOIN cours co ON s.id_cours = co.id_cours
         JOIN utilisateur u ON r.id_utilisateur = u.id_utilisateur
         JOIN chien d ON r.id_dog = d.id_dog
+    WHERE r.id_utilisateur = ?
     ORDER BY r.date_reservation DESC
     
     ";
 
 // Exécution de la requête
-$stmt = $db->query($query);
+$stmt = $db->prepare($query);
+$stmt->execute([$id_utilisateur]);
 $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // recup tous les évènements

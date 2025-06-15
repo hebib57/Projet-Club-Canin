@@ -274,8 +274,8 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <!-- <th>Nom du Cours</th> -->
                   <th>Type de cours</th>
                   <th>Description du cours</th>
-                  <th>Âge mini</th>
-                  <th>Âge maxi</th>
+                  <!-- <th>Âge mini</th>
+                  <th>Âge maxi</th> -->
                   <th>Race</th>
                   <th>Sexe</th>
                   <th>Places disponibles</th>
@@ -290,8 +290,8 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
                     <td><?= hsc($row['type_cours']); ?></td>
                     <td><?= hsc($row['description_cours']); ?></td>
-                    <td><?= hsc($row['age_min']); ?></td>
-                    <td><?= hsc($row['age_max']); ?></td>
+                    <!-- <td><?= hsc($row['age_min']); ?></td>
+                    <td><?= hsc($row['age_max']); ?></td> -->
                     <td><?= hsc($row['race_dog']); ?></td>
                     <td><?= hsc($row['sexe_dog']); ?></td>
                     <td><?= hsc($row['places_disponibles']); ?></td>
@@ -305,7 +305,7 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
               </tbody>
             </table>
             <button class="btn">
-              <a href="../ajouter_cours.php">Ajouter un Cours</a></button>
+              <a href="../cours/form.php">Ajouter un Cours</a></button>
           </section>
 
 

@@ -88,6 +88,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':id_coach' => $id_coach,
             ]);
 
+            //Met à jours les places dans la séance qui est lié
+            $sql_seance_update = "UPDATE seance SET places_disponibles = :places_disponibles WHERE id_cours = :id_cours";
+            $stmt_seance_update = $db->prepare($sql_seance_update);
+            $stmt_seance_update->execute([
+                ':places_disponibles' => $places_disponibles,
+                ':id_cours' => $id_cours,
+            ]);
+
             $message = "Cours modifié avec succès";
         }
     } catch (PDOException $e) {
