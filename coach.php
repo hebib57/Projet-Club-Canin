@@ -74,7 +74,10 @@ $stmt->execute();
 $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // recup les inscriptions aux evenements
-$stmt = $db->prepare("SELECT * FROM inscription_evenement");
+$stmt = $db->prepare("SELECT ie.*, e.nom_event, c.nom_dog   
+                      FROM inscription_evenement ie
+                      JOIN evenement e ON ie.id_event = e.id_event
+                      JOIN chien c ON ie.id_dog = c.id_dog");
 $stmt->execute();
 $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -330,8 +333,8 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <tr>
                       <td><?= hsc($inscription['id_inscription']); ?></td>
                       <td><?= hsc($inscription['id_utilisateur']); ?></td>
-                      <td><?= hsc($inscription['id_dog']); ?></td>
-                      <td><?= hsc($inscription['id_event']); ?></td>
+                      <td><?= hsc($inscription['nom_dog']); ?></td>
+                      <td><?= hsc($inscription['nom_event']); ?></td>
 
                       <td><?= hsc($inscription['date_inscription']); ?></td>
                       <td>
@@ -368,7 +371,7 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= hsc($row['nom_event']); ?></td>
                     <td><?= hsc($row['date_event']); ?></td>
                     <td><?= hsc($row['heure_event']); ?></td>
-                    <td><?= hsc($row['place_max']); ?></td>
+                    <td><?= hsc($row['places_disponibles']); ?></td>
 
                     <td>
                       <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>

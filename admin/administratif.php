@@ -318,7 +318,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody><?php var_dump($recordset_event) ?>
+            <tbody>
               <?php foreach ($recordset_event as $row) { ?>
                 <tr>
                   <td><?= hsc($row['id_event']); ?></td>
