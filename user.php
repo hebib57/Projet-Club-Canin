@@ -117,7 +117,7 @@ SELECT
     e.nom_event, 
     e.date_event, 
     e.heure_event, 
-    e.place_max,
+    e.places_disponibles,
     c.nom_dog,
     c.id_dog
 FROM 
@@ -412,7 +412,7 @@ if ($id_utilisateur) {
                 <td><?= hsc($row['nom_event']); ?></td>
                 <td><?= hsc($row['date_event']); ?></td>
                 <td><?= hsc($row['heure_event']); ?></td>
-                <td><?= hsc($row['place_max']); ?></td>
+                <td><?= hsc($row['places_disponibles']); ?></td>
                 <td>
                   <form method="post" action="./inscription_event/process_inscription_event.php" style="display:inline;">
                     <input type="hidden" name="id_event" value="<?= hsc($row['id_event']); ?>">
@@ -453,7 +453,7 @@ if ($id_utilisateur) {
                 <td><?= hsc($row['nom_event']); ?></td>
                 <td><?= hsc($row['date_event']); ?></td>
                 <td><?= hsc($row['heure_event']); ?></td>
-                <td><?= hsc($row['place_max']); ?></td>
+                <td><?= hsc($row['places_disponibles']); ?></td>
                 <td><?= hsc($row['nom_dog']); ?></td>
                 <td>
                   <form method="post" action="./inscription_event/process_inscription_event.php" onsubmit="return confirmDesinscriptionEvent();" style="display:inline;">

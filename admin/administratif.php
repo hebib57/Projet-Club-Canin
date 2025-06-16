@@ -318,14 +318,14 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody><?php var_dump($recordset_event) ?>
               <?php foreach ($recordset_event as $row) { ?>
                 <tr>
                   <td><?= hsc($row['id_event']); ?></td>
                   <td><?= hsc($row['nom_event']); ?></td>
                   <td><?= hsc($row['date_event']); ?></td>
                   <td><?= hsc($row['heure_event']); ?></td>
-                  <td><?= hsc($row['place_max']); ?></td>
+                  <td><?= hsc($row['places_disponibles']); ?></td>
 
                   <td>
                     <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
@@ -410,7 +410,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody><?php var_dump($recordset_cours); ?>
+              <tbody>
                 <?php foreach ($recordset_cours as $row) { ?>
                   <tr>
                     <td><?= hsc($row['id_cours']); ?></td>

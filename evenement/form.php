@@ -8,7 +8,7 @@ $id_event = "";
 $nom_event = "";
 $date_event = "";
 $heure_event = "";
-$place_max = "";
+$places_disponibles = "";
 
 
 
@@ -22,7 +22,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
         $nom_event = $row['nom_event'];
         $date_event = $row['date_event'];
         $heure_event = $row['heure_event'];
-        $place_max = $row['place_max'];
+        $places_disponibles = $row['places_disponibles'];
     };
 };
 
@@ -77,8 +77,8 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="date" name="date_event" id="date_event" value="<?= hsc($date_event) ?>">
                 <label for="heure_event">Heure de l'évènement</label>
                 <input type="time" name="heure_event" id="heure_event" value="<?= hsc($heure_event) ?>">
-                <label for="place_max">Places disponibles</label>
-                <input type="number" name="place_max" id="place_max" value="<?= hsc($place_max) ?>">
+                <label for="places_disponibles">Places disponibles</label>
+                <input type="number" name="places_disponibles" id="places_disponibles" value="<?= hsc($places_disponibles) ?>">
                 <input type="hidden" name="id_event" id="id_event" value="<?= hsc($id_event) ?>">
                 <input type="hidden" name="formCU" value="ok">
                 <input class="btn__modif" type="submit" value="Enregistrer">

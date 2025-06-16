@@ -10,7 +10,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_event = isset($_POST['id_event']) ? $_POST['id_event'] : 0;
     $nom_event = $_POST['nom_event'];
-    $place_max = $_POST['place_max'];
+    $places_disponibles = $_POST['places_disponibles'];
     $date_event = $_POST['date_event'];
     $heure_event = $_POST['heure_event'];
 
@@ -18,13 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         if (empty($id_event) || $id_event == "0") {
 
-            $sql = "INSERT INTO evenement (nom_event, place_max, date_event, heure_event)
-                            VALUES(:nom_event, :place_max, :date_event, :heure_event)";
+            $sql = "INSERT INTO evenement (nom_event, places_disponibles, date_event, heure_event)
+                            VALUES(:nom_event, :places_disponibles, :date_event, :heure_event)";
             $stmt = $db->prepare($sql);
 
             $stmt->execute([
                 ':nom_event' => $nom_event,
-                ':place_max' => $place_max,
+                ':places_disponibles' => $places_disponibles,
                 ':date_event' => $date_event,
                 ':heure_event' => $heure_event,
             ]);
@@ -38,14 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // modifie un évènement 
             $sql = "UPDATE evenement SET 
                     nom_event = :nom_event,
-                    place_max = :place_max,
+                    places_disponibles = :places_disponibles,
                     date_event = :date_event,
                     heure_event = :heure_event
                     WHERE id_event = :id_event";
             $stmt = $db->prepare($sql);
             $stmt->execute([
                 ':nom_event' => $nom_event,
-                ':place_max' => $place_max,
+                ':places_disponibles' => $places_disponibles,
                 ':date_event' => $date_event,
                 ':heure_event' => $heure_event,
                 ':id_event' => $id_event

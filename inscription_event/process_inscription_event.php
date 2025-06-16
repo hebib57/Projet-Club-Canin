@@ -24,11 +24,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($action === 'inscrire') {
         // verifie si l'évènement existe
-        $stmt = $db->prepare("SELECT COUNT(*) FROM evenement WHERE id_event = ?");
+        $stmt = $db->prepare("SELECT places_disponibles FROM evenement WHERE id_event = ?");
         $stmt->execute([$id_event]);
+        $places = $stmt->fetchColumn();
 
-        if (!$stmt->fetchColumn()) {
+        if ($places === false) {
             die("Évènement introuvable");
+        }
+
+        if ($places <= 0) {
+            echo "<script>alert('Aucune place disponible pour cet évènement'); window.location.href = '../user.php';</script>";
+            exit;
         }
 
         // Vérifie si l'inscription existe déjà
@@ -51,6 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $success = $stmt->execute([$id_utilisateur, $id_event, $id_dog]);
 
         if ($success) {
+
+            $stmt = $db->prepare("UPDATE evenement SET places_disponibles = places_disponibles - 1 WHERE id_event = ?");
+            $stmt->execute([$id_event]);
             echo "<script>alert('Évènement réservé avec succès'); window.location.href = '../user.php';</script>";
         } else {
             echo "<script>alert('Erreur lors de l\'inscription à l\'évènement'); window.location.href = '../user.php';</script>";
@@ -62,6 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //désinscription 
         $stmt = $db->prepare("DELETE FROM inscription_evenement WHERE id_utilisateur = ? AND id_event = ? AND id_dog = ?");
         if ($stmt->execute([$id_utilisateur, $id_event, $id_dog])) {
+
+            $stmt = $db->prepare("UPDATE evenement SET places_disponibles = places_disponibles + 1 WHERE id_event = ?");
+            $stmt->execute([$id_event]);
+            
             echo "<script>alert('Désinscription réussie'); window.location.href = '../user.php';</script>";
         } else {
             echo "<script>alert('Erreur lors de la désinscription'); window.location.href = '../user.php';</script>";
