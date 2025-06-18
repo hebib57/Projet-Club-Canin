@@ -1,37 +1,37 @@
-<?php
-require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/function.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
+<!-- <?php
+        require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/function.php";
+        require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/protect.php";
+        require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/include/connect.php";
 
 
-$dog = "";
-$nom_dog = "";
-$age_dog = "";
-$race_dog = "";
-$sexe_dog = "";
-$proprietaire_dog = "";
-$date = date("Y-m-d");
+        $dog = "";
+        $nom_dog = "";
+        $age_dog = "";
+        $race_dog = "";
+        $sexe_dog = "";
+        $proprietaire_dog = "";
+        $date = date("Y-m-d");
 
 
-if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
-    $stmt = $db->prepare("SELECT * FROM chien WHERE id_dog = :id_dog");
-    $stmt->bindValue(":id_dog", $_GET["id"]);
-    $stmt->execute();
+        if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
+            $stmt = $db->prepare("SELECT * FROM chien WHERE id_dog = :id_dog");
+            $stmt->bindValue(":id_dog", $_GET["id"]);
+            $stmt->execute();
 
-    if ($row = $stmt->fetch()) {
-        $dog = $row['id_dog'];
-        $nom_dog = $row['nom_dog'];
-        $age_dog = $row['age_dog'];
-        $race_dog = $row['race_dog'];
-        $sexe_dog = $row['sexe_dog'];
-        $proprietaire_dog = $row['proprietaire_dog'];
-        $date = $row['date_inscription'];
-    };
-};
+            if ($row = $stmt->fetch()) {
+                $dog = $row['id_dog'];
+                $nom_dog = $row['nom_dog'];
+                $age_dog = $row['age_dog'];
+                $race_dog = $row['race_dog'];
+                $sexe_dog = $row['sexe_dog'];
+                $proprietaire_dog = $row['proprietaire_dog'];
+                $date = $row['date_inscription'];
+            };
+        };
 
-?>
+        ?> -->
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -67,25 +67,41 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
         <div class="modification">
             <h2>S'inscrire à ce cours</h2>
             <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
-                <label for="nom_dog">Nom</label>
-                <input type="text" name="nom_dog" id="nom_dog" value="<?= hsc($nom_dog) ?>">
-                <label for="age_dog">Age</label>
-                <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
-                <label for="race_dog">Râce</label>
-                <input type="text" name="race_dog" id="race_dog" value="<?= hsc($race_dog) ?>">
-                <label for="sexe_dog">Sexe</label>
-                <input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
-                <label for="proprietaire_dog">Propriétaire</label>
-                <input type="text" name="proprietaire_dog" id="proprietaire_dog" value="<?= hsc($proprietaire_dog) ?>">
-                <label for="date_inscription">Date d'inscription</label>
-                <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
-                <input type="hidden" name="id_dog" value="<?= hsc($dog) ?>">
-                <input type="hidden" name="formCU" value="ok">
-                <input class="btn__modif" type="submit" value="Enregistrer">
-
-
-            </form>
-            <button class="btn2__modif"><a href="../admin/administratif.php">Retour</a></button>
+<label for="nom_dog">Nom</label>
+<input type="text" name="nom_dog" id="nom_dog" value="<?= hsc($nom_dog) ?>">
+<label for="age_dog">Age</label>
+<input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
+<label for="race_dog">Râce</label>
+<input type="text" name="race_dog" id="race_dog" value="<?= hsc($race_dog) ?>">
+<label for="sexe_dog">Sexe</label>
+<input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
+<label for="proprietaire_dog">Propriétaire</label>
+<input type="text" name="proprietaire_dog" id="proprietaire_dog" value="<?= hsc($proprietaire_dog) ?>">
+<label for="date_inscription">Date d'inscription</label>
+<input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
+<input type="hidden" name="id_dog" value="<?= hsc($dog) ?>">
+<input type="hidden" name="formCU" value="ok">
+<input class="btn__modif" type="submit" value="Enregistrer">
+</form> -->
+<!-- <?php
+        switch ($_SESSION['role_name']) {
+            case 'admin':
+                $redirectUrl = '../admin/administratif.php#cours_programmé';
+                break;
+            case 'coach':
+                $redirectUrl = '../coach.php#cours_programmé';
+                break;
+            case 'utilisateur':
+                $redirectUrl = '../user.php#cours_programmé';
+                break;
+            default:
+                $redirectUrl = '../index.php';
+        }
+        ?>
+            <button class="btn2__modif">
+                <a href="<?= $redirectUrl ?>">Retour</a>
+            </button>
+          
         </div>
     </section>
 
@@ -145,4 +161,4 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
     <script src="../index.js"></script>
 </body>
 
-</html>
+</html> -->

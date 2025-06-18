@@ -173,7 +173,25 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <input class="btn__modif" type="submit" value="Enregistrer">
 
             </form>
-            <button class="btn2__modif"><a href="../admin/administratif.php#dogs">Retour</a></button>
+            <?php
+            switch ($_SESSION['role_name']) {
+                case 'admin':
+                    $redirectUrl = '../admin/administratif.php#dogs';
+                    break;
+                case 'coach':
+                    $redirectUrl = '../coach.php#dogs';
+                    break;
+                case 'utilisateur':
+                    $redirectUrl = '../user.php#dogs';
+                    break;
+                default:
+                    $redirectUrl = '../index.php';
+            }
+            ?>
+            <button class="btn2__modif">
+                <a href="<?= $redirectUrl ?>">Retour</a>
+            </button>
+            <!-- <button class="btn2__modif"><a href="../admin/administratif.php#dogs">Retour</a></button> -->
         </div>
     </section>
 

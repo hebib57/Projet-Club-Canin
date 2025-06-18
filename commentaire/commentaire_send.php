@@ -1,61 +1,59 @@
 <?php
+// require_once "../admin/include/connect.php";
+// session_start();
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 
-
 $id_utilisateur = $_SESSION['user_id'] ?? null;
-$nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
-$prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur';
-
-
-$replyToId = $_POST['reply_to'] ?? $_GET['reply_to'] ?? null;
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $expediteur = $_SESSION['user_id'];
-    $sujet_message = $_POST['sujet_message'];
 
-    $destinataires = $_POST['destinataires'] ?? [];
-    $contenu = trim($_POST['contenu']);
+    $id_dog = $_POST['id_dog'];
+    $id_reservation = $_POST['id_reservation'];
+    $commentaire = $_POST['commentaire'];
+    $note = $_POST['note'];
+    $nom_cours = $_POST['nom_cours'];
+    $progres = $_POST['progres'];
+    $type_cours = $_POST['type_cours'];
+    $date_cours = $_POST['date_cours'];
 
-    if (!empty($contenu) && !empty($destinataires)) {
-        $stmt = $db->prepare("INSERT INTO message (contenu, sujet_message, date_envoi, lu, id_expediteur, id_destinataire) VALUES (?, ?, NOW(), 0, ?, ?)");
+    if (!empty($commentaire) && !empty($id_dog)) {
+        try {
+            $stmt = $db->prepare("INSERT INTO commentaire (commentaire, date_commentaire, note, nom_cours, type_cours, date_cours, progres, id_dog, id_utilisateur, id_reservation) ) 
+                        VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?)");
 
-        foreach ($destinataires as $dest) {
-            $stmt->execute([$contenu, $sujet_message, $expediteur, $dest]);
+            $stmt->execute([
+                $commentaire,
+                $note,
+                $nom_cours,
+                $type_cours,
+                $date_cours,
+                $progres,
+                $id_dog,
+                $id_utilisateur,
+                $id_reservation
+            ]);
+
+            $success = "Commentaire ajouté avec succès.";
+        } catch (PDOException $e) {
+            $error = "Erreur lors de l'ajout : " . $e->getMessage();
         }
-
-        $success = "Message envoyé avec succès.";
-
-        switch ($_SESSION['role_name']) {
-            case 'admin':
-                $redirectUrl = '../admin/administratif.php#messagerie';
-                break;
-            case 'coach':
-                $redirectUrl = '../coach.php#messagerie';
-                break;
-            case 'utilisateur':
-                $redirectUrl = '../user.php#messagerie';
-                break;
-            default:
-                $redirectUrl = '../index.php';
-        }
-
-        echo "<script>alert('" . hsc($success) . "'); window.location.href = '$redirectUrl';</script>";
     } else {
-        $error = "Veuillez remplir tous les champs.";
+        $error = "Veuillez remplir les champs.";
     }
 }
 
-// Recup la liste des utilisateurs 
-$stmt = $db->prepare("SELECT id_utilisateur, prenom_utilisateur, nom_utilisateur FROM utilisateur WHERE id_utilisateur != ?");
-$stmt->execute([$_SESSION['user_id']]);
-$utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $db->prepare("SELECT * FROM chien");
+$stmt->execute();
+$dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $db->prepare("SELECT id_reservation, date_reservation FROM reservation");
+$stmt->execute();
+$reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -63,7 +61,7 @@ $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Club CANIN - Accueil</title>
+    <title>Club CANIN - Commentaires</title>
     <link rel="stylesheet" href="../custom.css" />
 
 </head>
@@ -91,39 +89,70 @@ $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
     <section class="modification">
-        <h2>Envoyer un nouveau message</h2>
+        <h2>Envoyer un nouveau commentaire</h2>
 
         <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
         <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
         <div class="contact-form">
-            <form method="POST">
-                <label for="destinataires">Destinataire(s) :</label><br>
-                <select name="destinataires[]" id="destinataires" multiple required style="width: 100%;">
 
-                    <?php foreach ($utilisateurs as $user): ?>
-                        <option value="<?= $user['id_utilisateur'] ?>" <?= ($replyToId == $user['id_utilisateur']) ? 'selected' : '' ?>>
-                            <?= hsc($user['prenom_utilisateur']) . ' ' . hsc($user['nom_utilisateur']) ?>
+            <form method="POST">
+                <label for="id_dog">Chien :</label><br>
+                <select name="id_dog" required>
+
+                    <?php foreach ($dogs as $dog): ?>
+                        <option value="<?= hsc($dog['id_dog']) ?>">
+                            <?= hsc($dog['nom_dog']) ?>
+
                         </option>
                     <?php endforeach; ?>
                 </select>
 
-                <label for="">Sujet</label>
-                <input type="text" name="sujet_message" id="sujet_message">
-                <label>Message :</label><br>
-                <textarea name="contenu" rows="5" cols="50" required></textarea><br><br>
+                <label for="id_reservation">Réservation :</label><br>
+                <select name="id_reservation" required>
 
-                <button type="submit">Envoyer</button>
+                    <?php foreach ($reservations as $reservation): ?>
+                        <option value="<?= hsc($reservation['id_reservation']) ?>">
+                            <?= hsc($reservation['date_reservation']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+
+                <label>Nom du cours :</label>
+                <input type="text" name="nom_cours">
+
+                <label>Type de cours :</label>
+                <input type="text" name="type_cours">
+
+                <label>Date du cours :</label>
+                <input type="date" name="date_cours">
+
+                <label>Note (0-10) :</label>
+                <input type="number" name="note" min="0" max="10">
+
+                <label>Commentaire :</label>
+                <textarea name="commentaire" rows="4" required></textarea>
+
+                <label>Progrès constatés :</label>
+                <textarea name="progres" rows="3"></textarea>
+
+                <br><br>
+                <button type="submit">Ajouter le commentaire</button>
             </form>
+
+            <br>
+            <a href="../coach.php#eval" class="btn2__modif">Retour</a>
+
+
             <?php
             switch ($_SESSION['role_name']) {
                 case 'admin':
-                    $redirectUrl = '../admin/administratif.php#messagerie';
+                    $redirectUrl = '../admin/administratif.php#eval';
                     break;
                 case 'coach':
-                    $redirectUrl = '../coach.php#messagerie';
+                    $redirectUrl = '../coach.php#eval';
                     break;
                 case 'utilisateur':
-                    $redirectUrl = '../user.php#messagerie';
+                    $redirectUrl = '../user.php#eval';
                     break;
                 default:
                     $redirectUrl = '../index.php';
@@ -194,16 +223,7 @@ $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </section>
     </footer>
     <script src="../index.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
-    <script>
-        new TomSelect('#destinataires', {
-            plugins: ['remove_button'],
-            placeholder: "Rechercher un ou plusieurs destinataires...",
-            maxOptions: 1000,
-            searchField: ['text'] // pour recherche par noms
-        });
-    </script>
+
 
 </body>
 

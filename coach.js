@@ -31,6 +31,11 @@ function confirmationDeleteMessage() {
   return confirm("Êtes-vous sûr de vouloir supprimer ce Message ?");
 }
 
+/* CONFIRMATION DE SUPPRESSION COMMENTAIRE---------------------------*/
+function confirmationDeleteCommentaire() {
+  return confirm("Êtes-vous sûr de vouloir supprimer ce Commentaire ?");
+}
+
 /*AFFICHAGE DATE-HEURE-----------------------------------------------*/
 
 function afficherHeure() {

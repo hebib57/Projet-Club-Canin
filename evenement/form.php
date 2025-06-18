@@ -83,7 +83,29 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="hidden" name="formCU" value="ok">
                 <input class="btn__modif" type="submit" value="Enregistrer">
             </form>
-            <button class="btn2__modif"><a href="../admin/administratif.php#cours">Retour</a></button>
+            <?php
+            switch ($_SESSION['role_name']) {
+                case 'admin':
+                    $redirectUrl = '../admin/administratif.php#events';
+                    break;
+                case 'coach':
+                    $redirectUrl = '../coach.php#events';
+                    break;
+                // case 'utilisateur':
+                //     $redirectUrl = '../user.php#cours_programmé';
+                //     break;
+                default:
+                    $redirectUrl = '../index.php';
+            }
+            ?>
+            <button class="btn2__modif">
+                <a href="<?= $redirectUrl ?>">Retour</a>
+            </button>
+
+
+
+
+            <!-- <button class="btn2__modif"><a href="../admin/administratif.php#cours">Retour</a></button> -->
         </div>
     </section>
 

@@ -56,6 +56,24 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
       </select>
       <button type="submit">Ajouter ce compte utilisateur</button>
     </form>
+    <?php
+    switch ($_SESSION['role_name']) {
+      case 'admin':
+        $redirectUrl = '../admin/administratif.php#users';
+        break;
+      case 'coach':
+        $redirectUrl = '../coach.php#users';
+        break;
+      case 'utilisateur':
+        $redirectUrl = '../user.php#cusers';
+        break;
+      default:
+        $redirectUrl = '../index.php';
+    }
+    ?>
+    <button class="btn2__modif">
+      <a href="<?= $redirectUrl ?>">Retour</a>
+    </button>
   </section>
 
   <footer>

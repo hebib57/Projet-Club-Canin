@@ -142,13 +142,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['contenu'], $_POST['de
         } else {
             switch ($_SESSION['role_name']) {
                 case 'admin':
-                    $redirectUrl = '../admin/administratif.php';
+                    $redirectUrl = '../admin/administratif.php#messagerie';
                     break;
                 case 'coach':
-                    $redirectUrl = '../coach.php';
+                    $redirectUrl = '../coach.php#messagerie';
                     break;
                 case 'utilisateur':
-                    $redirectUrl = '../user.php';
+                    $redirectUrl = '../user.php#messagerie';
                     break;
                 default:
                     $redirectUrl = '../index.php';

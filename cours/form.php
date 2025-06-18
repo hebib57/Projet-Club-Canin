@@ -141,8 +141,6 @@ $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <option value="male">Mâle</option>
                     <option value="femelle">Femelle</option>
                 </select>
-
-
                 <label for="description_cours">Description du cours</label>
                 <input type="text" name="description_cours" id="description_cours" value="<?= hsc($description_cours) ?>">
                 <label for="date_cours">Date du cours</label>
@@ -152,12 +150,29 @@ $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="hidden" name="id_cours" value="<?= hsc($cours) ?>">
                 <input type="hidden" name="formCU" value="ok">
                 <input class="btn__modif" type="submit" value="Enregistrer">
-
-
-
-
             </form>
-            <button class="btn2__modif"><a href="../admin/administratif.php#cours">Retour</a></button>
+            <?php
+            switch ($_SESSION['role_name']) {
+                case 'admin':
+                    $redirectUrl = '../admin/administratif.php#cours_programmé';
+                    break;
+                case 'coach':
+                    $redirectUrl = '../coach.php#cours_programmé';
+                    break;
+                // case 'utilisateur':
+                //     $redirectUrl = '../user.php#cours_programmé';
+                //     break;
+                default:
+                    $redirectUrl = '../index.php';
+            }
+            ?>
+            <button class="btn2__modif">
+                <a href="<?= $redirectUrl ?>">Retour</a>
+            </button>
+
+
+
+            <!-- <button class="btn2__modif"><a href="../admin/administratif.php#cours">Retour</a></button> -->
         </div>
     </section>
 

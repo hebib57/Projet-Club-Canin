@@ -81,6 +81,16 @@ $stmt = $db->prepare("SELECT ie.*, e.nom_event, c.nom_dog
 $stmt->execute();
 $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$stmt = $db->prepare("
+        SELECT c.*, u.prenom_utilisateur, u.nom_utilisateur, d.nom_dog 
+        FROM commentaire c
+        JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
+        JOIN chien d ON c.id_dog = d.id_dog
+        ORDER BY c.date_commentaire DESC
+      ");
+$stmt->execute();
+$commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 
@@ -224,7 +234,7 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </section>
 
           <section class="reservations" id="reservations">
-            <h2>Suivi des Réservations</h2>
+            <h2> Cours Réservés</h2>
             <div class="table-container">
               <table>
                 <thead>
@@ -386,11 +396,47 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </section>
 
 
+          <section id="commentaires" class="commentaires">
+            <h2>Commentaires de progression</h2>
+            <table>
+              <button class="btn"><a href="../commentaire/commentaire_send.php">Nouvelle évaluation</a></button>
+              <thead>
+                <tr>
+                  <th>Chien</th>
+                  <th>Utilisateur</th>
+                  <th>Cours</th>
+                  <th>Note</th>
+                  <th>Date</th>
+                  <th>Commentaire</th>
+                  <th>Progrès</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                foreach ($commentaires as $commentaire) { ?>
+                  <tr>
+                    <td><?= hsc($commentaire['nom_dog']); ?></td>
+                    <td><?= hsc($commentaire['prenom_utilisateur']); ?></td>
+                    <td><?= hsc($commentaire['nom_cours']); ?></td>
+                    <td><?= hsc($commentaire['note']); ?></td>
+                    <td><?= hsc(date('d/m/Y', strtotime($commentaire['date_cours']))); ?></td>
+                    <td><?= hsc($commentaire['commentaire']); ?></td>
+                    <td><?= hsc($commentaire['progres']); ?></td>
+
+                    <td>
+                      <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
+                      <button class="btn"><a href="../commentaire/commentaire_delete.php?id=<?= hsc($commentaire['id_commentaire']) ?>" onclick="return confirmationDeleteCommentaire();">Supprimer</a></button>
+                    </td>
+                  </tr>
+                <?php }; ?>
+              </tbody>
+            </table>
+          </section>
 
           <section class="card-coach2" id="eval">
             <div>
               <h2>Évaluations en attente</h2>
-              <button class="btn">Nouvelle évaluation</button>
+              <button class="btn"><a href="../commentaire/commentaire_send.php">Nouvelle évaluation</a></button>
             </div>
 
             <table>
