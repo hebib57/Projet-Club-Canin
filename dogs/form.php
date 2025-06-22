@@ -127,8 +127,8 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <label for="age_dog">Age</label>
                 <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
 
-                <label for="categorie">Catégorie</label>
-                <input type="text" name="categorie" id="categorie" value="<?= hsc($nom_categorie) ?>" readonly>
+                <!-- <label for="categorie">Catégorie</label> -->
+                <input type="hidden" name="categorie" id="categorie" value="<?= hsc($nom_categorie) ?>" readonly>
 
                 <label for="id_race">Râce</label>
                 <select name="id_race" id="id_race" required>

@@ -86,6 +86,7 @@ $stmt = $db->prepare("
         FROM commentaire c
         JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
         JOIN chien d ON c.id_dog = d.id_dog
+      
         ORDER BY c.date_commentaire DESC
       ");
 $stmt->execute();
@@ -419,7 +420,7 @@ $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= hsc($commentaire['prenom_utilisateur']); ?></td>
                     <td><?= hsc($commentaire['nom_cours']); ?></td>
                     <td><?= hsc($commentaire['note']); ?></td>
-                    <td><?= hsc(date('d/m/Y', strtotime($commentaire['date_cours']))); ?></td>
+                    <td><?= hsc(date('d/m/Y', strtotime($commentaire['date_commentaire']))); ?></td>
                     <td><?= hsc($commentaire['commentaire']); ?></td>
                     <td><?= hsc($commentaire['progres']); ?></td>
 

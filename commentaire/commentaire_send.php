@@ -11,24 +11,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $id_dog = $_POST['id_dog'];
     $id_reservation = $_POST['id_reservation'];
-    $commentaire = $_POST['commentaire'];
-    $note = $_POST['note'];
     $nom_cours = $_POST['nom_cours'];
-    $progres = $_POST['progres'];
     $type_cours = $_POST['type_cours'];
-    $date_cours = $_POST['date_cours'];
+    $note = $_POST['note'];
+    $commentaire = $_POST['commentaire'];
+    $progres = $_POST['progres'];
+    // $date_commentaire = $_POST['date_commentaire'];
 
     if (!empty($commentaire) && !empty($id_dog)) {
         try {
-            $stmt = $db->prepare("INSERT INTO commentaire (commentaire, date_commentaire, note, nom_cours, type_cours, date_cours, progres, id_dog, id_utilisateur, id_reservation) ) 
-                        VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $db->prepare("INSERT INTO commentaire (commentaire, note, nom_cours, type_cours, progres, id_dog, id_utilisateur, id_reservation) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
             $stmt->execute([
                 $commentaire,
+                // $date_commentaire,
                 $note,
                 $nom_cours,
                 $type_cours,
-                $date_cours,
                 $progres,
                 $id_dog,
                 $id_utilisateur,
@@ -49,7 +49,7 @@ $stmt = $db->prepare("SELECT * FROM chien");
 $stmt->execute();
 $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $db->prepare("SELECT id_reservation, date_reservation FROM reservation");
+$stmt = $db->prepare("SELECT id_reservation, date_reservation FROM reservation ");
 $stmt->execute();
 $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -123,14 +123,14 @@ $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <label>Type de cours :</label>
                 <input type="text" name="type_cours">
 
-                <label>Date du cours :</label>
-                <input type="date" name="date_cours">
+                <!-- <label>Date du cours :</label>
+                <input type="date" name="date_cours"> -->
 
                 <label>Note (0-10) :</label>
                 <input type="number" name="note" min="0" max="10">
 
                 <label>Commentaire :</label>
-                <textarea name="commentaire" rows="4" required></textarea>
+                <textarea name="commentaire" rows="4"></textarea>
 
                 <label>Progrès constatés :</label>
                 <textarea name="progres" rows="3"></textarea>
@@ -140,27 +140,8 @@ $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </form>
 
             <br>
-            <a href="../coach.php#eval" class="btn2__modif">Retour</a>
+            <a href="../coach.php#commentaires" class="btn2__modif">Retour</a>
 
-
-            <?php
-            switch ($_SESSION['role_name']) {
-                case 'admin':
-                    $redirectUrl = '../admin/administratif.php#eval';
-                    break;
-                case 'coach':
-                    $redirectUrl = '../coach.php#eval';
-                    break;
-                case 'utilisateur':
-                    $redirectUrl = '../user.php#eval';
-                    break;
-                default:
-                    $redirectUrl = '../index.php';
-            }
-            ?>
-            <button class="btn2__modif">
-                <a href="<?= $redirectUrl ?>">Retour</a>
-            </button>
         </div>
     </section>
 

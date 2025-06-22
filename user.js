@@ -119,6 +119,11 @@ const raceSpan = document.getElementById("info-race");
 const ageSpan = document.getElementById("info-age");
 const dateSpan = document.getElementById("info-date");
 const categorieSpan = document.getElementById("info-categorie");
+const commentaireTableBody = document.querySelector(".progress-table tbody");
+
+/*--Masque les comment. chien et vide la table au chargement----------*/
+dogInfoDiv.style.display = "none";
+commentaireTableBody.innerHTML = "";
 
 selectDog.addEventListener("change", function () {
   const selectedOption = this.options[this.selectedIndex];
@@ -131,7 +136,30 @@ selectDog.addEventListener("change", function () {
     categorieSpan.textContent = selectedOption.dataset.categorie;
 
     dogInfoDiv.style.display = "block";
+
+    const commentaires = commentaireDog[selectedOption.value] || [];
+
+    commentaireTableBody.innerHTML = "";
+
+    if (commentaires.length === 0) {
+      commentaireTableBody.innerHTML =
+        "<tr><td colspan='6'>Aucun commentaire trouvé pour ce chien.</td></tr>";
+    } else {
+      commentaires.forEach((c) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${c.date}</td>
+            <td>${c.coach}</td>
+            <td>${c.nom_cours}</td>
+            <td>${c.note}</td>
+            <td>${c.progres}</td>
+            <td>${c.commentaire}</td>
+          `;
+        commentaireTableBody.appendChild(row);
+      });
+    }
   } else {
     dogInfoDiv.style.display = "none";
+    commentaireTableBody.innerHTML = "";
   }
 });

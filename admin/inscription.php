@@ -45,7 +45,6 @@
         <input type="password" id="admin_password" name="admin_password" required />
         <label for="telephone_utilisateur">Téléphone</label>
         <input type="number" id="telephone_utilisateur" name="telephone_utilisateur" required />
-        <label for="text">Rôle</label>
         <input type="hidden" name="id_role" value="3">
         <label for="date_inscription">Date d'inscription</label>
         <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">

@@ -23,13 +23,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $redirectUrl = '';
     switch ($_SESSION['role_name']) {
         case 'admin':
-            $redirectUrl = '../admin/administratif.php#messagerie';
+            $redirectUrl = '../admin/administratif.php#commentaires';
             break;
         case 'coach':
-            $redirectUrl = '../coach.php#messagerie';
+            $redirectUrl = '../coach.php#commentaires';
             break;
         case 'utilisateur':
-            $redirectUrl = '../user.php#messagerie';
+            $redirectUrl = '../user.php#commentaires';
             break;
         default:
             $redirectUrl = '../index.php';

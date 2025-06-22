@@ -941,7 +941,9 @@ section ul {
   margin-left: auto;
   flex-direction: column;
 }
-
+.commentaires {
+  width: 1200px;
+}
 .suivi {
   margin-top: 40px;
   width: 1200px;

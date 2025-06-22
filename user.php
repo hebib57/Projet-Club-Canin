@@ -142,7 +142,11 @@ if ($id_utilisateur) {
 
   //recup chiens utilisateur
   $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog, c.date_inscription, c.categorie
-                       FROM chien AS c INNER JOIN race AS r ON c.id_race = r.id_race WHERE c.id_utilisateur = ?");
+                       FROM chien AS c 
+                       INNER JOIN race AS r                       
+                       ON c.id_race = r.id_race  
+                      
+                       WHERE c.id_utilisateur = ?");
   $stmt->execute([$id_utilisateur]);
   $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -187,6 +191,36 @@ if ($id_utilisateur) {
   }
 }
 
+$stmt = $db->prepare("
+        SELECT c.*, u.prenom_utilisateur, u.nom_utilisateur, d.nom_dog 
+        FROM commentaire c
+        JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
+        JOIN chien d ON c.id_dog = d.id_dog
+        
+        ORDER BY c.date_commentaire DESC
+      ");
+$stmt->execute();
+$commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+$commentaire_dog = [];
+
+foreach ($commentaires as $commentaire) {
+
+  $id_dog = $commentaire['id_dog'];
+  if (!isset($commentaire_dog[$id_dog])) {
+    $commentaire_dog[$id_dog] = [];
+  }
+
+  $commentaire_dog[$id_dog][] = [
+    'date' => date('d/m/Y', strtotime($commentaire['date_commentaire'])),
+    'coach' => $commentaire['prenom_utilisateur'] . ' ' . $commentaire['nom_utilisateur'],
+    'nom_cours' => $commentaire['nom_cours'],
+    'note' => $commentaire['note'],
+    'progres' => $commentaire['progres'],
+    'commentaire' => $commentaire['commentaire']
+  ];
+}
 
 ?>
 
@@ -532,8 +566,8 @@ if ($id_utilisateur) {
 
         </div>
       </section>
-      <section class="suivi" id="suivi">
 
+      <section class="suivi" id="suivi">
         <h2>Suivi et Progression</h2>
         <div class="selection">
           <label for="dog-select">Sélectionner un chien :</label>
@@ -560,10 +594,7 @@ if ($id_utilisateur) {
           <p><strong>Râce :</strong><span id="info-race"></span></p>
           <p><strong>Age :</strong><span id="info-age"></span></p>
           <p><strong>derniere :</strong><span id="info-date"></span></p>
-
         </div>
-
-
 
         <div class="progress">
           <h3>Suivi des progrès</h3>
@@ -571,37 +602,32 @@ if ($id_utilisateur) {
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Type de cours</th>
+                <th>Coach</th>
+                <th>Nom du cours</th>
+                <th>Note</th>
                 <th>Progrès</th>
                 <th>Commentaires</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1er mars 2025</td>
-                <td>Éducation de base</td>
-                <td>Bon progrès</td>
-                <td>Toto a bien réagi aux exercices de base</td>
-              </tr>
-              <tr>
-                <td>5 mars 2025</td>
-                <td>Sociabilisation</td>
-                <td>Progrès modérés</td>
-                <td>Toto a montré de l'amélioration avec d'autres chiens</td>
-              </tr>
-              <tr>
-                <td>10 mars 2025</td>
-                <td>Parcours sportif</td>
-                <td>Excellent progrès</td>
-                <td>Toto a bien maîtrisé le parcours sportif</td>
-              </tr>
+              <?php
+              foreach ($commentaires as $commentaire) { ?>
+                <tr>
+                  <td><?= hsc(date('d/m/Y', strtotime($commentaire['date_commentaire']))); ?></td>
+                  <!-- <td><?= hsc($commentaire['nom_dog']); ?></td> -->
+                  <td><?= hsc($commentaire['prenom_utilisateur']); ?></td>
+                  <td><?= hsc($commentaire['nom_cours']); ?></td>
+                  <td><?= hsc($commentaire['note']); ?></td>
+                  <td><?= hsc($commentaire['commentaire']); ?></td>
+                  <td><?= hsc($commentaire['progres']); ?></td>
+                </tr>
+              <?php }; ?>
             </tbody>
           </table>
         </div>
-
       </section>
-      <section class="card-user_messagerie" id="messagerie">
 
+      <section class="card-user_messagerie" id="messagerie">
         <div>
           <h2>Messagerie</h2>
           <button><a href="../messages/message_send.php" class="btn">Nouveau message</a></button>
@@ -750,7 +776,10 @@ if ($id_utilisateur) {
       </form>
     </div>
   </div>
-
+  <!-- CONSTANTE COMMENTAIRE -->
+  <script>
+    const commentaireDog = <?= json_encode($commentaire_dog) ?>;
+  </script>
 </body>
 
 </html>
