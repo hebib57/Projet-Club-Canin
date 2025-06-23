@@ -30,6 +30,7 @@ $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // initialisation du formulaire (ajouter et modifier avec le même formulaire)
 $id_dog = 0;
 $nom_dog = "";
+$date_naissance = "";
 $age_dog = "";
 $id_race = "";
 $sexe_dog = "";
@@ -57,6 +58,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
 
         // $dog = $row['id_dog'];
         $nom_dog = $row['nom_dog'];
+        $date_naissance = $row['date_naissance'];
         $age_dog = $row['age_dog'];
         $id_race = $row['id_race'];
         $sexe_dog = $row['sexe_dog'];
@@ -122,10 +124,11 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                     <option value="femelle">Femelle</option>
                 </select>
 
+                <label for="date_naissance">Date de naissance</label>
+                <input type="date" name="date_naissance" id="date_naissance" value="<?= hsc($date_naissance) ?>">
 
-
-                <label for="age_dog">Age</label>
-                <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
+                <!-- <label for="age_dog">Age</label>
+                <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>"> -->
 
                 <!-- <label for="categorie">Catégorie</label> -->
                 <input type="hidden" name="categorie" id="categorie" value="<?= hsc($nom_categorie) ?>" readonly>

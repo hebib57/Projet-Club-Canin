@@ -23,7 +23,21 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
         $id_dog = $_POST["id_dog"];
 
         if ($id_dog == "0") {
-            $age_dog = (int) $_POST["age_dog"];
+            $date_naissance = $_POST['date_naissance'] ?? null;
+            // $age_dog = (int) $_POST["age_dog"];
+            // $id_categorie = null;
+            // $nom_categorie = null;
+
+            if ($date_naissance) {
+                $dateNaissance = new DateTime($date_naissance);
+                $dateToday = new DateTime();
+
+                $difference = $dateToday->diff($dateNaissance);
+                $age_dog = ($difference->y * 12) + $difference->m;
+            } else {
+                $age_dog = null;
+            }
+
             $id_categorie = null;
             $nom_categorie = null;
 
@@ -46,6 +60,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             $stmt = $db->prepare("INSERT INTO chien (
                     
                     nom_dog,
+                    date_naissance,
                     age_dog,
                     id_race,
                     sexe_dog,
@@ -56,6 +71,7 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
                 ) VALUES (
                   
                     :nom_dog,
+                    :date_naissance,
                     :age_dog,
                     :id_race,
                     :sexe_dog,
@@ -69,7 +85,8 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             // Liaison des valeurs avec la requête SQL
 
             $stmt->bindValue(":nom_dog", $_POST["nom_dog"]);
-            $stmt->bindValue(":age_dog", $_POST["age_dog"]);
+            $stmt->bindValue(":date_naissance", $date_naissance);
+            $stmt->bindValue(":age_dog", $age_dog);
             $stmt->bindValue(":id_race", $_POST["id_race"]);
             $stmt->bindValue(":sexe_dog", $_POST["sexe_dog"]);
             $stmt->bindValue(":categorie", $nom_categorie);
@@ -83,9 +100,24 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             // echo "Chien ajouté avec succès!";
         } else {
             //modification
+
+            $date_naissance = $_POST['date_naissance'] ?? null;
+
+            if ($date_naissance) {
+                $dateNaissance = new DateTime($date_naissance);
+                $dateToday = new DateTime();
+
+                $difference = $dateToday->diff($dateNaissance);
+                $age_dog = ($difference->y * 12) + $difference->m;
+            } else {
+                $age_dog = null;
+            }
+
+
             $stmt = $db->prepare("UPDATE chien SET
                     
                     nom_dog = :nom_dog,
+                    date_naissance = :date_naissance,
                     age_dog = :age_dog,
                     id_race = :id_race,
                     sexe_dog = :sexe_dog,
@@ -99,7 +131,8 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
             // Liaison des valeurs avec la requête SQL
 
             $stmt->bindValue(":nom_dog", $_POST["nom_dog"]);
-            $stmt->bindValue(":age_dog", $_POST["age_dog"]);
+            $stmt->bindValue(":date_naissance", $date_naissance);
+            $stmt->bindValue(":age_dog", $age_dog);
             $stmt->bindValue(":id_race", $_POST["id_race"]);
             $stmt->bindValue(":sexe_dog", $_POST["sexe_dog"]);
             $stmt->bindValue(":id_utilisateur", $_POST["id_utilisateur"]);

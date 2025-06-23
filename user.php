@@ -100,6 +100,10 @@ $stmt = $db->prepare("SELECT * FROM evenement");
 $stmt->execute();
 $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$stmt = $db->prepare("SELECT COUNT(*) FROM evenement");
+$stmt->execute();
+$total_event = $stmt->fetchColumn();
+
 // recup le nombre total des évènements pour l'utilisateur connecté
 $stmt = $db->prepare("SELECT COUNT(*) FROM inscription_evenement WHERE id_utilisateur = ?");
 $stmt->execute([$id_utilisateur]);
@@ -321,7 +325,7 @@ foreach ($commentaires as $commentaire) {
         <div class="tab_bord-card">
           <div class="card">
             <h3>Cours programmés</h3>
-            <p><?= hsc($cours_programme) ?> cours programmés </p>
+            <p><?= hsc($cours_programme) ?> </p>
             <button class="btn">Voir les détails</button>
           </div>
 
@@ -332,9 +336,9 @@ foreach ($commentaires as $commentaire) {
           </div>
 
           <div class="card">
-            <h3>Participants Inscrits</h3>
-            <p>150 participants inscrits</p>
-            <button class="btn">Voir les participants</button>
+            <h3>Évènements programmés</h3>
+            <p><?= hsc($total_event) ?></p>
+            <button class="btn">Voir les évènements</button>
           </div>
         </div>
       </section>
