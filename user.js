@@ -117,7 +117,9 @@ const dogInfoDiv = document.getElementById("dog-info");
 const nomSpan = document.getElementById("info-nom");
 const raceSpan = document.getElementById("info-race");
 const ageSpan = document.getElementById("info-age");
-const dateSpan = document.getElementById("info-date");
+const sexeSpan = document.getElementById("info-sexe");
+const dateNaissanceSpan = document.getElementById("info-date-naissance");
+const dateInscriptionSpan = document.getElementById("info-date-inscription");
 const categorieSpan = document.getElementById("info-categorie");
 const commentaireTableBody = document.querySelector(".progress-table tbody");
 
@@ -132,9 +134,11 @@ selectDog.addEventListener("change", function () {
     nomSpan.textContent = selectedOption.dataset.nom;
     raceSpan.textContent = selectedOption.dataset.race;
     ageSpan.textContent = selectedOption.dataset.age;
-    dateSpan.textContent = selectedOption.dataset.date;
+    dateNaissanceSpan.textContent = selectedOption.dataset.dateNaissance;
+    dateInscriptionSpan.textContent = selectedOption.dataset.dateInscription;
+    sexeSpan.textContent = selectedOption.dataset.sexe;
     categorieSpan.textContent = selectedOption.dataset.categorie;
-
+    console.log(selectedOption);
     dogInfoDiv.style.display = "block";
 
     const commentaires = commentaireDog[selectedOption.value] || [];

@@ -145,7 +145,7 @@ $event_user_dog = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($id_utilisateur) {
 
   //recup chiens utilisateur
-  $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog, c.date_inscription, c.categorie
+  $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog, c.date_inscription, c.categorie
                        FROM chien AS c 
                        INNER JOIN race AS r                       
                        ON c.id_race = r.id_race  
@@ -584,7 +584,9 @@ foreach ($commentaires as $commentaire) {
                 data-race="<?= hsc($dog['nom_race']) ?>"
                 data-categorie="<?= hsc($dog['categorie']) ?>"
                 data-age="<?= hsc($dog['age_dog']) ?>"
-                data-date="<?= hsc($dog['date_inscription']) ?>">
+                data-date-naissance="<?= hsc($dog['date_naissance']) ?>"
+                data-sexe="<?= hsc($dog['sexe_dog']) ?>"
+                data-date-inscription="<?= hsc($dog['date_inscription']) ?>">
                 <?= hsc($dog['nom_dog']) ?>
               </option>
             <?php endforeach; ?>
@@ -593,11 +595,13 @@ foreach ($commentaires as $commentaire) {
 
         <div id="dog-info" class="dog-info" style="display: none; margin-top: 20px;">
           <h3>Informations sur le chien</h3>
-          <p><strong>Nom :</strong><span id="info-nom"></span></p>
-          <p><strong>Catégorie :</strong><span id="info-categorie"></span></p>
-          <p><strong>Râce :</strong><span id="info-race"></span></p>
-          <p><strong>Age :</strong><span id="info-age"></span></p>
-          <p><strong>derniere :</strong><span id="info-date"></span></p>
+          <p><strong>Nom :&nbsp;</strong><span id="info-nom"></span></p>
+          <p><strong>Catégorie :&nbsp; </strong><span id="info-categorie"></span></p>
+          <p><strong>Râce :&nbsp; </strong><span id="info-race"></span></p>
+          <p><strong>Age : &nbsp;</strong><span id="info-age"></span>&nbsp; mois</p>
+          <p><strong>Date de naissance :&nbsp;</strong><span id="info-date-naissance"></span></p>
+          <p><strong>Sexe :&nbsp;</strong><span id="info-sexe"></span></p>
+          <p><strong>Date d'inscription :&nbsp;</strong><span id="info-date-inscription"></span></p>
         </div>
 
         <div class="progress">
