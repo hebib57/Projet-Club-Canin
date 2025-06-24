@@ -10,10 +10,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nom = $_POST['nom_utilisateur'] ?? '';
     $prenom = $_POST['prenom_utilisateur'] ?? '';
     $email = filter_var($_POST['admin_mail'] ?? '', FILTER_VALIDATE_EMAIL);
-    $password = password_hash($_POST['admin_password'] ?? '', PASSWORD_DEFAULT);
+    $passwordR = $_POST['admin_password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
     $phone = $_POST['telephone_utilisateur'] ?? '';
     $id_role = $_POST['id_role'] ?? null;
+    $password = null; //par defaut pas de changement de password
 
+
+    if (!empty($passwordR) || !empty($confirm_password)) {
+        if ($passwordR !== $confirm_password) {
+            echo "<script>alert('Les mots de passe ne correspondent pas.'); window.history.back();</script>";
+            exit;
+        }
+
+        $password = password_hash($passwordR, PASSWORD_DEFAULT);
+    }
     try {
         $db->beginTransaction();
 
@@ -23,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // MODIFICATION
 
             // Si le mot de passe est vide, pas mis à jour
-            if (!empty($_POST['admin_password'])) {
-                $password = password_hash($_POST['admin_password'], PASSWORD_DEFAULT);
+            if ($password) {
+
                 $sqlUser = "UPDATE utilisateur SET 
                         nom_utilisateur = :nom_utilisateur,
                         prenom_utilisateur = :prenom_utilisateur,

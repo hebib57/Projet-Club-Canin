@@ -44,18 +44,21 @@ const modalNom = document.getElementById("modal-nom");
 const modalRace = document.getElementById("modal-race");
 const modalAge = document.getElementById("modal-age");
 const modalSexe = document.getElementById("modal-sexe");
-const modalDateInscription = document.getElementById("modal-date_inscription");
+const modalDateInscription = document.getElementById("modal-date-inscription");
+const modalDateNaissance = document.getElementById("modal-date-naissance");
 const modalCategorie = document.getElementById("modal-categorie");
 const closeBtn = modal.querySelector(".close");
+const btnDetails = document.querySelectorAll(".btn-details");
 
-document.querySelectorAll(".btn-details").forEach((button) => {
+btnDetails.forEach((button) => {
   button.addEventListener("click", () => {
     modalPhoto.src = "../upload/md_" + button.dataset.photo;
     modalNom.textContent = button.dataset.nom;
     modalRace.textContent = button.dataset.race;
     modalAge.textContent = button.dataset.age;
     modalSexe.textContent = button.dataset.sexe;
-    modalDateInscription.textContent = button.dataset.date_inscription;
+    modalDateInscription.textContent = button.dataset.dateInscription;
+    modalDateNaissance.textContent = button.dataset.dateNaissance;
     modalCategorie.textContent = button.dataset.categorie;
     modal.style.display = "block";
   });

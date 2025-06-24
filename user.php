@@ -6,6 +6,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
 
 
+
 // Vérifier si l'utilisateur est connecté-------------------------------------------------------------------------------
 $id_utilisateur = $_SESSION['user_id'] ?? null;
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
@@ -542,7 +543,8 @@ foreach ($commentaires as $commentaire) {
                         data-age="<?= hsc($dog['age_dog']) ?>"
                         data-sexe="<?= hsc($dog['sexe_dog']) ?>"
                         data-photo="<?= hsc($dog['photo_dog']) ?>"
-                        data-date_inscription="<?= hsc($dog['date_inscription']) ?>">
+                        data-date-inscription="<?= hsc($dog['date_inscription']) ?>"
+                        data-date-naissance="<?= hsc($dog['date_naissance']) ?>">
                         Détails
                       </button>
                       <button class="btn"><a href="../dogs/form.php?id=<?= hsc($dog['id_dog']) ?>">Modifier</a></button>
@@ -561,13 +563,12 @@ foreach ($commentaires as $commentaire) {
             <img id="modal_photo-dog" alt="chien" style="max-width: 100%;">
             <h4 id="modal-nom"></h4>
             <p><strong>Race :</strong> <span id="modal-race"></span></p>
+            <p><strong>Catégorie :</strong> <span id="modal-categorie"></span></p>
             <p><strong>Âge :</strong> <span id="modal-age"></span> mois</p>
             <p><strong>Sexe :</strong> <span id="modal-sexe"></span></p>
-            <p><strong>Date d'inscription :</strong> <span id="modal-date_inscription"></span></p>
-            <p><strong>Catégorie :</strong> <span id="modal-categorie"></span></p>
-
+            <p><strong>Date d'inscription :</strong> <span id="modal-date-inscription"></span></p>
+            <p><strong>Date de naissance :</strong> <span id="modal-date-naissance"></span></p>
           </div>
-
         </div>
       </section>
 

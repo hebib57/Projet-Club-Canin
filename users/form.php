@@ -24,6 +24,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
         $prenom = $row['prenom_utilisateur'];
         $email = $row['admin_mail'];
         $password = $row['admin_password'];
+        $confirm_password = $password;
         $phone = $row['telephone_utilisateur'];
         $id_role = $row['id_role'];
         // $date = $row['date_inscription'];
@@ -75,6 +76,8 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
                 <input type="email" name="admin_mail" id="admin_mail" value="<?= hsc($email) ?>">
                 <label for="admin_password">Mot de passe</label>
                 <input type="password" name="admin_password" id="admin_password" value="<?= hsc($password) ?>">
+                <label for="confirm_password">Confirmer votre mot de passe</label>
+                <input type="password" id="confirm_password" name="confirm_password" value="<?= hsc($confirm_password) ?>" />
                 <label for="telephone_utilisateur">Téléphone</label>
                 <input type="tel" name="telephone_utilisateur" id="telephone_utilisateur" value="<?= hsc($phone) ?>">
                 <label for="role">Rôle</label>
