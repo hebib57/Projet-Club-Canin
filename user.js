@@ -47,32 +47,35 @@ const modalSexe = document.getElementById("modal-sexe");
 const modalDateInscription = document.getElementById("modal-date-inscription");
 const modalDateNaissance = document.getElementById("modal-date-naissance");
 const modalCategorie = document.getElementById("modal-categorie");
-const closeBtn = modal.querySelector(".close");
 const btnDetails = document.querySelectorAll(".btn-details");
 
-btnDetails.forEach((button) => {
-  button.addEventListener("click", () => {
-    modalPhoto.src = "../upload/md_" + button.dataset.photo;
-    modalNom.textContent = button.dataset.nom;
-    modalRace.textContent = button.dataset.race;
-    modalAge.textContent = button.dataset.age;
-    modalSexe.textContent = button.dataset.sexe;
-    modalDateInscription.textContent = button.dataset.dateInscription;
-    modalDateNaissance.textContent = button.dataset.dateNaissance;
-    modalCategorie.textContent = button.dataset.categorie;
-    modal.style.display = "block";
+if (modal) {
+  const closeBtn = modal.querySelector(".close");
+
+  btnDetails.forEach((button) => {
+    button.addEventListener("click", () => {
+      modalPhoto.src = "../upload/md_" + button.dataset.photo;
+      modalNom.textContent = button.dataset.nom;
+      modalRace.textContent = button.dataset.race;
+      modalAge.textContent = button.dataset.age;
+      modalSexe.textContent = button.dataset.sexe;
+      modalDateInscription.textContent = button.dataset.dateInscription;
+      modalDateNaissance.textContent = button.dataset.dateNaissance;
+      modalCategorie.textContent = button.dataset.categorie;
+      modal.style.display = "block";
+    });
   });
-});
 
-closeBtn.onclick = () => {
-  modal.style.display = "none";
-};
-
-window.onclick = function (event) {
-  if (event.target === modal) {
+  closeBtn.onclick = () => {
     modal.style.display = "none";
-  }
-};
+  };
+
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+}
 /*CONFIRMATION DESINSCRIPTION CHIEN à EVENEMENT----------------*/
 
 function confirmDesinscriptionEvent() {
@@ -144,9 +147,9 @@ selectDog.addEventListener("change", function () {
     console.log(selectedOption);
     dogInfoDiv.style.display = "block";
 
-    const commentaires = commentaireDog[selectedOption.value] || [];
+    const commentaires = commentaireDog[selectedOption.value] || []; //SI existe, prends-le. sinon, prends un tableau vide
 
-    commentaireTableBody.innerHTML = "";
+    commentaireTableBody.innerHTML = ""; // vide la table
 
     if (commentaires.length === 0) {
       commentaireTableBody.innerHTML =
@@ -158,9 +161,9 @@ selectDog.addEventListener("change", function () {
             <td>${c.date}</td>
             <td>${c.coach}</td>
             <td>${c.nom_cours}</td>
-            <td>${c.note}</td>
-            <td>${c.progres}</td>
+            <td>${c.note}</td>            
             <td>${c.commentaire}</td>
+            <td>${c.progres}</td>
           `;
         commentaireTableBody.appendChild(row);
       });
