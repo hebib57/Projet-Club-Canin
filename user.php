@@ -25,7 +25,7 @@ $stmt->execute();
 $cours_programme = $stmt->fetchColumn();
 
 //recup des seances
-$stmt = $db->prepare("SELECT s.id_seance, s.id_cours, c.nom_cours, u.nom_utilisateur, u.prenom_utilisateur, s.date_seance, s.heure_seance, s.places_disponibles, c.id_cours
+$stmt = $db->prepare("SELECT s.id_seance, s.id_cours, c.nom_cours, u.nom_utilisateur, u.prenom_utilisateur, s.date_seance, s.heure_seance, s.places_disponibles, c.id_cours, c.categorie_acceptee
                       FROM seance s 
                       LEFT JOIN cours c ON s.id_cours = c.id_cours
                       LEFT JOIN utilisateur u ON u.id_utilisateur = s.id_utilisateur
@@ -79,7 +79,8 @@ SELECT
         s.places_disponibles,
         s.duree_seance,
         s.statut_seance,
-        co.nom_cours
+        co.nom_cours,
+        co.categorie_acceptee
     FROM 
         reservation r
         JOIN seance s ON r.id_seance = s.id_seance
@@ -350,10 +351,11 @@ foreach ($commentaires as $commentaire) {
           <thead>
             <tr>
               <th>ID</th>
+              <th>Catégorie</th>
               <th>Nom du Cours</th>
               <th>Nom Coach</th>
-              <th>Date de séance</th>
-              <th>Heure de séance</th>
+              <th>Date</th>
+              <th>Heure</th>
               <th>Places disponibles</th>
               <th>Actions</th>
             </tr>
@@ -363,6 +365,7 @@ foreach ($commentaires as $commentaire) {
               <tr>
 
                 <td><?= hsc($row['id_seance']); ?></td>
+                <td><?= hsc($row['categorie_acceptee']); ?></td>
                 <td><?= hsc($row['nom_cours']); ?></td>
                 <td><?= hsc($row['prenom_utilisateur'] . ' ' . $row['nom_utilisateur']); ?></td>
                 <td><?= hsc($row['date_seance']); ?></td>
@@ -396,6 +399,7 @@ foreach ($commentaires as $commentaire) {
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Catégorie</th>
                 <th>Utilisateur</th>
                 <th>Nom du chien</th>
                 <th>Nom Cours</th>
@@ -409,6 +413,7 @@ foreach ($commentaires as $commentaire) {
               <tbody>
                 <tr>
                   <td><?= hsc($reserv['id_reservation']); ?></td>
+                  <td><?= hsc($reserv['categorie_acceptee']); ?></td>
                   <td><?= hsc($reserv['nom_utilisateur']); ?></td>
                   <td><?= hsc($reserv['nom_dog']); ?></td>
                   <td><?= hsc($reserv['nom_cours']); ?></td>

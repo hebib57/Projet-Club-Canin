@@ -18,15 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sexe_dog = $_POST['sexe_dog'];
     $places_disponibles = $_POST['places_disponibles'];
     $date_cours = $_POST['date_cours'];
+    $heure_cours = $_POST['heure_cours'];
     $categorie_acceptee = $_POST['categorie_acceptee'];
     $id_coach = $_POST['id_coach'];
+
 
     // inserer dans table cours
     try {
         if (empty($id_cours) || $id_cours == "0") {
 
-            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, race_dog, sexe_dog, places_disponibles, date_cours, categorie_acceptee, id_coach)
-                            VALUES(:nom_cours, :type_cours, :description_cours, :race_dog, :sexe_dog, :places_disponibles, :date_cours, :categorie_acceptee, :id_coach)";
+            $sql = "INSERT INTO cours (nom_cours, type_cours, description_cours, race_dog, sexe_dog, places_disponibles, date_cours, heure_cours, categorie_acceptee, id_coach)
+                            VALUES(:nom_cours, :type_cours, :description_cours, :race_dog, :sexe_dog, :places_disponibles, :date_cours, :heure_cours, :categorie_acceptee, :id_coach)";
             $stmt = $db->prepare($sql);
 
             $stmt->execute([
@@ -39,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':sexe_dog' => $sexe_dog,
                 ':places_disponibles' => $places_disponibles,
                 ':date_cours' => $date_cours,
+                ':heure_cours' => $heure_cours,
                 ':categorie_acceptee' => $categorie_acceptee,
                 ':id_coach' => $id_coach,
             ]);
@@ -46,12 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id_cours = $db->lastInsertId();
 
             //seance cree automatiquement avec ce cours
+
+
             $sql_seance = "INSERT INTO seance (id_cours, date_seance, heure_seance, places_disponibles, id_utilisateur) 
-                                    VALUES (:id_cours, :date_seance, '10:00:00', :places_disponibles, :id_utilisateur)";
+                                    VALUES (:id_cours, :date_seance, :heure_seance, :places_disponibles, :id_utilisateur)";
             $stmt_seance = $db->prepare($sql_seance);
             $stmt_seance->execute([
                 ':id_cours' => $id_cours,
                 ':date_seance' => $date_cours,
+                ':heure_seance' => $heure_cours,
                 ':places_disponibles' => $places_disponibles,
                 ':id_utilisateur' => $id_coach
             ]);
@@ -69,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     sexe_dog = :sexe_dog,
                     places_disponibles = :places_disponibles,
                     date_cours = :date_cours,
+                    heure_cours = :heure_cours,
                     categorie_acceptee = :categorie_acceptee,
                     id_coach = :id_coach
                     WHERE id_cours = :id_cours";
@@ -83,10 +90,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':sexe_dog' => $sexe_dog,
                 ':places_disponibles' => $places_disponibles,
                 ':date_cours' => $date_cours,
+                ':heure_cours' => $heure_cours,
                 ':id_cours' => $id_cours,
                 ':categorie_acceptee' => $categorie_acceptee,
                 ':id_coach' => $id_coach,
             ]);
+
+
 
             //Met à jours les places dans la séance qui est lié
             $sql_seance_update = "UPDATE seance SET places_disponibles = :places_disponibles WHERE id_cours = :id_cours";

@@ -45,7 +45,7 @@ SELECT
     s.places_disponibles,
     s.duree_seance,
     s.statut_seance,
-
+    c.categorie_acceptee,
     c.type_cours,
     c.nom_cours,
 
@@ -240,7 +240,8 @@ $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <table>
                 <thead>
                   <tr>
-                    <th>ID Réservation</th>
+                    <th>ID </th>
+                    <th>Catégorie</th>
                     <th>Nom du coach</th>
                     <th>Utilisateur</th>
                     <th>Type de cours</th>
@@ -257,6 +258,7 @@ $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <?php foreach ($recordset_reservation as $reserv): ?>
 
                     <td><?= hsc($reserv['id_reservation']); ?></td>
+                    <td><?= hsc($reserv['categorie_acceptee']); ?></td>
                     <td><?= hsc($reserv['nom_coach']); ?></td>
                     <td><?= hsc($reserv['nom_utilisateur']); ?></td>
                     <td><?= hsc($reserv['type_cours']); ?></td>
@@ -293,7 +295,8 @@ $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <th>Race</th>
                   <th>Sexe</th>
                   <th>Places disponibles</th>
-                  <th>Date prévue</th>
+                  <th>Date</th>
+                  <th>Heure</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -310,6 +313,7 @@ $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= hsc($row['sexe_dog']); ?></td>
                     <td><?= hsc($row['places_disponibles']); ?></td>
                     <td><?= hsc($row['date_cours']); ?></td>
+                    <td><?= hsc($row['heure_cours']); ?></td>
                     <td>
                       <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
                       <button class="btn"><a href="../cours/delete.php?id=<?= hsc($row['id_cours']) ?>">Supprimer</a></button>

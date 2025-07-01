@@ -13,6 +13,7 @@ $race_dog = "";
 $sexe_dog = "";
 $description_cours = "";
 $date_cours = date("Y-m-d");
+$heure_cours = "";
 $places_disponibles = "";
 $categorie_acceptee = "";
 $id_coach = "";
@@ -32,6 +33,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
         $sexe_dog = $row['sexe_dog'];
         $description_cours = $row['description_cours'];
         $date_cours = $row['date_cours'];
+        $heure_cours = $row['heure_cours'];
         $places_disponibles = $row['places_disponibles'];
         $categorie_acceptee = $row['categorie_acceptee'];
         $id_coach = $row['id_coach'];
@@ -145,6 +147,8 @@ $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="text" name="description_cours" id="description_cours" value="<?= hsc($description_cours) ?>">
                 <label for="date_cours">Date du cours</label>
                 <input type="date" name="date_cours" id="date_cours" value="<?= hsc($date_cours) ?>">
+                <label for="heure_cours">Heure du cours</label>
+                <input type="time" name="heure_cours" id="heure_cours" value="<?= hsc($heure_cours) ?>">
                 <label for="places_disponibles">Places disponibles</label>
                 <input type="number" name="places_disponibles" id="places_disponibles" value="<?= hsc($places_disponibles) ?>">
                 <input type="hidden" name="id_cours" value="<?= hsc($cours) ?>">

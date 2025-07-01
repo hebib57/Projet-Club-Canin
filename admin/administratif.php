@@ -134,7 +134,8 @@ SELECT
         s.places_disponibles,
         s.duree_seance,
         s.statut_seance,
-        co.nom_cours
+        co.nom_cours,
+        co.categorie_acceptee
     FROM 
         reservation r
         JOIN seance s ON r.id_seance = s.id_seance
@@ -348,6 +349,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Catégorie</th>
                   <th>Utilisateur</th>
                   <th>Nom du chien</th>
                   <th>Nom Cours</th>
@@ -361,6 +363,7 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tbody>
                   <tr>
                     <td><?= hsc($reserv['id_reservation']); ?></td>
+                    <td><?= hsc($reserv['categorie_acceptee']); ?></td>
                     <td><?= hsc($reserv['nom_utilisateur']); ?></td>
                     <td><?= hsc($reserv['nom_dog']); ?></td>
                     <td><?= hsc($reserv['nom_cours']); ?></td>
@@ -405,8 +408,9 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <th>Catégorie</th>
                   <th>Race</th>
                   <th>Sexe</th>
-                  <th>Places disponibles</th>
-                  <th>Date prévue</th>
+                  <th>Places</th>
+                  <th>Date </th>
+                  <th>Heure</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -424,6 +428,8 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= hsc($row['sexe_dog']); ?></td>
                     <td><?= hsc($row['places_disponibles']); ?></td>
                     <td><?= hsc($row['date_cours']); ?></td>
+                    <td><?= hsc($row['heure_cours']); ?></td>
+
                     <td>
                       <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
                       <button class="btn"><a href="../cours/delete.php?id=<?= hsc($row['id_cours']) ?>" onclick="return confirmationDeleteCours();">Supprimer</a></button>
