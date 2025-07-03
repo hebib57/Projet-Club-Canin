@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $places_disponibles = $seance['places_disponibles'];
 
     if ($places_disponibles <= 0) {
-        echo "<script>alert('Plus de places disponibles pour ce cours'); window.location.href = '../user.php';</script>";
+        echo "<script>alert('Plus de places disponibles pour ce cours'); window.location.href = '../cours_programmes-user.php';</script>";
         exit;
     }
 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check->execute([$id_utilisateur, $id_seance, $id_dog]);
 
     if ($check->fetch()) {
-        echo "<script>alert('Vous avez déjà réservé ce cours avec ce chien'); window.location.href = '../user.php';</script>";
+        echo "<script>alert('Vous avez déjà réservé ce cours avec ce chien'); window.location.href = '../cours_programmes-user.php';</script>";
         exit;
     }
 
@@ -57,9 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $compteur = $db->prepare("UPDATE seance SET places_disponibles = places_disponibles - 1 WHERE id_seance = ?");
         $compteur->execute([$id_seance]);
 
-        echo "<script>alert('Cours réservé avec succès'); window.location.href = '../user.php';</script>";
+        echo "<script>alert('Cours réservé avec succès'); window.location.href = '../cours_programmes-user.php';</script>";
     } else {
-        echo "<script>alert('Erreur lors de la réservation du cours'); window.location.href = '../user.php';</script>";
+        echo "<script>alert('Erreur lors de la réservation du cours'); window.location.href = '../cours_programmes-user.php';</script>";
     }
 }
 exit;

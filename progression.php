@@ -93,9 +93,9 @@ $commentaire_dog = [];
                 <ul class="menu-list">
                     <li><a href="user.php#dashbord">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
           "></a></li>
-                    <li><a href="cours_programmés-user.php">Cours programmés <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+                    <li><a href="cours_programmes-user.php">Cours programmés <img src="../interface_graphique/training-program.png" alt="cours" width="40px
           "></a></li>
-                    <li><a href="event_programmés-user.php">Évènements programmés <img src="../interface_graphique/banner.png" alt="events" width="40px
+                    <li><a href="event_programmes-user.php">Évènements programmés <img src="../interface_graphique/banner.png" alt="events" width="40px
           "></a></li>
                     <li><a href="dogs-user.php">Mes chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
           "></a></li>
@@ -244,8 +244,7 @@ $commentaire_dog = [];
     </footer>
     <!-- CONSTANTE COMMENTAIRE -->
     <script>
-        const commentaireDog = <?= json_encode($commentaire_dog) ?>;
-        console.log(commentaireDog);
+        const commentaireDog = <?= json_encode($commentaire_dog) ?>
     </script>
     <script src="user.js"></script>
 

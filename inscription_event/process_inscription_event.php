@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $db->prepare("SELECT 1 FROM chien WHERE id_dog = ? AND id_utilisateur = ?");
     $stmt->execute([$id_dog, $id_utilisateur]);
     if (!$stmt->fetch()) {
-        echo "<script>alert('Erreur : Ce chien ne vous appartient pas.'); window.location.href = '../user.php';</script>";
+        echo "<script>alert('Erreur : Ce chien ne vous appartient pas.'); window.location.href = '../event_programmes-user.php';</script>";
         exit;
     }
     if ($action === 'inscrire') {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($places <= 0) {
-            echo "<script>alert('Aucune place disponible pour cet évènement'); window.location.href = '../user.php';</script>";
+            echo "<script>alert('Aucune place disponible pour cet évènement'); window.location.href = '../event_programmes-user.php';</script>";
             exit;
         }
 
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $check->execute([$id_utilisateur, $id_event, $id_dog]);
 
         if ($check->fetch()) {
-            echo "<script>alert('Vous avez déjà réservé cet évènement avec ce chien'); window.location.href = '../user.php';</script>";
+            echo "<script>alert('Vous avez déjà réservé cet évènement avec ce chien'); window.location.href = '../event_programmes-user.php';</script>";
             exit;
         }
 
@@ -60,9 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $db->prepare("UPDATE evenement SET places_disponibles = places_disponibles - 1 WHERE id_event = ?");
             $stmt->execute([$id_event]);
-            echo "<script>alert('Évènement réservé avec succès'); window.location.href = '../user.php';</script>";
+            echo "<script>alert('Évènement réservé avec succès'); window.location.href = '../event_programmes-user.php';</script>";
         } else {
-            echo "<script>alert('Erreur lors de l\'inscription à l\'évènement'); window.location.href = '../user.php';</script>";
+            echo "<script>alert('Erreur lors de l\'inscription à l\'évènement'); window.location.href = '../event_programmes-user.php';</script>";
         }
     } elseif ($action === 'desinscrire') {
         if (!$id_dog) {
@@ -74,10 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $db->prepare("UPDATE evenement SET places_disponibles = places_disponibles + 1 WHERE id_event = ?");
             $stmt->execute([$id_event]);
-            
-            echo "<script>alert('Désinscription réussie'); window.location.href = '../user.php';</script>";
+
+            echo "<script>alert('Désinscription réussie'); window.location.href = '../event_programmes-user.php';</script>";
         } else {
-            echo "<script>alert('Erreur lors de la désinscription'); window.location.href = '../user.php';</script>";
+            echo "<script>alert('Erreur lors de la désinscription'); window.location.href = '../event_programmes-user.php';</script>";
         }
     }
     exit;

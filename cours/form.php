@@ -161,7 +161,7 @@ $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $redirectUrl = '../admin/administratif.php#cours_programmé';
                     break;
                 case 'coach':
-                    $redirectUrl = '../coach.php#cours_programmé';
+                    $redirectUrl = '../cours_programmes-coach.php';
                     break;
                 // case 'utilisateur':
                 //     $redirectUrl = '../user.php#cours_programmé';

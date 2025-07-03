@@ -89,7 +89,7 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $redirectUrl = '../admin/administratif.php#events';
                     break;
                 case 'coach':
-                    $redirectUrl = '../coach.php#events';
+                    $redirectUrl = '../event_programmes-coach.php';
                     break;
                 // case 'utilisateur':
                 //     $redirectUrl = '../user.php#cours_programmé';

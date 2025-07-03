@@ -21,7 +21,7 @@ if (isset($_POST['id_inscription']) && is_numeric($_POST['id_inscription'])) {
             $message = 'Inscription supprimée avec succès';
         } else {
 
-            $message = 'Aucune rinscription trouvée avec cet identifiant';
+            $message = 'Aucune inscription trouvée avec cet identifiant';
         }
     } catch (PDOException $e) {
         // En cas d'erreur SQL 
@@ -35,10 +35,10 @@ if (isset($_POST['id_inscription']) && is_numeric($_POST['id_inscription'])) {
             $redirectUrl = '../admin/administratif.php#reservations';
             break;
         case 'coach':
-            $redirectUrl = '../coach.php#reservations';
+            $redirectUrl = '../reservations-coach.php';
             break;
         case 'utilisateur':
-            $redirectUrl = '../user.php#reservations';
+            $redirectUrl = '../reservations-user.php';
             break;
 
         default:

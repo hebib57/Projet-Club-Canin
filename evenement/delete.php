@@ -28,7 +28,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             $redirectUrl = '../admin/administratif.php#events';
             break;
         case 'coach':
-            $redirectUrl = '../coach.php#cours_programmé';
+            $redirectUrl = '../event_programmes-coach.php';
             break;
         case 'utilisateur':
             $redirectUrl = '../user.php#cours_programmé';

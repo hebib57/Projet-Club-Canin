@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $redirectUrl = '../admin/administratif.php#events';
             break;
         case 'coach':
-            $redirectUrl = '../coach.php#events';
+            $redirectUrl = '../event_programmes-coach.php';
             break;
         case 'utilisateur':
             $redirectUrl = '../user.php#events';

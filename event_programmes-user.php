@@ -4,21 +4,16 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_user.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
-// Vérifier si l'utilisateur est connecté
 $id_utilisateur = $_SESSION['user_id'] ?? null;
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur';
 
 $utilisateur = [];
 
-//recup des seances
-$stmt = $db->prepare("SELECT s.id_seance, s.id_cours, c.nom_cours, u.nom_utilisateur, u.prenom_utilisateur, s.date_seance, s.heure_seance, s.places_disponibles, c.id_cours, c.categorie_acceptee
-                      FROM seance s 
-                      LEFT JOIN cours c ON s.id_cours = c.id_cours
-                      LEFT JOIN utilisateur u ON u.id_utilisateur = s.id_utilisateur
-                    ");
+// recup tous les évènements
+$stmt = $db->prepare("SELECT * FROM evenement");
 $stmt->execute();
-$recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //recup chiens utilisateur
 $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog, c.date_inscription, c.categorie
@@ -29,10 +24,6 @@ $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, 
                        WHERE c.id_utilisateur = ?");
 $stmt->execute([$id_utilisateur]);
 $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-
 
 ?>
 
@@ -91,9 +82,9 @@ $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <ul class="menu-list">
                     <li><a href="user.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
           "></a></li>
-                    <li><a href="cours_programmés-user.php">Cours programmés <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+                    <li><a href="cours_programmes-user.php">Cours programmés <img src="../interface_graphique/training-program.png" alt="cours" width="40px
           "></a></li>
-                    <li><a href="event_programmés-user.php">Évènements programmés <img src="../interface_graphique/banner.png" alt="events" width="40px
+                    <li><a href="event_programmes-user.php">Évènements programmés <img src="../interface_graphique/banner.png" alt="events" width="40px
           "></a></li>
                     <li><a href="dogs-user.php">Mes chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
           "></a></li>
@@ -110,17 +101,13 @@ $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </ul>
             </div>
 
-
-
-            <section class="tab_bord" id="cours_programmé">
-                <h2>Cours programmés</h2>
-                <table class="table">
+            <section class="events" id="events">
+                <h2>Événements programmés</h2>
+                <table>
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Catégorie</th>
-                            <th>Nom du Cours</th>
-                            <th>Nom Coach</th>
+                            <th>Nom de l'Événement</th>
                             <th>Date</th>
                             <th>Heure</th>
                             <th>Places disponibles</th>
@@ -128,31 +115,24 @@ $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($recordset_cours as $row) { ?>
+                        <?php foreach ($recordset_event as $row) { ?>
                             <tr>
-
-                                <td><?= hsc($row['id_seance']); ?></td>
-                                <td><?= hsc($row['categorie_acceptee']); ?></td>
-                                <td><?= hsc($row['nom_cours']); ?></td>
-                                <td><?= hsc($row['prenom_utilisateur'] . ' ' . $row['nom_utilisateur']); ?></td>
-                                <td><?= hsc($row['date_seance']); ?></td>
-                                <td><?= hsc($row['heure_seance']); ?></td>
+                                <td><?= hsc($row['id_event']); ?></td>
+                                <td><?= hsc($row['nom_event']); ?></td>
+                                <td><?= hsc($row['date_event']); ?></td>
+                                <td><?= hsc($row['heure_event']); ?></td>
                                 <td><?= hsc($row['places_disponibles']); ?></td>
-
                                 <td>
-                                    <form method="post" action="./reservations/process_reservation-u.php" style="display: inline;">
-                                        <input type="hidden" name="id_dog" value="<?= hsc($row["id_seance"]); ?>">
-                                        <input type="hidden" name="id_cours" value="<?= hsc($row["id_cours"]); ?>">
-                                        <?php if (!in_array($row["id_cours"], $utilisateur)): ?>
-                                            <button type="button" class="btn" onclick="openCoursModal(<?= hsc($row['id_cours']) ?>)">S'inscrire</button>
+                                    <form method="post" action="./inscription_event/process_inscription_event.php" style="display:inline;">
+                                        <input type="hidden" name="id_event" value="<?= hsc($row['id_event']); ?>">
+                                        <?php if (!in_array($row["id_event"], $utilisateur)): ?>
+                                            <button type="button" class="btn" onclick="openEventModal(<?= hsc($row['id_event']) ?>)">S'inscrire</button>
                                         <?php else: ?>
                                             <button type="submit" name="action" value="desinscrire" class="btn">Se désinscrire</button>
                                         <?php endif;
                                         ?>
-
                                     </form>
                                 </td>
-
                             </tr>
                         <?php }; ?>
                     </tbody>
@@ -220,18 +200,18 @@ $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </footer>
     <script src="user.js"></script>
 
-    <!-- Modal pour choisir un chien pour la réservation d'un cours-->
-    <div id="reservationModal" class="modal" style="display: none;">
+    <!-- Modal pour choisir un chien pour l'inscription à un évènement-->
+    <div id="inscriptionModal" class="modal" style="display: none;">
         <div class="modal-content">
-            <span class="close" onclick="closeCoursModal()">&times;</span>
-            <h3>Choisissez un chien pour ce cours</h3>
+            <span class="close" onclick="closeEventModal()">&times;</span>
+            <h3>Choisissez un chien pour cet évènement</h3>
 
-            <form method="post" action="../reservations/process_reservation-u.php">
-                <input type="hidden" name="id_cours" id="modal_id_cours">
+            <form method="post" action="../inscription_event/process_inscription_event.php">
+                <input type="hidden" name="id_event" id="modal_id_event">
 
                 <input type="hidden" name="action" value="inscrire">
                 <label for="id_dog">Votre chien :</label>
-                <select name="id_dog" id="id_dog_reservation" required>
+                <select name="id_dog" id="id_dog_event" required>
                     <option value="">-- Sélectionner un chien --</option>
 
                     <?php
@@ -241,10 +221,12 @@ $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </select>
 
                 <button type="submit" name="action" value="inscrire" class="btn">Confirmer l'inscription</button>
-                <button type="button" class="btn" onclick="closeCoursModal()">Annuler</button>
+                <button type="button" class="btn" onclick="closeEventModal()">Annuler</button>
             </form>
         </div>
     </div>
+
+
 
 </body>
 

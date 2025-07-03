@@ -33,10 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $redirectUrl = '../admin/administratif.php#messagerie';
                 break;
             case 'coach':
-                $redirectUrl = '../coach.php#messagerie';
+                $redirectUrl = '../messagerie-coach.php';
                 break;
             case 'utilisateur':
-                $redirectUrl = '../user.php#messagerie';
+                $redirectUrl = '../messagerie-user.php';
                 break;
             default:
                 $redirectUrl = '../index.php';
@@ -120,10 +120,10 @@ $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $redirectUrl = '../admin/administratif.php#messagerie';
                     break;
                 case 'coach':
-                    $redirectUrl = '../coach.php#messagerie';
+                    $redirectUrl = '../messagerie-coach.php';
                     break;
                 case 'utilisateur':
-                    $redirectUrl = '../user.php#messagerie';
+                    $redirectUrl = '../messagerie-user.php';
                     break;
                 default:
                     $redirectUrl = '../index.php';

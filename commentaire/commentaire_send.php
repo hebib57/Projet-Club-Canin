@@ -140,7 +140,7 @@ $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </form>
 
             <br>
-            <a href="../coach.php#commentaires" class="btn2__modif">Retour</a>
+            <a href="../evaluations-coach.php" class="btn2__modif">Retour</a>
 
         </div>
     </section>
