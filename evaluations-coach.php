@@ -55,89 +55,86 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
         <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
     </div>
 
-    <main class="container_bord">
 
-        <section class="dashbord">
-            <div class="sidebar">
-                <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
-                <div class="sidebar-header">
-                    <div class="user-avatar">C</div>
-                    <div class="user-info">
-                        <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
-                    </div>
-                </div>
-
-                <ul class="menu-list">
-                    <li><a href="coach.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-                    <li><a href="cours_programmes-coach.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-                    <li><a href="event_programmes-coach.php">Gestion des Évènements <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-                    <li><a href="reservations-coach.php">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-                    <li><a href="evaluations-coach.php">Evaluation <img src="../interface_graphique/img-eval.png" alt="evaluations" width="40px
-          "></a></li>
-                    <li><a href="messagerie-coach.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-                    <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-                    <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-                </ul>
+    <div class="sidebar">
+        <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <div class="sidebar-header">
+            <div class="user-avatar">C</div>
+            <div class="user-info">
+                <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
             </div>
-            <div>
-                <span id="date">
-                </span>
-            </div>
+        </div>
+
+        <ul class="menu-list">
+            <li><a href="coach.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+            <li><a href="cours_programmes-coach.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+          "></a></li>
+            <li><a href="event_programmes-coach.php">Gestion des Évènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+            <li><a href="reservations-coach.php">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+            <li><a href="evaluations-coach.php">Evaluation <img src="../interface_graphique/img-eval.png" alt="evaluations" width="40px
+          "></a></li>
+            <li><a href="messagerie-coach.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+            <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+            <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
+        </ul>
+    </div>
+    <!-- <div>
+        <span id="date">
+        </span>
+    </div> -->
 
 
 
-            <section id="commentaires" class="commentaires">
-                <h2>Commentaires de progression</h2>
-                <table>
-                    <button class="btn"><a href="../commentaire/commentaire_send.php">Nouvelle évaluation</a></button>
-                    <thead>
-                        <tr>
-                            <th>Chien</th>
-                            <th>Utilisateur</th>
-                            <th>Cours</th>
-                            <th>Note</th>
-                            <th>Date</th>
-                            <th>Commentaire</th>
-                            <th>Progrès</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        foreach ($commentaires as $commentaire) { ?>
-                            <tr>
-                                <td><?= hsc($commentaire['nom_dog']); ?></td>
-                                <td><?= hsc($commentaire['prenom_utilisateur']); ?></td>
-                                <td><?= hsc($commentaire['nom_cours']); ?></td>
-                                <td><?= hsc($commentaire['note']); ?></td>
-                                <td><?= hsc(date('d/m/Y', strtotime($commentaire['date_commentaire']))); ?></td>
-                                <td><?= hsc($commentaire['commentaire']); ?></td>
-                                <td><?= hsc($commentaire['progres']); ?></td>
+    <section id="commentaires" class="commentaires">
+        <h2>Commentaires de progression</h2>
+        <table>
+            <button class="btn"><a href="../commentaire/commentaire_send.php">Nouvelle évaluation</a></button>
+            <thead>
+                <tr>
+                    <th>Chien</th>
+                    <th>Utilisateur</th>
+                    <th>Cours</th>
+                    <th>Note</th>
+                    <th>Date</th>
+                    <th>Commentaire</th>
+                    <th>Progrès</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($commentaires as $commentaire) { ?>
+                    <tr>
+                        <td><?= hsc($commentaire['nom_dog']); ?></td>
+                        <td><?= hsc($commentaire['prenom_utilisateur']); ?></td>
+                        <td><?= hsc($commentaire['nom_cours']); ?></td>
+                        <td><?= hsc($commentaire['note']); ?></td>
+                        <td><?= hsc(date('d/m/Y', strtotime($commentaire['date_commentaire']))); ?></td>
+                        <td><?= hsc($commentaire['commentaire']); ?></td>
+                        <td><?= hsc($commentaire['progres']); ?></td>
 
-                                <td>
-                                    <button class="btn"><a href="../commentaire/form.php?id=<?= hsc($commentaire['id_commentaire']) ?>">Modifier</a></button>
-                                    <button class="btn"><a href="../commentaire/commentaire_delete.php?id=<?= hsc($commentaire['id_commentaire']) ?>" onclick="return confirmationDeleteCommentaire();">Supprimer</a></button>
-                                </td>
-                            </tr>
-                        <?php }; ?>
-                    </tbody>
-                </table>
-            </section>
+                        <td>
+                            <button class="btn"><a href="../commentaire/form.php?id=<?= hsc($commentaire['id_commentaire']) ?>">Modifier</a></button>
+                            <button class="btn"><a href="../commentaire/commentaire_delete.php?id=<?= hsc($commentaire['id_commentaire']) ?>" onclick="return confirmationDeleteCommentaire();">Supprimer</a></button>
+                        </td>
+                    </tr>
+                <?php }; ?>
+            </tbody>
+        </table>
+    </section>
 
 
 
-        </section>
-    </main>
 
 
 

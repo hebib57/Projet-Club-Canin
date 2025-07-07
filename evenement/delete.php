@@ -25,7 +25,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $redirectUrl = '';
     switch ($_SESSION['role_name']) {
         case 'admin':
-            $redirectUrl = '../admin/administratif.php#events';
+            $redirectUrl = '../admin/event_programmes-admin.php';
             break;
         case 'coach':
             $redirectUrl = '../event_programmes-coach.php';

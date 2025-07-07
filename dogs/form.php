@@ -179,13 +179,13 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
             <?php
             switch ($_SESSION['role_name']) {
                 case 'admin':
-                    $redirectUrl = '../admin/administratif.php#dogs';
+                    $redirectUrl = '../admin/dogs-admin.php';
                     break;
                 case 'coach':
                     $redirectUrl = '../coach.php#dogs';
                     break;
                 case 'utilisateur':
-                    $redirectUrl = '../user.php#dogs';
+                    $redirectUrl = '../dogs-user.php';
                     break;
                 default:
                     $redirectUrl = '../index.php';

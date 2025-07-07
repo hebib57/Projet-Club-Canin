@@ -158,7 +158,7 @@ $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php
             switch ($_SESSION['role_name']) {
                 case 'admin':
-                    $redirectUrl = '../admin/administratif.php#cours_programmé';
+                    $redirectUrl = '../admin/cours_programmes-admin.php';
                     break;
                 case 'coach':
                     $redirectUrl = '../cours_programmes-coach.php';

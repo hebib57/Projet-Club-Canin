@@ -308,10 +308,10 @@ if (isset($_POST["formCU"]) && $_POST["formCU"] == "ok") {
 
         switch ($_SESSION['role_name']) {
             case 'admin':
-                $redirectUrl = '../admin/administratif.php#dogs';
+                $redirectUrl = '../admin/dogs-admin.php';
                 break;
             case 'utilisateur':
-                $redirectUrl = '../user.php#dogs';
+                $redirectUrl = '../dogs-user.php';
                 break;
             default:
                 $redirectUrl = '../index.php';

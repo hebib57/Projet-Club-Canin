@@ -123,10 +123,10 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
           "></a></li>
                 </ul>
             </div>
-            <div>
+            <!-- <div>
                 <span id="date">
                 </span>
-            </div>
+            </div> -->
 
 
             <section class="reservations" id="reservations">

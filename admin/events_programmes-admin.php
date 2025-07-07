@@ -1,25 +1,26 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_coach.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
-$prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour afficher
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_admin.php";
+
+$prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour personnalisation
+
 $id_utilisateur = $_SESSION['user_id'] ?? null;
+
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
-// ercup les messages reçus
-$sql = "SELECT m.*, u.prenom_utilisateur, u.nom_utilisateur 
-FROM message m
-JOIN utilisateur u ON m.id_expediteur = u.id_utilisateur
-WHERE m.id_destinataire = :id_utilisateur
-AND m.contenu IS NOT NULL 
-ORDER BY m.date_envoi DESC";
+// recup tous les évènements
+$stmt = $db->prepare("SELECT * FROM evenement");
+$stmt->execute();
+$recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $db->prepare($sql);
-$stmt->execute([':id_utilisateur' => $_SESSION['user_id']]);
-$recordset_messages = $stmt->fetchAll();
 
 ?>
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -29,7 +30,7 @@ $recordset_messages = $stmt->fetchAll();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="custom.css" />
+    <link rel="stylesheet" href="../custom.css" />
 </head>
 
 <body>
@@ -40,6 +41,8 @@ $recordset_messages = $stmt->fetchAll();
         <nav class="navbar">
             <ul class="navbar__burger-menu--closed">
                 <li><a href="../index.php">Accueil</a></li>
+                <li><a href="../coach.php">coach</a></li>
+                <li><a href="../user.php">utilisateur</a></li>
             </ul>
         </nav>
         <button class="navbar__burger-menu-toggle" id="burgerMenu">
@@ -49,10 +52,10 @@ $recordset_messages = $stmt->fetchAll();
         </button>
     </header>
     <div class="title">
-        <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
+        <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
     </div>
-
-
+    <!-- <main class="container_bord">
+        <section class="dashbord"> -->
     <div class="sidebar">
         <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
             <span class="bar"></span>
@@ -60,75 +63,76 @@ $recordset_messages = $stmt->fetchAll();
             <span class="bar"></span>
         </button>
         <div class="sidebar-header">
-            <div class="user-avatar">C</div>
+            <div class="user-avatar">AD</div>
             <div class="user-info">
                 <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
+
             </div>
         </div>
 
         <ul class="menu-list">
-            <li><a href="coach.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+            <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
           "></a></li>
-            <li><a href="cours_programmes-coach.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+            <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
           "></a></li>
-            <li><a href="event_programmes-coach.php">Gestion des Évènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+            <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
           "></a></li>
-            <li><a href="reservations-coach.php">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+            <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
           "></a></li>
-            <li><a href="evaluations-coach.php">Evaluation <img src="../interface_graphique/img-eval.png" alt="evaluations" width="40px
+            <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
           "></a></li>
-            <li><a href="messagerie-coach.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+            <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
           "></a></li>
-            <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+            <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
           "></a></li>
-            <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+            <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+            <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+            <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>
         </ul>
     </div>
-    <!-- <div>
-        <span id="date">
-        </span>
-    </div> -->
 
-    <section class="card-coach_messagerie" id="messagerie">
-        <div>
-            <h2>Messagerie</h2>
-            <div class="card-header">
-                <button class="btn"><a href="../messages/message_send.php">Nouveau message</a></button>
-            </div>
 
-            <table>
-                <thead>
+
+
+
+    <section class="events" id="events">
+        <h2>Gestion des Événements</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom de l'Événement</th>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Places disponibles</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($recordset_event as $row) { ?>
                     <tr>
-                        <th>De</th>
-                        <th>Sujet</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                        <th>lu</th>
+                        <td><?= hsc($row['id_event']); ?></td>
+                        <td><?= hsc($row['nom_event']); ?></td>
+                        <td><?= hsc($row['date_event']); ?></td>
+                        <td><?= hsc($row['heure_event']); ?></td>
+                        <td><?= hsc($row['places_disponibles']); ?></td>
+
+                        <td>
+                            <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
+                            <button class="btn"><a href="../evenement/delete.php?id=<?= hsc($row['id_event']) ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($recordset_messages as $msg): ?>
-                        <tr>
-                            <td><?= hsc($msg['prenom_utilisateur'] . ' ' . hsc($msg['nom_utilisateur'])) ?></td>
-                            <td><?= substr(hsc($msg['sujet_message']), 0, 30) ?>...</td>
-                            <td><?= hsc(date('d/m/Y H:i', strtotime(hsc($msg['date_envoi'])))) ?></td>
-
-
-                            <td>
-                                <button><a class="btn" href="../messages/message_read.php?id_message=<?= hsc($msg['id_message']) ?>">Lire</a></button>
-                                <button><a class="btn" href="../messages/message_delete.php?id=<?= hsc($msg['id_message']) ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
-
-                            </td>
-                            <td><?= hsc($msg['lu'] ? 'Oui' : 'Non') ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-
-            </table>
+                <?php }; ?>
+            </tbody>
+        </table>
+        <button class="btn">
+            <a href="../evenement/form.php">Ajouter un Événement</a></button>
     </section>
-    </div>
-    </section>
+
+
 
 
 
@@ -186,7 +190,7 @@ $recordset_messages = $stmt->fetchAll();
             Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
         </p>
     </section>
-    <script src="./coach.js"></script>
+    <script src="./administratif.js"></script>
 </body>
 
 </html>

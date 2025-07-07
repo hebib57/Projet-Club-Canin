@@ -11,68 +11,17 @@ $id_utilisateur = $_SESSION['user_id'] ?? null;
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
 
-// Recup les messages reçus
-$sql = "SELECT m.*, u.prenom_utilisateur, u.nom_utilisateur 
-FROM message m
-JOIN utilisateur u ON m.id_expediteur = u.id_utilisateur
-WHERE m.id_destinataire = :id_utilisateur
-AND m.contenu IS NOT NULL 
-ORDER BY m.date_envoi DESC";
 
-$stmt = $db->prepare($sql);
-$stmt->execute([':id_utilisateur' => $_SESSION['user_id']]);
-$recordset_messages = $stmt->fetchAll();
 
 //recup le compte total des messages reçus
 $stmt = $db->prepare("SELECT COUNT(*) FROM message WHERE id_destinataire = ? ");
 $stmt->execute([$_SESSION['user_id']]);
 $total_messages = $stmt->fetchColumn();
 
-$query = "
-    SELECT 
-       c.id_dog,
-       c.nom_dog,
-       c.id_race,
-       c.age_dog,
-       c.sexe_dog,
-       u.nom_utilisateur,
-       c.date_inscription,
-       c.photo_dog,
-       r.nom_race,
-       c.categorie
-
-    FROM 
-        chien c
-        
-        JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
-        JOIN race r ON c.id_race = r.id_race
-       
-    ORDER BY c.date_inscription DESC;
-";
 
 
-$recordset_dog = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
-// recup les inscriptions aux evenements
-$stmt = $db->prepare("
-  SELECT 
-  i.id_inscription,
-  i.date_inscription,
-  u.nom_utilisateur,
-  d.nom_dog,
-  e.nom_event
-   FROM inscription_evenement i 
-   JOIN utilisateur u ON i.id_utilisateur = u.id_utilisateur
-   JOIN chien d ON i.id_dog = d.id_dog
-   JOIN evenement e ON i.id_event = e.id_event
-   ORDER BY i.date_inscription DESC;
-   ");
-$stmt->execute();
-$recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $db->prepare("SELECT * FROM cours JOIN seance ON cours.id_cours = seance.id_cours");
-$stmt->execute();
-$recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // recup le nombre de reservations
 $stmt = $db->prepare("SELECT COUNT(*) FROM reservation");
@@ -94,60 +43,15 @@ $stmt = $db->prepare("SELECT COUNT(*) FROM chien");
 $stmt->execute();
 $total_dogs = $stmt->fetchColumn();
 
-// recup tous les évènements
-$stmt = $db->prepare("SELECT * FROM evenement");
-$stmt->execute();
-$recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 // recup le nombre total des évènements
 $stmt = $db->prepare("SELECT COUNT(*) FROM evenement");
 $stmt->execute();
 $total_event = $stmt->fetchColumn();
 
-// recup tous les utilisateurs avec leur rôle
-$sql = "SELECT * 
-        FROM utilisateur u
-        JOIN utilisateur_role ur ON u.id_utilisateur = ur.id_utilisateur
-        JOIN role r ON ur.id_role = r.id_role";
 
 
-try {
-  $stmt = $db->prepare($sql);
-  $stmt->execute();
-  $recordset_role = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-  echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
-  $recordset_role = []; // Pour éviter d'autres erreurs en cas d'échec
-}
-
-
-$query = "
-SELECT 
-        r.id_reservation,
-        r.date_reservation,
-        u.nom_utilisateur,
-        r.id_dog,
-        d.nom_dog,
-        s.id_seance,
-        s.date_seance,
-        s.heure_seance,
-        s.places_disponibles,
-        s.duree_seance,
-        s.statut_seance,
-        co.nom_cours,
-        co.categorie_acceptee
-    FROM 
-        reservation r
-        JOIN seance s ON r.id_seance = s.id_seance
-        JOIN cours co ON s.id_cours = co.id_cours
-        JOIN utilisateur u ON r.id_utilisateur = u.id_utilisateur
-        JOIN chien d ON r.id_dog = d.id_dog
-    ORDER BY r.date_reservation DESC
-    ";
-
-
-$stmt = $db->query($query);
-$recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -185,488 +89,100 @@ $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="title">
     <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
   </div>
-  <main class="container_bord">
-    <section class="dashbord">
-      <div class="sidebar">
-        <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-        <div class="sidebar-header">
-          <div class="user-avatar">AD</div>
-          <div class="user-info">
-            <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
 
-          </div>
-        </div>
+  <div class="sidebar">
+    <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <div class="sidebar-header">
+      <div class="user-avatar">AD</div>
+      <div class="user-info">
+        <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
 
-        <ul class="menu-list">
-          <li><a href="#dashbord">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-          <li><a href="#reservations">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-          <li><a href="#cours_programmé">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-          <li><a href="#users">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
-          "></a></li>
-          <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
-          "></a></li>
-          <li><a href="#dogs">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
-          "></a></li>
-          <li><a href="#events">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-          <li><a href="#messagerie">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-          <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-          <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-        </ul>
       </div>
-      <section class="admin_container">
-        <div id="date"> </div>
-        <div class="dashbord" id="dashbord">
-          <h2>Tableau de Bord</h2>
-          <div class="tab_bord-card">
-            <div class="card">
-              <h3>Cours à venir</h3>
-              <p><?= hsc($total_cours) ?> </p>
-              <button class="btn">Voir les cours</button>
-            </div>
+    </div>
 
-            <div class="card">
-              <h3>Réservations en cours</h3>
-              <p><?= hsc($total_reservations) ?> </p>
-              <button class="btn">Voir les réservations</button>
-            </div>
-
-            <div class="card">
-              <h3>Utilisateurs Inscrits</h3>
-              <p><?= hsc($total_utilisateurs) ?> </p>
-              <button class="btn">Voir les utilisateurs</button>
-            </div>
-          </div>
-          <div class="tab_bord-card">
-            <div class="card">
-              <h3>Chiens Inscrits</h3>
-              <p><?= hsc($total_dogs) ?> </p>
-              <button class="btn">Voir les chiens</button>
-            </div>
-
-            <div class="card">
-              <h3>Messages reçus</h3>
-              <p><?= hsc($total_messages) ?> </p>
-              <button class="btn">Voir les messages</button>
-            </div>
-
-            <div class="card">
-              <h3>Evenements prévus</h3>
-              <p><?= hsc($total_event) ?></p>
-              <button class="btn">Voir les évènements</button>
-            </div>
-          </div>
+    <ul class="menu-list">
+      <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+      <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+      <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+          "></a></li>
+      <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
+          "></a></li>
+      <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
+          "></a></li>
+      <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
+          "></a></li>
+      <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+      <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+      <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+      <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
+    </ul>
+  </div>
+  <section class="admin_container">
+    <div id="date"> </div>
+    <div class="dashbord" id="dashbord">
+      <h2>Tableau de Bord</h2>
+      <div class="tab_bord-card">
+        <div class="card">
+          <h3>Cours à venir</h3>
+          <p><?= hsc($total_cours) ?> </p>
+          <button class="btn">Voir les cours</button>
         </div>
 
-        <section class="inscriptions_event" id="inscriptions_event">
-          <h2>Évènements réservés</h2>
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Utilisateur</th>
-                  <th>Nom du chien</th>
-                  <th>Nom Évènement</th>
-                  <!-- <th>Date Séance</th>
-                  <th>Heure Séance</th> -->
-                  <th>Date Inscription</th>
-                  <th>Action</th>
-                </tr>
-              </thead><?php foreach ($recordset_inscription_event as $inscription): ?>
+        <div class="card">
+          <h3>Réservations en cours</h3>
+          <p><?= hsc($total_reservations) ?> </p>
+          <button class="btn">Voir les réservations</button>
+        </div>
 
-                <tbody>
-                  <tr>
-                    <td><?= hsc($inscription['id_inscription']); ?></td>
-                    <td><?= hsc($inscription['nom_utilisateur']); ?></td>
-                    <td><?= hsc($inscription['nom_dog']); ?></td>
-                    <td><?= hsc($inscription['nom_event']); ?></td>
-                    <td><?= hsc($inscription['date_inscription']); ?></td>
-                    <td>
-                      <!-- Option de suppression ou gestion -->
-                      <form method="post" action="../inscription_event/delete_inscription_event.php" style="display: inline;">
-                        <input type="hidden" name="id_inscription" value="<?= hsc($inscription['id_inscription']); ?>">
-                        <button type="submit" class="btn" onclick=" return confirmationDeleteInscription();">Supprimer</button>
-                      </form>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-          </div>
-        </section>
+        <div class="card">
+          <h3>Utilisateurs Inscrits</h3>
+          <p><?= hsc($total_utilisateurs) ?> </p>
+          <button class="btn">Voir les utilisateurs</button>
+        </div>
+      </div>
+      <div class="tab_bord-card">
+        <div class="card">
+          <h3>Chiens Inscrits</h3>
+          <p><?= hsc($total_dogs) ?> </p>
+          <button class="btn">Voir les chiens</button>
+        </div>
 
-        <section class="events" id="events">
-          <h2>Gestion des Événements</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nom de l'Événement</th>
-                <th>Date</th>
-                <th>Heure</th>
-                <th>Places disponibles</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($recordset_event as $row) { ?>
-                <tr>
-                  <td><?= hsc($row['id_event']); ?></td>
-                  <td><?= hsc($row['nom_event']); ?></td>
-                  <td><?= hsc($row['date_event']); ?></td>
-                  <td><?= hsc($row['heure_event']); ?></td>
-                  <td><?= hsc($row['places_disponibles']); ?></td>
+        <div class="card">
+          <h3>Messages reçus</h3>
+          <p><?= hsc($total_messages) ?> </p>
+          <button class="btn">Voir les messages</button>
+        </div>
 
-                  <td>
-                    <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
-                    <button class="btn"><a href="../evenement/delete.php?id=<?= hsc($row['id_event']) ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
-                  </td>
-                </tr>
-              <?php }; ?>
-            </tbody>
-          </table>
-          <button class="btn">
-            <a href="../evenement/form.php">Ajouter un Événement</a></button>
-        </section>
+        <div class="card">
+          <h3>Evenements prévus</h3>
+          <p><?= hsc($total_event) ?></p>
+          <button class="btn">Voir les évènements</button>
+        </div>
+      </div>
+    </div>
 
 
 
-        <section class="reservations" id="reservations">
-          <h2>Cours réservés</h2>
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Catégorie</th>
-                  <th>Utilisateur</th>
-                  <th>Nom du chien</th>
-                  <th>Nom Cours</th>
-                  <th>Date Séance</th>
-                  <th>Heure Séance</th>
-                  <th>Date Réservation</th>
-                  <th>Action</th>
-                </tr>
-              </thead><?php foreach ($recordset_reservation as $reserv): ?>
-
-                <tbody>
-                  <tr>
-                    <td><?= hsc($reserv['id_reservation']); ?></td>
-                    <td><?= hsc($reserv['categorie_acceptee']); ?></td>
-                    <td><?= hsc($reserv['nom_utilisateur']); ?></td>
-                    <td><?= hsc($reserv['nom_dog']); ?></td>
-                    <td><?= hsc($reserv['nom_cours']); ?></td>
-                    <td><?= hsc($reserv['date_seance']); ?></td>
-                    <td><?= hsc($reserv['heure_seance']); ?></td>
-                    <td><?= hsc($reserv['date_reservation']); ?></td>
-                    <td>
-                      <!-- Option de suppression ou gestion -->
-                      <form method="post" action="../reservations/delete_reservation.php" style="display: inline;">
-                        <input type="hidden" name="id_reservation" value="<?= hsc($reserv['id_reservation']); ?>">
-                        <button type="submit" class="btn" onclick=" return confirmationDeleteReservation();">Supprimer</button>
-                      </form>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="cours_programmé" id="cours_programmé">
-          <h2>Gestion des Cours</h2>
-          <div class="table-container">
-            <?php if (isset($_GET['success'])): ?>
-              <div class="alert success">
-                ✅ Le cours et sa séance ont bien été ajoutés !
-              </div>
-            <?php elseif (isset($_GET['error'])): ?>
-              <div class="alert error">
-                ❌ Une erreur est survenue lors de l'ajout du cours. Veuillez réessayer.
-              </div>
-            <?php endif; ?>
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <!-- <th>Nom du Cours</th> -->
-                  <th>Type de cours</th>
-                  <th>Description du cours</th>
-                  <!-- <th>Âge min</th>
-                  <th>Âge max</th> -->
-                  <th>Catégorie</th>
-                  <th>Race</th>
-                  <th>Sexe</th>
-                  <th>Places</th>
-                  <th>Date </th>
-                  <th>Heure</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($recordset_cours as $row) { ?>
-                  <tr>
-                    <td><?= hsc($row['id_cours']); ?></td>
-                    <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
-                    <td><?= hsc($row['type_cours']); ?></td>
-                    <td><?= hsc($row['description_cours']); ?></td>
-                    <!-- <td><?= hsc($row['age_min']); ?></td> -->
-                    <td><?= hsc($row['categorie_acceptee']); ?></td>
-                    <!-- <td><?= hsc($row['age_max']); ?></td> -->
-                    <td><?= hsc($row['race_dog']); ?></td>
-                    <td><?= hsc($row['sexe_dog']); ?></td>
-                    <td><?= hsc($row['places_disponibles']); ?></td>
-                    <td><?= hsc($row['date_cours']); ?></td>
-                    <td><?= hsc($row['heure_cours']); ?></td>
-
-                    <td>
-                      <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
-                      <button class="btn"><a href="../cours/delete.php?id=<?= hsc($row['id_cours']) ?>" onclick="return confirmationDeleteCours();">Supprimer</a></button>
-                    </td>
-                  </tr>
-                <?php }; ?>
-              </tbody>
-            </table>
-          </div>
-          <button class="btn">
-            <a href="../cours/form.php">Ajouter un Cours</a>
-          </button>
-
-        </section>
-
-        <section class="admins" id="admins">
-          <h2>Gestion des Admins</h2>
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nom</th>
-                  <th>Prénom</th>
-                  <th>Email</th>
-                  <th>Téléphone</th>
-                  <!-- <th>Rôle</th> -->
-                  <th>Date d'inscription</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($recordset_role as $row) { ?>
-
-                  <?php if ($row['id_role'] == 1) { ?>
-                    <tr>
-
-                      <td><?= hsc($row['id_utilisateur']); ?></td>
-                      <td><?= hsc($row['nom_utilisateur']); ?></td>
-                      <td><?= hsc($row['prenom_utilisateur']); ?></td>
-                      <td><?= hsc($row['admin_mail']); ?></td>
-                      <td><?= hsc($row['telephone_utilisateur']); ?></td>
-                      <!-- <td><?= hsc($row['nom_role']); ?></td> -->
-                      <!-- <td><?= hsc($row['date_inscription']); ?></td> -->
-                      <td> <?php $date = new DateTime($row['date_inscription']);
-                            echo hsc($date->format('d/m/Y')); ?></td>
-                      <td>
-                      <td>
-                        <button class="btn"><a href="../users/form.php?id=<?= hsc($row['id_utilisateur']) ?>">Modifier</a></button>
-                        <button class="btn"><a href="../users/delete.php?id=<?= hsc($row['id_utilisateur']) ?>" onclick="return confirmationDeleteAdmin();">Supprimer</a></button>
-                      </td>
-                    </tr>
-                  <?php }; ?>
-                <?php }; ?>
-              </tbody>
-            </table>
-          </div>
-          <button class="btn">
-            <a href="../users/ajouter_user.php">Ajouter un Utilisateur</a>
-          </button>
-        </section>
-
-        <section class="users" id="users">
-          <h2>Gestion des Utilisateurs</h2>
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nom</th>
-                  <th>Prénom</th>
-                  <th>Email</th>
-                  <th>Téléphone</th>
-                  <!-- <th>Rôle</th> -->
-                  <th>Date d'inscription</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($recordset_role as $row) { ?>
-                  <?php if ($row['id_role'] == 3) { ?>
-                    <tr>
-
-                      <td><?= hsc($row['id_utilisateur']); ?></td>
-                      <td><?= hsc($row['nom_utilisateur']); ?></td>
-                      <td><?= hsc($row['prenom_utilisateur']); ?></td>
-                      <td><?= hsc($row['admin_mail']); ?></td>
-                      <td><?= hsc($row['telephone_utilisateur']); ?></td>
-                      <!-- <td><?= hsc($row['nom_role']); ?></td> -->
-                      <!-- <td><?= hsc($row['date_inscription']); ?></td> -->
-                      <td> <?php
-                            echo hsc($date->format('d/m/Y')); ?></td>
-                      <td>
-                        <button class="btn"><a href="../users/form.php?id=<?= hsc($row['id_utilisateur']) ?>">Modifier</a></button>
-                        <button class="btn"><a href="../users/delete.php?id=<?= hsc($row['id_utilisateur']) ?>" onclick="return confirmationDeleteUser();">Supprimer</a></button>
-                      </td>
-                    </tr>
-                  <?php }; ?>
-                <?php }; ?>
-              </tbody>
-            </table>
-          </div>
-          <button class="btn">
-            <a href="../users/ajouter_user.php">Ajouter un Utilisateur</a>
-          </button>
-        </section>
-        <section class="coachs" id="coachs">
-          <h2>Gestion des Coachs</h2>
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nom</th>
-                  <th>Prénom</th>
-                  <th>Email</th>
-                  <th>Téléphone</th>
-                  <!-- <th>Rôle</th> -->
-                  <th>Date d'inscription</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($recordset_role as $row) { ?>
-                  <?php if ($row['id_role'] == 2) { ?>
-                    <tr>
-
-                      <td><?= hsc($row['id_utilisateur']); ?></td>
-                      <td><?= hsc($row['nom_utilisateur']); ?></td>
-                      <td><?= hsc($row['prenom_utilisateur']); ?></td>
-                      <td><?= hsc($row['admin_mail']); ?></td>
-                      <td><?= hsc($row['telephone_utilisateur']); ?></td>
-                      <!-- <td><?= hsc($row['nom_role']); ?></td> -->
-                      <!-- <td><?= hsc($row['date_inscription']); ?></td> -->
-                      <td> <?php $date = new DateTime($row['date_inscription']);
-                            echo hsc($date->format('d/m/Y')); ?></td>
-                      <td>
-                      <td>
-                        <button class="btn"><a href="../users/form.php?id=<?= hsc($row['id_utilisateur']) ?>">Modifier</a></button>
-                        <button class="btn"><a href="../users/delete.php?id=<?= hsc($row['id_utilisateur']) ?>" onclick="return confirmationDeleteCoach();">Supprimer</a></button>
-                      </td>
-                    </tr>
-                  <?php }; ?>
-                <?php }; ?>
-              </tbody>
-            </table>
-          </div>
-          <button class="btn">
-            <a href="../users/ajouter_user.php">Ajouter un Coach</a>
-          </button>
-        </section>
-
-        <section class="dogs" id="dogs">
-          <h2>Gestion des Chiens</h2>
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nom du Chien</th>
-                  <th>Catégorie</th>
-                  <th>Race</th>
-                  <th>Âge</th>
-                  <th>Sexe</th>
-                  <th>Propriétaire</th>
-                  <th>Date d'inscription</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($recordset_dog as $row) { ?>
-                  <tr>
-                    <td><?= hsc($row['id_dog']); ?></td>
-                    <td><?= hsc($row['nom_dog']); ?></td>
-                    <td><?= hsc($row['categorie']); ?></td>
-                    <td><?= hsc($row['nom_race']); ?></td>
-                    <td><?= hsc($row['age_dog']); ?></td>
-                    <td><?= hsc($row['sexe_dog']); ?></td>
-                    <td><?= hsc($row['nom_utilisateur']); ?></td>
-                    <!-- <td><?= hsc($row['date_inscription']); ?></td> -->
-                    <td> <?php $date = new DateTime($row['date_inscription']);
-                          echo hsc($date->format('d/m/Y')); ?></td>
-                    <td>
-
-                    <td>
-                      <button class="btn"><a href="../dogs/form.php?id=<?= hsc($row['id_dog']) ?>">Modifier</a></button>
-                      <button class="btn"><a href="../dogs/delete.php?id=<?= hsc($row['id_dog']) ?>" onclick="return confirmationDeleteDog();">Supprimer</a></button>
-                    </td>
-                  </tr>
-                <?php }; ?>
-
-              </tbody>
-            </table>
-          </div>
-          <button class="btn">
-            <a href="../dogs/form.php">Ajouter un Chien</a>
-          </button>
-        </section>
 
 
-        <section class="card-admin_messagerie" id="messagerie">
-          <h2>Messagerie</h2>
-          <div class="card-header">
-            <button class="btn"><a href="../messages/message_send.php">Nouveau message</a></button>
-          </div>
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>De</th>
-                  <th>Sujet</th>
-                  <th>Date</th>
-                  <th>Actions</th>
-                  <th>lu</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($recordset_messages as $msg): ?>
-                  <tr>
-                    <td><?= hsc($msg['prenom_utilisateur'] . ' ' . $msg['nom_utilisateur']) ?></td>
-                    <td><?= substr(hsc($msg['sujet_message']), 0, 30) ?>...</td>
-                    <td><?= hsc(date('d/m/Y H:i', strtotime($msg['date_envoi']))) ?></td>
-                    <td>
-                      <button><a class="btn" href="../messages/message_read.php?id_message=<?= hsc($msg['id_message']) ?>">Lire</a></button>
-                      <button><a class="btn" href="../messages/message_delete.php?id=<?= hsc($msg['id_message']) ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
-                    </td>
-                    <td><?= hsc($msg['lu'] ? 'Oui' : 'Non') ?></td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
 
-            </table>
-          </div>
-        </section>
-      </section>
-    </section>
-  </main>
+
+
+
+
+
+  </section>
+
   <section class="footer">
     <div class="footer-container">
       <div class="footer-section">
