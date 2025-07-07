@@ -144,7 +144,7 @@ $event_user_dog = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-    <section class="reservations-user" id="reservations">
+    <section class="reservations" id="reservations">
         <h2>Cours Réservés</h2>
         <div class="table-container">
             <table>
@@ -190,7 +190,7 @@ $event_user_dog = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-    <section class="events" id="events">
+    <section class="inscriptions_event" id="events">
         <h2>Événements réservés</h2>
         <table>
             <thead>

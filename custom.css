@@ -248,7 +248,7 @@ footer p {
 .admins,
 .cours_programmé,
 .inscriptions_event,
-.reservations-user,
+/* .reservations-user, */
 .reservations {
   margin-left: 250px;
   width: 1850px;
@@ -797,10 +797,7 @@ section ul {
 .container-cours .button {
   background-color: #4caf50;
 }
-/* .container_bord .dashbord .reservations-user {
-  width: 1850px;
-  margin-left: 250px;
-} */
+
 .suiv-container {
   display: flex;
   justify-content: space-between;
@@ -1689,24 +1686,6 @@ table th {
     font-size: 12px;
   }
 
-  /*-------------------------responsive RESERVATIONS------------------------*/
-  .card-coach.reservations .table-container {
-    font-size: 12px;
-  }
-
-  .card-coach .reservations .table-container th {
-    text-align: center;
-  }
-
-  .card-coach .reservations .table-container td {
-    text-align: center;
-  }
-  .card-coach .reservations .table-container .btn {
-    font-size: 12px;
-    /* display: block; */
-    text-decoration: none;
-    padding: 3px;
-  }
   /*-------------------------responsive MESSAGERIE------------------------*/
   .card-coach_messagerie th {
     text-align: center;
@@ -1754,35 +1733,67 @@ table th {
     padding: 0px;
   }
 
-  /*----------------------------------------responsive RESERVATIONS------------------*/
-
-  .dashbord .reservations .table-container {
+  /*----------------------------------------responsive RESERVATIONS et INSCRIPTIONS_EVENT, MESSAGERIE_ADMIN, COURS_PROGRAMMé------------------*/
+  .events,
+  .dogs,
+  .admins,
+  .coachs,
+  .users,
+  .cours_programmé,
+  .card-admin_messagerie,
+  .inscriptions_event,
+  .reservations {
+    margin-left: 50px;
+    width: 700px;
     font-size: 12px;
   }
 
-  .dashbord .reservations .table-container th {
+  .events th,
+  .dogs th,
+  .admins th,
+  .coachs th,
+  .users th,
+  .cours_programmé th,
+  .card-admin_messagerie th,
+  .inscriptions_event th,
+  .reservations th {
     text-align: center;
   }
 
-  .dashbord .reservations .table-container td {
+  .events td,
+  .dogs td,
+  .admins td,
+  .coachs td,
+  .users td,
+  .cours_programmé td,
+  .card-admin_messagerie td,
+  .inscriptions_event td,
+  .reservations td {
     text-align: center;
   }
-  .dashbord .reservations .table-container .btn {
+  .events .btn,
+  .dogs .btn,
+  .admins .btn,
+  .coachs .btn,
+  .users .btn,
+  .cours_programmé .btn,
+  .card-admin_messagerie .btn,
+  .inscriptions_event .btn,
+  .reservations .btn {
     font-size: 12px;
-    /* display: block; */
     text-decoration: none;
     padding: 3px;
   }
 
   /*----------------------------------responsive MESSAGERIE-------------------------*/
 
-  .card-admin_messagerie {
+  /* {
     max-width: 650px;
     font-size: 12px;
-  }
-  .card-admin_messagerie th {
+  } */
+  /* {
     text-align: center;
-  }
+  } */
   .card-admin_messagerie td {
     text-align: center;
   }

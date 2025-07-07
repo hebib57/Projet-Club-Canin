@@ -88,137 +88,134 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
     </div>
 
-    <main class="container_bord">
 
-        <section class="dashbord">
-            <div class="sidebar">
-                <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
-                <div class="sidebar-header">
-                    <div class="user-avatar">C</div>
-                    <div class="user-info">
-                        <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
-                    </div>
-                </div>
-
-                <ul class="menu-list">
-                    <li><a href="coach.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-                    <li><a href="cours_programmes-coach.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-                    <li><a href="event_programmes-coach.php">Gestion des Évènements <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-                    <li><a href="reservations-coach.php">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-                    <li><a href="evaluations-coach.php">Evaluation <img src="../interface_graphique/img-eval.png" alt="evaluations" width="40px
-          "></a></li>
-                    <li><a href="messagerie-coach.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-                    <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-                    <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-                </ul>
+    <div class="sidebar">
+        <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <div class="sidebar-header">
+            <div class="user-avatar">C</div>
+            <div class="user-info">
+                <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
             </div>
-            <!-- <div>
+        </div>
+
+        <ul class="menu-list">
+            <li><a href="coach.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+            <li><a href="cours_programmes-coach.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+          "></a></li>
+            <li><a href="event_programmes-coach.php">Gestion des Évènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+            <li><a href="reservations-coach.php">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+            <li><a href="evaluations-coach.php">Evaluation <img src="../interface_graphique/img-eval.png" alt="evaluations" width="40px
+          "></a></li>
+            <li><a href="messagerie-coach.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+            <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+            <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
+        </ul>
+    </div>
+    <!-- <div>
                 <span id="date">
                 </span>
             </div> -->
 
 
-            <section class="reservations" id="reservations">
-                <h2> Cours Réservés</h2>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID </th>
-                                <th>Catégorie</th>
-                                <th>Nom du coach</th>
-                                <th>Utilisateur</th>
-                                <th>Type de cours</th>
-                                <th>Nom Cours</th>
-                                <th>Nom du chien</th>
-                                <th>Date Séance</th>
-                                <th>Heure Séance</th>
-                                <th>Date Réservation</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+    <section class="reservations" id="reservations">
+        <h2> Cours Réservés</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID </th>
+                        <th>Catégorie</th>
+                        <th>Nom du coach</th>
+                        <th>Utilisateur</th>
+                        <th>Type de cours</th>
+                        <th>Nom Cours</th>
+                        <th>Nom du chien</th>
+                        <th>Date Séance</th>
+                        <th>Heure Séance</th>
+                        <th>Date Réservation</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                            <?php foreach ($recordset_reservation as $reserv): ?>
+                    <?php foreach ($recordset_reservation as $reserv): ?>
 
-                                <td><?= hsc($reserv['id_reservation']); ?></td>
-                                <td><?= hsc($reserv['categorie_acceptee']); ?></td>
-                                <td><?= hsc($reserv['nom_coach']); ?></td>
-                                <td><?= hsc($reserv['nom_utilisateur']); ?></td>
-                                <td><?= hsc($reserv['type_cours']); ?></td>
-                                <td><?= hsc($reserv['nom_cours']); ?></td>
-                                <td><?= hsc($reserv['nom_dog']); ?></td>
-                                <td><?= hsc($reserv['date_seance']); ?></td>
-                                <td><?= hsc($reserv['heure_seance']); ?></td>
-                                <td><?= hsc($reserv['date_reservation']); ?></td>
-                                <td>
+                        <td><?= hsc($reserv['id_reservation']); ?></td>
+                        <td><?= hsc($reserv['categorie_acceptee']); ?></td>
+                        <td><?= hsc($reserv['nom_coach']); ?></td>
+                        <td><?= hsc($reserv['nom_utilisateur']); ?></td>
+                        <td><?= hsc($reserv['type_cours']); ?></td>
+                        <td><?= hsc($reserv['nom_cours']); ?></td>
+                        <td><?= hsc($reserv['nom_dog']); ?></td>
+                        <td><?= hsc($reserv['date_seance']); ?></td>
+                        <td><?= hsc($reserv['heure_seance']); ?></td>
+                        <td><?= hsc($reserv['date_reservation']); ?></td>
+                        <td>
 
-                                    <form method="post" action="./reservations/delete_reservation.php" style="display: inline;">
-                                        <input type="hidden" name="id_reservation" value="<?= hsc($reserv['id_reservation']); ?>">
-                                        <button type="submit" class="btn" onclick=" return confirmationDeleteReservation();">Supprimer</button>
-                                    </form>
-                                </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+                            <form method="post" action="./reservations/delete_reservation.php" style="display: inline;">
+                                <input type="hidden" name="id_reservation" value="<?= hsc($reserv['id_reservation']); ?>">
+                                <button type="submit" class="btn" onclick=" return confirmationDeleteReservation();">Supprimer</button>
+                            </form>
+                        </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
 
 
-            <section class="inscriptions_event" id="inscriptions_event">
-                <h2>Suivi des Inscriptions Évènements</h2>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Utilisateur</th>
-                                <th>Nom du chien</th>
-                                <th>Nom Évènement</th>
-                                <!-- <th>Date Séance</th>
+    <section class="inscriptions_event" id="inscriptions_event">
+        <h2>Suivi des Inscriptions Évènements</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Utilisateur</th>
+                        <th>Nom du chien</th>
+                        <th>Nom Évènement</th>
+                        <!-- <th>Date Séance</th>
                   <th>Heure Séance</th> -->
-                                <th>Date Inscription</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead><?php foreach ($recordset_inscription_event as $inscription): ?>
+                        <th>Date Inscription</th>
+                        <th>Action</th>
+                    </tr>
+                </thead><?php foreach ($recordset_inscription_event as $inscription): ?>
 
-                            <tbody>
-                                <tr>
-                                    <td><?= hsc($inscription['id_inscription']); ?></td>
-                                    <td><?= hsc($inscription['id_utilisateur']); ?></td>
-                                    <td><?= hsc($inscription['nom_dog']); ?></td>
-                                    <td><?= hsc($inscription['nom_event']); ?></td>
+                    <tbody>
+                        <tr>
+                            <td><?= hsc($inscription['id_inscription']); ?></td>
+                            <td><?= hsc($inscription['id_utilisateur']); ?></td>
+                            <td><?= hsc($inscription['nom_dog']); ?></td>
+                            <td><?= hsc($inscription['nom_event']); ?></td>
 
-                                    <td><?= hsc($inscription['date_inscription']); ?></td>
-                                    <td>
-                                        <!-- Option de suppression ou gestion -->
-                                        <form method="post" action="../inscription_event/delete_inscription_event.php" style="display: inline;">
-                                            <input type="hidden" name="id_inscription" value="<?= hsc($inscription['id_inscription']); ?>">
-                                            <button type="submit" class="btn" onclick=" return confirmationDeleteInscription();">Supprimer</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                    </table>
-                </div>
-            </section>
+                            <td><?= hsc($inscription['date_inscription']); ?></td>
+                            <td>
+                                <!-- Option de suppression ou gestion -->
+                                <form method="post" action="../inscription_event/delete_inscription_event.php" style="display: inline;">
+                                    <input type="hidden" name="id_inscription" value="<?= hsc($inscription['id_inscription']); ?>">
+                                    <button type="submit" class="btn" onclick=" return confirmationDeleteInscription();">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+            </table>
+        </div>
+    </section>
 
-        </section>
-    </main>
+
 
 
 
