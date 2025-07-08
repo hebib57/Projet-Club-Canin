@@ -51,92 +51,93 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <span class="bar"></span>
         </button>
     </header>
-    <div class="title">
-        <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
-    </div>
-    <!-- <main class="container_bord">
+    <main>
+        <div class="title">
+            <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
+        </div>
+        <!-- <main class="container_bord">
         <section class="dashbord"> -->
-    <div class="sidebar">
-        <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
-        <div class="sidebar-header">
-            <div class="user-avatar">AD</div>
-            <div class="user-info">
-                <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
+        <div class="sidebar">
+            <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <div class="sidebar-header">
+                <div class="user-avatar">AD</div>
+                <div class="user-info">
+                    <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
 
+                </div>
             </div>
+
+            <ul class="menu-list">
+                <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+                <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+                <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+          "></a></li>
+                <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
+          "></a></li>
+                <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
+          "></a></li>
+                <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
+          "></a></li>
+                <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+                <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+                <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+                <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
+            </ul>
         </div>
 
-        <ul class="menu-list">
-            <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-            <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-            <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-            <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
-          "></a></li>
-            <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
-          "></a></li>
-            <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
-          "></a></li>
-            <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-            <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-            <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-            <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-        </ul>
-    </div>
 
 
 
 
-
-    <section class="events" id="events">
-        <h2>Gestion des Événements</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom de l'Événement</th>
-                    <th>Date</th>
-                    <th>Heure</th>
-                    <th>Places disponibles</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($recordset_event as $row) { ?>
+        <section class="events" id="events">
+            <h2>Gestion des Événements</h2>
+            <table>
+                <thead>
                     <tr>
-                        <td><?= hsc($row['id_event']); ?></td>
-                        <td><?= hsc($row['nom_event']); ?></td>
-                        <td><?= hsc($row['date_event']); ?></td>
-                        <td><?= hsc($row['heure_event']); ?></td>
-                        <td><?= hsc($row['places_disponibles']); ?></td>
-
-                        <td>
-                            <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
-                            <button class="btn"><a href="../evenement/delete.php?id=<?= hsc($row['id_event']) ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
-                        </td>
+                        <th>ID</th>
+                        <th>Nom de l'Événement</th>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Places disponibles</th>
+                        <th>Actions</th>
                     </tr>
-                <?php }; ?>
-            </tbody>
-        </table>
-        <button class="btn">
-            <a href="../evenement/form.php">Ajouter un Événement</a></button>
-    </section>
+                </thead>
+                <tbody>
+                    <?php foreach ($recordset_event as $row) { ?>
+                        <tr>
+                            <td><?= hsc($row['id_event']); ?></td>
+                            <td><?= hsc($row['nom_event']); ?></td>
+                            <td><?= hsc($row['date_event']); ?></td>
+                            <td><?= hsc($row['heure_event']); ?></td>
+                            <td><?= hsc($row['places_disponibles']); ?></td>
+
+                            <td>
+                                <button class="btn"><a href="../evenement/form.php?id=<?= hsc($row['id_event']) ?>">Modifier</a></button>
+                                <button class="btn"><a href="../evenement/delete.php?id=<?= hsc($row['id_event']) ?>" onclick="return confirmationDeleteEvent();">Supprimer</a></button>
+                            </td>
+                        </tr>
+                    <?php }; ?>
+                </tbody>
+            </table>
+            <button class="btn">
+                <a href="../evenement/form.php">Ajouter un Événement</a></button>
+        </section>
 
 
 
 
 
-
+    </main>
 
     <section class="footer">
         <div class="footer-container">

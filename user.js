@@ -105,17 +105,6 @@ function confirmationDeleteDog() {
   return confirm("Êtes-vous sûr de vouloir supprimer ce Chien ?");
 }
 
-/*AFFICHAGE DATE-HEURE-----------------------------------------------*/
-
-function afficherHeure() {
-  const instant = new Date();
-  const heure = instant.toLocaleTimeString();
-  const date = instant.toLocaleDateString();
-  document.getElementById("date").textContent = `${date} ${heure}`;
-}
-setInterval(afficherHeure, 1000);
-afficherHeure();
-
 /*AFFICHAGE DYNAMIQUE INFOS PROGERSSION DU CHIEN SELECTIONNé---------------------*/
 
 const selectDog = document.getElementById("id_dog_user");
@@ -130,34 +119,34 @@ const categorieSpan = document.getElementById("info-categorie");
 const commentaireTableBody = document.querySelector(".progress-table tbody");
 
 /*--Masque les comment. chien et vide la table au chargement----------*/
-dogInfoDiv.style.display = "none";
-commentaireTableBody.innerHTML = "";
+// dogInfoDiv.style.display = "none";
+// commentaireTableBody.innerHTML = "";
+if (selectDog) {
+  selectDog.addEventListener("change", function () {
+    const selectedOption = this.options[this.selectedIndex];
 
-selectDog.addEventListener("change", function () {
-  const selectedOption = this.options[this.selectedIndex];
+    if (selectedOption.value) {
+      nomSpan.textContent = selectedOption.dataset.nom;
+      raceSpan.textContent = selectedOption.dataset.race;
+      ageSpan.textContent = selectedOption.dataset.age;
+      dateNaissanceSpan.textContent = selectedOption.dataset.dateNaissance;
+      dateInscriptionSpan.textContent = selectedOption.dataset.dateInscription;
+      sexeSpan.textContent = selectedOption.dataset.sexe;
+      categorieSpan.textContent = selectedOption.dataset.categorie;
+      console.log(selectedOption);
+      dogInfoDiv.style.display = "block";
 
-  if (selectedOption.value) {
-    nomSpan.textContent = selectedOption.dataset.nom;
-    raceSpan.textContent = selectedOption.dataset.race;
-    ageSpan.textContent = selectedOption.dataset.age;
-    dateNaissanceSpan.textContent = selectedOption.dataset.dateNaissance;
-    dateInscriptionSpan.textContent = selectedOption.dataset.dateInscription;
-    sexeSpan.textContent = selectedOption.dataset.sexe;
-    categorieSpan.textContent = selectedOption.dataset.categorie;
-    console.log(selectedOption);
-    dogInfoDiv.style.display = "block";
+      const commentaires = commentaireDog[selectedOption.value] || []; //SI existe, prends-le. sinon, prends un tableau vide
 
-    const commentaires = commentaireDog[selectedOption.value] || []; //SI existe, prends-le. sinon, prends un tableau vide
+      commentaireTableBody.innerHTML = ""; // vide la table
 
-    commentaireTableBody.innerHTML = ""; // vide la table
-
-    if (commentaires.length === 0) {
-      commentaireTableBody.innerHTML =
-        "<tr><td colspan='6'>Aucun commentaire trouvé pour ce chien.</td></tr>";
-    } else {
-      commentaires.forEach((c) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
+      if (commentaires.length === 0) {
+        commentaireTableBody.innerHTML =
+          "<tr><td colspan='6'>Aucun commentaire trouvé pour ce chien.</td></tr>";
+      } else {
+        commentaires.forEach((c) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
             <td>${c.date}</td>
             <td>${c.coach}</td>
             <td>${c.nom_cours}</td>
@@ -165,11 +154,28 @@ selectDog.addEventListener("change", function () {
             <td>${c.commentaire}</td>
             <td>${c.progres}</td>
           `;
-        commentaireTableBody.appendChild(row);
-      });
+          commentaireTableBody.appendChild(row);
+        });
+      }
+    } else {
+      dogInfoDiv.style.display = "none";
+      commentaireTableBody.innerHTML = "";
     }
-  } else {
-    dogInfoDiv.style.display = "none";
-    commentaireTableBody.innerHTML = "";
+  });
+}
+/*AFFICHAGE DATE-HEURE-----------------------------------------------*/
+
+function afficherHeure() {
+  const instant = new Date();
+  const heure = instant.toLocaleTimeString();
+  const date = instant.toLocaleDateString();
+  const dateElement = document.getElementById("date");
+
+  if (dateElement) {
+    dateElement.textContent = `${date} ${heure}`;
   }
-});
+
+  // document.getElementById("date");
+}
+setInterval(afficherHeure, 1000);
+afficherHeure();

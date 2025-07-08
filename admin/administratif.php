@@ -86,90 +86,91 @@ $total_event = $stmt->fetchColumn();
       <span class="bar"></span>
     </button>
   </header>
-  <div class="title">
-    <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
-  </div>
-
-  <div class="sidebar">
-    <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-    <div class="sidebar-header">
-      <div class="user-avatar">AD</div>
-      <div class="user-info">
-        <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
-
-      </div>
+  <main>
+    <div class="title">
+      <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
     </div>
 
-    <ul class="menu-list">
-      <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-      <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-      <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-      <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
-          "></a></li>
-      <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
-          "></a></li>
-      <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
-          "></a></li>
-      <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-      <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-      <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-      <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-    </ul>
-  </div>
-  <section class="admin_container">
-    <div id="date"> </div>
-    <div class="dashbord" id="dashbord">
-      <h2>Tableau de Bord</h2>
-      <div class="tab_bord-card">
-        <div class="card">
-          <h3>Cours à venir</h3>
-          <p><?= hsc($total_cours) ?> </p>
-          <button class="btn">Voir les cours</button>
-        </div>
+    <div class="sidebar">
+      <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <div class="sidebar-header">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
 
-        <div class="card">
-          <h3>Réservations en cours</h3>
-          <p><?= hsc($total_reservations) ?> </p>
-          <button class="btn">Voir les réservations</button>
-        </div>
-
-        <div class="card">
-          <h3>Utilisateurs Inscrits</h3>
-          <p><?= hsc($total_utilisateurs) ?> </p>
-          <button class="btn">Voir les utilisateurs</button>
         </div>
       </div>
-      <div class="tab_bord-card">
-        <div class="card">
-          <h3>Chiens Inscrits</h3>
-          <p><?= hsc($total_dogs) ?> </p>
-          <button class="btn">Voir les chiens</button>
-        </div>
 
-        <div class="card">
-          <h3>Messages reçus</h3>
-          <p><?= hsc($total_messages) ?> </p>
-          <button class="btn">Voir les messages</button>
-        </div>
-
-        <div class="card">
-          <h3>Evenements prévus</h3>
-          <p><?= hsc($total_event) ?></p>
-          <button class="btn">Voir les évènements</button>
-        </div>
-      </div>
+      <ul class="menu-list">
+        <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+        <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+        <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+          "></a></li>
+        <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
+          "></a></li>
+        <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
+          "></a></li>
+        <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
+          "></a></li>
+        <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+        <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+        <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+        <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
+      </ul>
     </div>
+    <section class="admin_container">
+      <div id="date"> </div>
+      <div class="dashbord" id="dashbord">
+        <h2>Tableau de Bord</h2>
+        <div class="tab_bord-card">
+          <div class="card">
+            <h3>Cours à venir</h3>
+            <p><?= hsc($total_cours) ?> </p>
+            <button class="btn">Voir les cours</button>
+          </div>
+
+          <div class="card">
+            <h3>Réservations en cours</h3>
+            <p><?= hsc($total_reservations) ?> </p>
+            <button class="btn">Voir les réservations</button>
+          </div>
+
+          <div class="card">
+            <h3>Utilisateurs Inscrits</h3>
+            <p><?= hsc($total_utilisateurs) ?> </p>
+            <button class="btn">Voir les utilisateurs</button>
+          </div>
+        </div>
+        <div class="tab_bord-card">
+          <div class="card">
+            <h3>Chiens Inscrits</h3>
+            <p><?= hsc($total_dogs) ?> </p>
+            <button class="btn">Voir les chiens</button>
+          </div>
+
+          <div class="card">
+            <h3>Messages reçus</h3>
+            <p><?= hsc($total_messages) ?> </p>
+            <button class="btn">Voir les messages</button>
+          </div>
+
+          <div class="card">
+            <h3>Evenements prévus</h3>
+            <p><?= hsc($total_event) ?></p>
+            <button class="btn">Voir les évènements</button>
+          </div>
+        </div>
+      </div>
 
 
 
@@ -181,8 +182,8 @@ $total_event = $stmt->fetchColumn();
 
 
 
-  </section>
-
+    </section>
+  </main>
   <section class="footer">
     <div class="footer-container">
       <div class="footer-section">

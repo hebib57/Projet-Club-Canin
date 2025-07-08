@@ -96,13 +96,14 @@ if ($id_commentaire && is_numeric($id_commentaire)) {
 
 
     </header>
-    <div class="title">
-        <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
-    </div>
+    <main>
+        <div class="title">
+            <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
+        </div>
 
-    <main class="container_bord">
+        <main>
 
-        <section class="dashbord">
+
             <div class="sidebar">
                 <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
                     <span class="bar"></span>
@@ -168,60 +169,60 @@ if ($id_commentaire && is_numeric($id_commentaire)) {
             </section>
 
 
-
-            <section class="footer">
-                <div class="footer-container">
-                    <div class="footer-section">
-                        <h3 class="footer-title">Coordonnées</h3>
-                        <div class="footer-info">Club Canin "Educa Dog"</div>
-                        <div class="footer-info">Téléphone : 03-87-30-30-30</div>
-                        <div class="footer-info">
-                            Email:
-                            <a href="">toto@gmail.com</a>
-                        </div>
-                        <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
+        </main>
+        <section class="footer">
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3 class="footer-title">Coordonnées</h3>
+                    <div class="footer-info">Club Canin "Educa Dog"</div>
+                    <div class="footer-info">Téléphone : 03-87-30-30-30</div>
+                    <div class="footer-info">
+                        Email:
+                        <a href="">toto@gmail.com</a>
                     </div>
-                    <div class="footer-section">
-                        <h3 class="footer-title">Plan du site</h3>
-                        <div class="footer-info"><a href="#accueil">Accueil</a></div>
-                        <div class="footer-info">
-                            <a href="inscription.html">S'inscrire</a>
-                        </div>
-                        <div class="footer-info">
-                            <a href="utilisateur.html">Mon compte</a>
-                        </div>
-                        <div class="footer-info">
-                            <a href="#nos_horaires">Horaires</a>
-                        </div>
-                        <div class="footer-info">
-                            <a href="#nous_trouver">Nous trouver</a>
-                        </div>
-                        <div class="footer-info">
-                            <a href="#story">Notre histoire</a>
-                        </div>
-                        <div class="footer-info">
-                            <a href="#nos_activite">Nos Activités</a>
-                        </div>
+                    <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Plan du site</h3>
+                    <div class="footer-info"><a href="#accueil">Accueil</a></div>
+                    <div class="footer-info">
+                        <a href="inscription.html">S'inscrire</a>
                     </div>
-                    <div class="footer-section">
-                        <h3 class="footer-title">Mentions légales</h3>
-                        <div class="footer-info">
-                            <a href="#">Politique de confidentialité</a>
-                        </div>
-                        <div class="footer-info"><a href="#">Mentions légales</a></div>
+                    <div class="footer-info">
+                        <a href="utilisateur.html">Mon compte</a>
                     </div>
-                    <div class="footer-section">
-                        <h3 class="footer-title">Club Canin "Educa Dog"</h3>
-                        <div class="logo-container">
-                            <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
-                        </div>
+                    <div class="footer-info">
+                        <a href="#nos_horaires">Horaires</a>
+                    </div>
+                    <div class="footer-info">
+                        <a href="#nous_trouver">Nous trouver</a>
+                    </div>
+                    <div class="footer-info">
+                        <a href="#story">Notre histoire</a>
+                    </div>
+                    <div class="footer-info">
+                        <a href="#nos_activite">Nos Activités</a>
                     </div>
                 </div>
-                <p>
-                    Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
-                </p>
-            </section>
-            <script src="./coach.js"></script>
+                <div class="footer-section">
+                    <h3 class="footer-title">Mentions légales</h3>
+                    <div class="footer-info">
+                        <a href="#">Politique de confidentialité</a>
+                    </div>
+                    <div class="footer-info"><a href="#">Mentions légales</a></div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Club Canin "Educa Dog"</h3>
+                    <div class="logo-container">
+                        <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
+                    </div>
+                </div>
+            </div>
+            <p>
+                Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
+            </p>
+        </section>
+        <script src="./coach.js"></script>
 </body>
 
 </html>

@@ -24,4 +24,44 @@ function cleanFilename($str)
 
 
 
-function HandleImageUpload() {};
+// function HandleImageUpload() {};
+
+
+function displayPagination($nbPage, $currentPage, $url = "index.php", $param = "page", $limit = 20)
+{
+    if ($currentPage < 1) {
+        $currentPage = 1;
+    }
+    if ($currentPage > $nbPage) {
+        $currentPage = $nbPage;
+    }
+    if ($nbPage > 1) {
+        echo "<ul>";
+        echo "<li><a href=\"" . $url . "\">&lt;&lt</a></li>";
+        echo "<li><a href=\"" . $url . ($currentPage > 2 ? "?" . $param . "=" . ($currentPage - 1) : "") . "\">&lt</a></li>";
+
+        $displayDots = true;
+        for ($i = 1; $i <= $nbPage; $i++) {
+            if ($nbPage <= $limit || $i <= 3 || $i >= ($nbPage - 2) || $i == $currentPage || $i == $currentPage - 1 || $i == $currentPage + 1) {
+                echo "<li " . ($i == $currentPage ? "class=\"active\"" : "") . "><a href=\"" . $url . ($i > 1 ? "?" . $param . "=" . $i : "") . "\">" . $i . "</a></li>";
+                //si $i est égal à currentPage alors(?) condition ok sinon(:) rien
+                $displayDots = true;
+            } else {
+                if ($displayDots) {
+                    echo "<li class=\"inactive\">...</li>";
+                    $displayDots = false;
+                }
+            }
+        }
+        echo "<li><a href=\"" . $url . "?" . $param . "=" . ($currentPage == $nbPage ? $nbPage : $currentPage + 1) . "\">&gt</a></li>";
+        echo "<li><a href=\"" . $url . "?" . $param . "=" . $nbPage . "\">&gt;&gt</a></li>";
+        echo "</ul>";
+    }
+
+    
+
+
+
+
+
+}

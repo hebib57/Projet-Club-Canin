@@ -105,100 +105,100 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
 
     </header>
 
+    <main>
 
 
+        <section>
 
-    <section>
+            <div class="modification">
+                <h2>Modifier Compte</h2>
 
-        <div class="modification">
-            <h2>Modifier Compte</h2>
+                <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
+                    <label for="photo_dog">Photo :</label>
+                    <input type="file" name="photo_dog" accept="image/*">
+                    <label for="nom_dog">Nom</label>
+                    <input type="text" name="nom_dog" id="nom_dog" value="<?= hsc($nom_dog) ?>">
+                    <label for="sexe">sexe</label>
+                    <select id="sexe_dog" name="sexe_dog">
+                        <option value="mâle">Mâle</option>
+                        <option value="femelle">Femelle</option>
+                    </select>
 
-            <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
-                <label for="photo_dog">Photo :</label>
-                <input type="file" name="photo_dog" accept="image/*">
-                <label for="nom_dog">Nom</label>
-                <input type="text" name="nom_dog" id="nom_dog" value="<?= hsc($nom_dog) ?>">
-                <label for="sexe">sexe</label>
-                <select id="sexe_dog" name="sexe_dog">
-                    <option value="mâle">Mâle</option>
-                    <option value="femelle">Femelle</option>
-                </select>
+                    <label for="date_naissance">Date de naissance</label>
+                    <input type="date" name="date_naissance" id="date_naissance" value="<?= hsc($date_naissance) ?>">
 
-                <label for="date_naissance">Date de naissance</label>
-                <input type="date" name="date_naissance" id="date_naissance" value="<?= hsc($date_naissance) ?>">
-
-                <!-- <label for="age_dog">Age</label>
+                    <!-- <label for="age_dog">Age</label>
                 <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>"> -->
 
-                <!-- <label for="categorie">Catégorie</label> -->
-                <input type="hidden" name="categorie" id="categorie" value="<?= hsc($nom_categorie) ?>" readonly>
+                    <!-- <label for="categorie">Catégorie</label> -->
+                    <input type="hidden" name="categorie" id="categorie" value="<?= hsc($nom_categorie) ?>" readonly>
 
-                <label for="id_race">Râce</label>
-                <select name="id_race" id="id_race" required>
-                    <?php
-                    foreach ($races as $race) {
+                    <label for="id_race">Râce</label>
+                    <select name="id_race" id="id_race" required>
+                        <?php
+                        foreach ($races as $race) {
 
-                        echo '<option value="' . hsc($race['id_race']) .  '">' . hsc($race['nom_race']) . '</option>';
-                    } ?>
-                </select>
+                            echo '<option value="' . hsc($race['id_race']) .  '">' . hsc($race['nom_race']) . '</option>';
+                        } ?>
+                    </select>
 
 
-                <?php if ($id_dog == 0): ?>
-                    <?php if ($role === "admin" || $role === "coach"): ?>
-                        <label for="id_utilisateur">Propriétaire</label>
-                        <select name="id_utilisateur" id="id_utilisateur" required>
-                            <option value="">-- Sélectionner un utilisateur --</option>
-                            <?php foreach ($utilisateurs as $user): ?>
-                                <option value="<?= hsc($user['id_utilisateur']) ?>">
-                                    <?= hsc($user['nom_utilisateur']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    <?php elseif ($role === "utilisateur" && isset($_SESSION['id_utilisateur'], $_SESSION['nom_utilisateur'])): ?>
-                        <input type="hidden" name="id_utilisateur" value="<?= hsc($_SESSION['id_utilisateur']) ?>">
-                        <p>Propriétaire : <?= hsc($_SESSION['nom_utilisateur']) ?></p>
+                    <?php if ($id_dog == 0): ?>
+                        <?php if ($role === "admin" || $role === "coach"): ?>
+                            <label for="id_utilisateur">Propriétaire</label>
+                            <select name="id_utilisateur" id="id_utilisateur" required>
+                                <option value="">-- Sélectionner un utilisateur --</option>
+                                <?php foreach ($utilisateurs as $user): ?>
+                                    <option value="<?= hsc($user['id_utilisateur']) ?>">
+                                        <?= hsc($user['nom_utilisateur']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php elseif ($role === "utilisateur" && isset($_SESSION['id_utilisateur'], $_SESSION['nom_utilisateur'])): ?>
+                            <input type="hidden" name="id_utilisateur" value="<?= hsc($_SESSION['id_utilisateur']) ?>">
+                            <p>Propriétaire : <?= hsc($_SESSION['nom_utilisateur']) ?></p>
+                        <?php else: ?>
+                            <label for="nom_utilisateur">Propriétaire</label>
+                            <input type="text" id="nom_utilisateur" value="<?= hsc($nom_utilisateur) ?>" readonly>
+                            <input type="hidden" name="id_utilisateur" value="<?= hsc($id_utilisateur) ?>">
+                        <?php endif; ?>
                     <?php else: ?>
                         <label for="nom_utilisateur">Propriétaire</label>
                         <input type="text" id="nom_utilisateur" value="<?= hsc($nom_utilisateur) ?>" readonly>
                         <input type="hidden" name="id_utilisateur" value="<?= hsc($id_utilisateur) ?>">
                     <?php endif; ?>
-                <?php else: ?>
-                    <label for="nom_utilisateur">Propriétaire</label>
-                    <input type="text" id="nom_utilisateur" value="<?= hsc($nom_utilisateur) ?>" readonly>
-                    <input type="hidden" name="id_utilisateur" value="<?= hsc($id_utilisateur) ?>">
-                <?php endif; ?>
 
 
-                <label for="date_inscription">Date d'inscription</label>
-                <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
-                <input type="hidden" name="id_dog" value="<?= hsc($id_dog) ?>">
-                <input type="hidden" name="formCU" value="ok">
-                <input class="btn__modif" type="submit" value="Enregistrer">
+                    <label for="date_inscription">Date d'inscription</label>
+                    <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
+                    <input type="hidden" name="id_dog" value="<?= hsc($id_dog) ?>">
+                    <input type="hidden" name="formCU" value="ok">
+                    <input class="btn__modif" type="submit" value="Enregistrer">
 
-            </form>
-            <?php
-            switch ($_SESSION['role_name']) {
-                case 'admin':
-                    $redirectUrl = '../admin/dogs-admin.php';
-                    break;
-                case 'coach':
-                    $redirectUrl = '../coach.php#dogs';
-                    break;
-                case 'utilisateur':
-                    $redirectUrl = '../dogs-user.php';
-                    break;
-                default:
-                    $redirectUrl = '../index.php';
-            }
-            ?>
-            <button class="btn2__modif">
-                <a href="<?= $redirectUrl ?>">Retour</a>
-            </button>
-            <!-- <button class="btn2__modif"><a href="../admin/administratif.php#dogs">Retour</a></button> -->
-        </div>
-    </section>
+                </form>
+                <?php
+                switch ($_SESSION['role_name']) {
+                    case 'admin':
+                        $redirectUrl = '../admin/dogs-admin.php';
+                        break;
+                    case 'coach':
+                        $redirectUrl = '../coach.php#dogs';
+                        break;
+                    case 'utilisateur':
+                        $redirectUrl = '../dogs-user.php';
+                        break;
+                    default:
+                        $redirectUrl = '../index.php';
+                }
+                ?>
+                <button class="btn2__modif">
+                    <a href="<?= $redirectUrl ?>">Retour</a>
+                </button>
+                <!-- <button class="btn2__modif"><a href="../admin/administratif.php#dogs">Retour</a></button> -->
+            </div>
+        </section>
 
-
+    </main>
     <section class="footer">
         <div class="footer-container">
             <div class="footer-section">

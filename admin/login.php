@@ -86,19 +86,19 @@ if (isset($_POST['admin_mail']) && isset($_POST['admin_password'])) {
       <span class="bar"></span>
     </button>
   </header>
-
-  <section class="form-container creation">
-    <h2>Se connecter</h2>
-    <form action="login.php" method="POST">
-      <label for="admin_mail">Email</label>
-      <input type="email" id="admin_mail" name="admin_mail" />
-      <label for="admin_password">Mot de passe</label>
-      <input type="password" id="admin_password" name="admin_password" />
-      <button type="submit" class="button" value="ok">Se connecter
-      </button>
-    </form>
-  </section>
-
+  <main>
+    <section class="form-container creation">
+      <h2>Se connecter</h2>
+      <form action="login.php" method="POST">
+        <label for="admin_mail">Email</label>
+        <input type="email" id="admin_mail" name="admin_mail" />
+        <label for="admin_password">Mot de passe</label>
+        <input type="password" id="admin_password" name="admin_password" />
+        <button type="submit" class="button" value="ok">Se connecter
+        </button>
+      </form>
+    </section>
+  </main>
   <footer>
     <section class="footer">
       <div class="footer-container">

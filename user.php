@@ -140,104 +140,93 @@ if ($id_utilisateur) {
       <span class="bar"></span>
     </button>
   </header>
+  <main>
 
-  <div class="title">
-    <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
-  </div>
-  <span id="date">
-  </span>
+    <div class="title">
+      <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
+    </div>
+    <span id="date">
+    </span>
 
 
 
 
-  <div class="sidebar">
-    <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-    <div class="sidebar-header">
-      <div class="user-avatar">U</div>
-      <div class="user-info">
-        <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
+    <div class="sidebar">
+      <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <div class="sidebar-header">
+        <div class="user-avatar">U</div>
+        <div class="user-info">
+          <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
 
+        </div>
       </div>
+
+      <ul class="menu-list">
+        <li><a href="user.php#dashbord">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+        <li><a href="cours_programmes-user.php">Cours programmés <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+          "></a></li>
+        <li><a href="event_programmes-user.php">Évènements programmés <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+        <li><a href="dogs-user.php">Mes chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
+          "></a></li>
+        <li><a href="reservations-user.php">Mes réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+        <li><a href="progression.php">Progression <img src="../interface_graphique/img-progress.png" alt="progression" width="40px
+          "></a></li>
+        <li><a href="messagerie-user.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+        <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+        <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
+      </ul>
     </div>
 
-    <ul class="menu-list">
-      <li><a href="user.php#dashbord">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-      <li><a href="cours_programmes-user.php">Cours programmés <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-      <li><a href="event_programmes-user.php">Évènements programmés <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-      <li><a href="dogs-user.php">Mes chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
-          "></a></li>
-      <li><a href="reservations-user.php">Mes réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-      <li><a href="progression.php">Progression <img src="../interface_graphique/img-progress.png" alt="progression" width="40px
-          "></a></li>
-      <li><a href="messagerie-user.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-      <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-      <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-    </ul>
-  </div>
+    <section class="tab_bord" id="dashbord">
+      <h2>Tableau de Bord</h2>
+      <div class="tab_bord-card">
 
-  <section class="tab_bord" id="dashbord">
-    <h2>Tableau de Bord</h2>
-    <div class="tab_bord-card">
+        <div class="suiv-card">
+          <h3><?= hsc($nombre_dogs) ?></h3>
+          <p>Chiens enregistrés</p>
+        </div>
+        <div class="suiv-card">
+          <h3><?= hsc($nombre_cours_reserves) ?></h3>
+          <p>Cours réservés</p>
+        </div>
+        <div class="suiv-card">
+          <h3><?= hsc($total_event_user) ?></h3>
+          <p>Évènements réservés</p>
+        </div>
 
-      <div class="suiv-card">
-        <h3><?= hsc($nombre_dogs) ?></h3>
-        <p>Chiens enregistrés</p>
       </div>
-      <div class="suiv-card">
-        <h3><?= hsc($nombre_cours_reserves) ?></h3>
-        <p>Cours réservés</p>
+      <div class="tab_bord-card">
+        <div class="card">
+          <h3>Cours programmés</h3>
+          <p><?= hsc($cours_programme) ?> </p>
+          <button class="btn">Voir les détails</button>
+        </div>
+
+        <div class="card">
+          <h3>Messages reçus</h3>
+          <p><?= hsc($nombre_message) ?></p>
+          <button class="btn">Voir mes messages</button>
+        </div>
+
+        <div class="card">
+          <h3>Évènements programmés</h3>
+          <p><?= hsc($total_event) ?></p>
+          <button class="btn">Voir les évènements</button>
+        </div>
       </div>
-      <div class="suiv-card">
-        <h3><?= hsc($total_event_user) ?></h3>
-        <p>Évènements réservés</p>
-      </div>
+    </section>
 
-    </div>
-    <div class="tab_bord-card">
-      <div class="card">
-        <h3>Cours programmés</h3>
-        <p><?= hsc($cours_programme) ?> </p>
-        <button class="btn">Voir les détails</button>
-      </div>
-
-      <div class="card">
-        <h3>Messages reçus</h3>
-        <p><?= hsc($nombre_message) ?></p>
-        <button class="btn">Voir mes messages</button>
-      </div>
-
-      <div class="card">
-        <h3>Évènements programmés</h3>
-        <p><?= hsc($total_event) ?></p>
-        <button class="btn">Voir les évènements</button>
-      </div>
-    </div>
-  </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  </main>
   <footer>
     <section class="footer">
       <div class="footer-container">

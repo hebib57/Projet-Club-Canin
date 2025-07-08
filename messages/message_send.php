@@ -84,57 +84,57 @@ $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <span class="bar"></span>
         </button>
     </header>
+    <main>
 
 
 
 
 
+        <section class="modification">
+            <h2>Envoyer un nouveau message</h2>
 
-    <section class="modification">
-        <h2>Envoyer un nouveau message</h2>
+            <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
+            <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
+            <div class="contact-form">
+                <form method="POST">
+                    <label for="destinataires">Destinataire(s) :</label><br>
+                    <select name="destinataires[]" id="destinataires" multiple required style="width: 100%;">
 
-        <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
-        <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
-        <div class="contact-form">
-            <form method="POST">
-                <label for="destinataires">Destinataire(s) :</label><br>
-                <select name="destinataires[]" id="destinataires" multiple required style="width: 100%;">
+                        <?php foreach ($utilisateurs as $user): ?>
+                            <option value="<?= $user['id_utilisateur'] ?>" <?= ($replyToId == $user['id_utilisateur']) ? 'selected' : '' ?>>
+                                <?= hsc($user['prenom_utilisateur']) . ' ' . hsc($user['nom_utilisateur']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
 
-                    <?php foreach ($utilisateurs as $user): ?>
-                        <option value="<?= $user['id_utilisateur'] ?>" <?= ($replyToId == $user['id_utilisateur']) ? 'selected' : '' ?>>
-                            <?= hsc($user['prenom_utilisateur']) . ' ' . hsc($user['nom_utilisateur']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                    <label for="">Sujet</label>
+                    <input type="text" name="sujet_message" id="sujet_message">
+                    <label>Message :</label><br>
+                    <textarea name="contenu" rows="5" cols="50" required></textarea><br><br>
 
-                <label for="">Sujet</label>
-                <input type="text" name="sujet_message" id="sujet_message">
-                <label>Message :</label><br>
-                <textarea name="contenu" rows="5" cols="50" required></textarea><br><br>
-
-                <button type="submit">Envoyer</button>
-            </form>
-            <?php
-            switch ($_SESSION['role_name']) {
-                case 'admin':
-                    $redirectUrl = '../admin/administratif.php#messagerie';
-                    break;
-                case 'coach':
-                    $redirectUrl = '../messagerie-coach.php';
-                    break;
-                case 'utilisateur':
-                    $redirectUrl = '../messagerie-user.php';
-                    break;
-                default:
-                    $redirectUrl = '../index.php';
-            }
-            ?>
-            <button class="btn2__modif">
-                <a href="<?= $redirectUrl ?>">Retour</a>
-            </button>
-        </div>
-    </section>
-
+                    <button type="submit">Envoyer</button>
+                </form>
+                <?php
+                switch ($_SESSION['role_name']) {
+                    case 'admin':
+                        $redirectUrl = '../admin/administratif.php#messagerie';
+                        break;
+                    case 'coach':
+                        $redirectUrl = '../messagerie-coach.php';
+                        break;
+                    case 'utilisateur':
+                        $redirectUrl = '../messagerie-user.php';
+                        break;
+                    default:
+                        $redirectUrl = '../index.php';
+                }
+                ?>
+                <button class="btn2__modif">
+                    <a href="<?= $redirectUrl ?>">Retour</a>
+                </button>
+            </div>
+        </section>
+    </main>
     <footer>
         <section class="footer">
             <div class="footer-container">

@@ -15,6 +15,28 @@ select {
   height: 35px;
   border-radius: 10px;
 }
+
+/* PAGINATION------------------------------------------------------------------ */
+.pagination ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination .active a {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination .inactive {
+  color: black;
+}
 /* HEADER ----------------------------------------------------------------------------------------------------------------------------------*/
 
 .header {
@@ -229,16 +251,17 @@ footer p {
 .card-admin_messagerie .card-header h2 {
   text-align: center;
 }
-.admin_container {
+/* .admin_container {
   width: 1850px;
   margin-left: 250px;
-}
-.dashbord .admin_container .events {
+} */
+/* .dashbord .admin_container .events {
   max-width: 1200px;
   width: 100%;
   transform: translateX(-250px);
-}
+} */
 
+.admin_container,
 .card-admin_messagerie,
 .messagerie,
 .events,
@@ -1155,10 +1178,13 @@ button:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-bottom: 20px;
-
   margin-left: 250px;
   width: 1850px;
 }
+.card-coach_messagerie a {
+  text-decoration: none;
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -1195,6 +1221,9 @@ button:hover {
   font-size: 14px;
   /* float: right; */
   margin-bottom: 20px;
+}
+.btn a {
+  text-decoration: none;
 }
 
 .btn-success {
@@ -1375,6 +1404,7 @@ table th {
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .card .btn:hover {
@@ -1554,7 +1584,7 @@ table th {
   }
   .tab_bord {
     margin-left: 60px;
-    max-width: 650px;
+    max-width: 700px;
   }
   .tab_bord .table {
     font-size: 14px;
@@ -1574,13 +1604,13 @@ table th {
     flex-direction: column;
     justify-content: space-between;
   }
-  .card-coach_messagerie {
+  /* .card-coach_messagerie {
     max-width: 650px;
-  }
+  } */
   /*----------------responsive MES CHIENS-----------------*/
   .content {
     margin-left: 60px;
-    max-width: 650px;
+    max-width: 700px;
     width: 100%;
   }
   .dog-avatar img {
@@ -1687,7 +1717,7 @@ table th {
   }
 
   /*-------------------------responsive MESSAGERIE------------------------*/
-  .card-coach_messagerie th {
+  /* .card-coach_messagerie th {
     text-align: center;
   }
   .card-coach_messagerie td {
@@ -1697,10 +1727,11 @@ table th {
   .card-coach_messagerie button {
     padding: 0px;
     margin-bottom: 20px;
-  }
-  .card-coach_messagerie a {
+  } */
+  .card-coach_messagerie button {
     text-decoration: none;
     padding: 2px 4px;
+    margin-bottom: 20px;
   }
 }
 
@@ -1734,6 +1765,7 @@ table th {
   }
 
   /*----------------------------------------responsive RESERVATIONS et INSCRIPTIONS_EVENT, MESSAGERIE_ADMIN, COURS_PROGRAMMé------------------*/
+  .commentaires,
   .events,
   .dogs,
   .admins,
@@ -1741,6 +1773,7 @@ table th {
   .users,
   .cours_programmé,
   .card-admin_messagerie,
+  .card-coach_messagerie,
   .inscriptions_event,
   .reservations {
     margin-left: 50px;
@@ -1748,6 +1781,7 @@ table th {
     font-size: 12px;
   }
 
+  .commentaires th,
   .events th,
   .dogs th,
   .admins th,
@@ -1755,11 +1789,13 @@ table th {
   .users th,
   .cours_programmé th,
   .card-admin_messagerie th,
+  .card-coach_messagerie th,
   .inscriptions_event th,
   .reservations th {
     text-align: center;
   }
 
+  .commentaires td,
   .events td,
   .dogs td,
   .admins td,
@@ -1767,10 +1803,12 @@ table th {
   .users td,
   .cours_programmé td,
   .card-admin_messagerie td,
+  .card-coach_messagerie td,
   .inscriptions_event td,
   .reservations td {
     text-align: center;
   }
+  .commentaires .btn,
   .events .btn,
   .dogs .btn,
   .admins .btn,
@@ -1778,12 +1816,24 @@ table th {
   .users .btn,
   .cours_programmé .btn,
   .card-admin_messagerie .btn,
+  .card-coach_messagerie .btn,
   .inscriptions_event .btn,
   .reservations .btn {
     font-size: 12px;
     text-decoration: none;
     padding: 3px;
   }
+  /* .events .btn a,
+  .dogs .btn a,
+  .admins .btn a,
+  .coachs .btn a,
+  .users .btn a,
+  .cours_programmé .btn a,
+  .card-admin_messagerie .btn a,
+  .inscriptions_event .btn a,
+  .reservations .btn a {
+    text-decoration: none;
+  } */
 
   /*----------------------------------responsive MESSAGERIE-------------------------*/
 

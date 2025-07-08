@@ -66,6 +66,7 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
     </header>
+    <main>
     <section>
 
         <div class="modification">
@@ -109,7 +110,7 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </section>
 
-
+    </main>
     <section class="footer">
         <div class="footer-container">
             <div class="footer-section">
