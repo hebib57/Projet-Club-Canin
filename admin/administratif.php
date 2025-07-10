@@ -28,8 +28,8 @@ $stmt = $db->prepare("SELECT COUNT(*) FROM reservation");
 $stmt->execute();
 $total_reservations = $stmt->fetchColumn();
 
-// recup le nombre de cours
-$stmt = $db->prepare("SELECT COUNT(*) FROM cours");
+// recup le nombre de cours(seance)
+$stmt = $db->prepare("SELECT COUNT(*) FROM seance");
 $stmt->execute();
 $total_cours = $stmt->fetchColumn();
 
@@ -135,38 +135,40 @@ $total_event = $stmt->fetchColumn();
           <div class="card">
             <h3>Cours à venir</h3>
             <p><?= hsc($total_cours) ?> </p>
-            <button class="btn">Voir les cours</button>
+            <a href="cours_programmes-admin.php" class="btn">Voir les cours</a>
           </div>
 
           <div class="card">
             <h3>Réservations en cours</h3>
             <p><?= hsc($total_reservations) ?> </p>
-            <button class="btn">Voir les réservations</button>
+            <a href="reservations-admin.php#reservations" class="btn">Voir les réservations</a>
+
           </div>
 
           <div class="card">
             <h3>Utilisateurs Inscrits</h3>
             <p><?= hsc($total_utilisateurs) ?> </p>
-            <button class="btn">Voir les utilisateurs</button>
+            <a href="users-admin.php" class="btn">Voir les utilisateurs</a>
+
           </div>
         </div>
         <div class="tab_bord-card">
           <div class="card">
             <h3>Chiens Inscrits</h3>
             <p><?= hsc($total_dogs) ?> </p>
-            <button class="btn">Voir les chiens</button>
+            <a href="dogs-admin.php" class="btn">Voir les chiens</a>
           </div>
 
           <div class="card">
             <h3>Messages reçus</h3>
             <p><?= hsc($total_messages) ?> </p>
-            <button class="btn">Voir les messages</button>
+            <a href="messagerie-admin.php" class="btn">Voir mes messages</a>
           </div>
 
           <div class="card">
             <h3>Evenements prévus</h3>
             <p><?= hsc($total_event) ?></p>
-            <button class="btn">Voir les évènements</button>
+            <a href="events_programmes-admin.php" class="btn">Voir les évènements</a>
           </div>
         </div>
       </div>
