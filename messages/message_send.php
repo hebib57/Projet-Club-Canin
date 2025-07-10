@@ -75,8 +75,8 @@ $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <nav class="navbar">
             <ul class="navbar__burger-menu--closed">
-                <li><a href="index.php">Accueil</a></li>
-                <li><a href="./admin/logout.php">Déconnexion</a></li>
+                <li><a href="../index.php">Accueil</a></li>
+                <li><a href="../admin/logout.php">Déconnexion</a></li>
             </ul>
         </nav>
         <button class="navbar__burger-menu-toggle" id="burgerMenu">

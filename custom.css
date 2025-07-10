@@ -518,9 +518,10 @@ h2 {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: inline-block;
+  /* display: inline-block; */
   width: 100%;
   max-width: 500px;
+  display: contents;
 }
 .container-fluide {
   display: flex;
@@ -1491,51 +1492,6 @@ table th {
   background-color: #eee;
 }
 
-/* .modification button[type="submit"] {
-  background-color: #0057b8;
-  color: #fff;
-  border: none;
-  padding: 12px 20px;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 15px;
-  transition: background-color 0.3s ease;
-}
-
-.modification button[type="submit"]:hover {
-  background-color: #003f8a;
-}
-
-.modification a.button {
-  display: inline-block;
-  margin-top: 25px;
-  padding: 10px 15px;
-  background-color: #ccc;
-  color: #333;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  text-align: center;
-}
-
-.modification a.button:hover {
-  background-color: #bbb; */
-
-/* Responsive */
-@media (max-width: 600px) {
-  .modification {
-    padding: 20px;
-  }
-
-  .modification h3 {
-    font-size: 1.4rem;
-  }
-
-  .modification textarea {
-    font-size: 0.95rem;
-  }
-}
-
 /*-----------------------------------------------------------------------------------------------------*/
 .modif {
   padding: 20px;
@@ -2104,5 +2060,20 @@ table th {
 @media (min-width: 768px) {
   .navbar__burger-menu--closed {
     display: flex;
+  }
+}
+
+/* RESPONSIVE Message_read */
+@media (max-width: 600px) {
+  .modification {
+    padding: 20px;
+  }
+
+  .modification h3 {
+    font-size: 22px;
+  }
+
+  .modification textarea {
+    font-size: 15px;
   }
 }

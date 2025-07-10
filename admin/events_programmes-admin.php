@@ -11,9 +11,38 @@ $id_utilisateur = $_SESSION['user_id'] ?? null;
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
 // recup tous les évènements
-$stmt = $db->prepare("SELECT * FROM evenement");
+// $stmt = $db->prepare("SELECT * FROM evenement");
+// $stmt->execute();
+// $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+// Page actuelle (par défaut 1)
+$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM evenement ");
+$stmtCount->execute();
+$totalItems = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+// Calcul du nombre de pages
+$nbPage = ceil($totalItems / $nbPerPage);
+
+
+$offset = ($currentPage - 1) * $nbPerPage;
+
+$stmt = $db->prepare("SELECT * FROM evenement  LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 
 ?>
@@ -95,7 +124,9 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
 
-
+        <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+            <?php displayPagination($nbPage, $currentPage, "events_programmes-admin.php", "page", $nbPerPage); ?>
+        </div>
 
 
         <section class="events" id="events">
@@ -133,7 +164,9 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </section>
 
 
-
+        <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+            <?php displayPagination($nbPage, $currentPage, "events_programmes-admin.php", "page", $nbPerPage); ?>
+        </div>
 
 
     </main>
