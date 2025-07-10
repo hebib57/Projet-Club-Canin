@@ -16,8 +16,8 @@ $utilisateur = [];
 
 
 
-//recup nombre de cours_programme
-$stmt = $db->prepare("SELECT COUNT(*) FROM cours");
+//recup nombre de (seances)cours_programme
+$stmt = $db->prepare("SELECT COUNT(*) FROM seance");
 $stmt->execute();
 $cours_programme = $stmt->fetchColumn();
 
@@ -192,17 +192,20 @@ if ($id_utilisateur) {
       <h2>Tableau de Bord</h2>
       <div class="tab_bord-card">
 
-        <div class="suiv-card">
+        <div class="card">
           <h3><?= hsc($nombre_dogs) ?></h3>
           <p>Chiens enregistrés</p>
+          <a href="dogs-user.php" class="btn">Voir mes chiens</a>
         </div>
-        <div class="suiv-card">
+        <div class="card">
           <h3><?= hsc($nombre_cours_reserves) ?></h3>
           <p>Cours réservés</p>
+          <a href="reservations-user.php#reservations" class="btn">Voir mes cours réservés</a>
         </div>
-        <div class="suiv-card">
+        <div class="card">
           <h3><?= hsc($total_event_user) ?></h3>
           <p>Évènements réservés</p>
+          <a href="reservations-user.php#events" class="btn">Voir mes évènements réservés</a>
         </div>
 
       </div>
@@ -210,19 +213,19 @@ if ($id_utilisateur) {
         <div class="card">
           <h3>Cours programmés</h3>
           <p><?= hsc($cours_programme) ?> </p>
-          <button class="btn">Voir les détails</button>
+          <a href="cours_programmes-user.php" class="btn">Voir les détails</a>
         </div>
 
         <div class="card">
           <h3>Messages reçus</h3>
           <p><?= hsc($nombre_message) ?></p>
-          <button class="btn">Voir mes messages</button>
+          <a href="messagerie-user.php" class="btn">Voir mes messages</a>
         </div>
 
         <div class="card">
           <h3>Évènements programmés</h3>
           <p><?= hsc($total_event) ?></p>
-          <button class="btn">Voir les évènements</button>
+          <a href="event_programmes-user.php" class="btn">Voir les évènements</a>
         </div>
       </div>
     </section>

@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['contenu'], $_POST['de
         </div>
         <nav class="navbar">
             <ul class="navbar__burger-menu--closed">
-                <li><a href="index.php">Accueil</a></li>
+                <li><a href="../index.php">Accueil</a></li>
                 <li><a href="./admin/logout.php">Déconnexion</a></li>
 
             </ul>
