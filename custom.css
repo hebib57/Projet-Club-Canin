@@ -274,7 +274,7 @@ footer p {
 /* .reservations-user, */
 .reservations {
   margin-left: 250px;
-  width: 1850px;
+  width: 80%;
 }
 
 /*-------tempo affichage "cours ajouté"----------------------*/
@@ -793,7 +793,7 @@ section ul {
 } */
 
 .content {
-  width: 1850px;
+  width: 80%;
   margin-left: 250px;
   padding: 30px;
   background-color: white;
@@ -984,7 +984,7 @@ section ul {
 }
 .suivi {
   margin-top: 40px;
-  width: 1850px;
+  width: 80%;
   margin-left: 250px;
 }
 
@@ -995,7 +995,7 @@ section ul {
 }
 
 .selection select {
-  padding: 12px;
+  /* padding: 12px; */
   font-size: 16px;
   border-radius: 5px;
   width: 200px;
@@ -1167,7 +1167,7 @@ button:hover {
   padding: 20px;
   margin-bottom: 20px;
   margin-left: 250px;
-  width: 1850px;
+  width: 80%;
 }
 .card-user_messagerie button {
   float: left;
@@ -1355,8 +1355,8 @@ table th {
 /* TABLEAU DE BORD -----------------------------------------------------------------------------------------------------------------*/
 
 .tab_bord {
-  width: 100%;
-  max-width: 1850px;
+  width: 80%;
+  /* max-width: 1850px; */
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -1445,13 +1445,98 @@ table th {
 }
 /*----------------------------------------------------------------FORM-----------------------------------------------------------------------*/
 
-.modification {
+/* .modification {
   display: grid;
   margin-top: 100px;
   justify-content: center;
   margin-bottom: 100px;
+} */
+/*-----------------------------------modification-------------------------------------------------------*/
+
+.modification {
+  display: grid;
+  background-color: #ffffff;
+  padding: 30px;
+  margin: 40px auto;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 150px;
 }
 
+.modification h3 {
+  font-size: 30px;
+  margin-bottom: 20px;
+  color: #2c6b2f;
+}
+
+.modification p {
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #444;
+}
+
+.modification strong {
+  color: #222;
+}
+
+.modification textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  resize: vertical;
+  margin-top: 10px;
+  background-color: #eee;
+}
+
+/* .modification button[type="submit"] {
+  background-color: #0057b8;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.modification button[type="submit"]:hover {
+  background-color: #003f8a;
+}
+
+.modification a.button {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 10px 15px;
+  background-color: #ccc;
+  color: #333;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.modification a.button:hover {
+  background-color: #bbb; */
+
+/* Responsive */
+@media (max-width: 600px) {
+  .modification {
+    padding: 20px;
+  }
+
+  .modification h3 {
+    font-size: 1.4rem;
+  }
+
+  .modification textarea {
+    font-size: 0.95rem;
+  }
+}
+
+/*-----------------------------------------------------------------------------------------------------*/
 .modif {
   padding: 20px;
   display: grid;

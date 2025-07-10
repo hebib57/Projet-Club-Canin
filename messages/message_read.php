@@ -100,10 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['contenu'], $_POST['de
         <nav class="navbar">
             <ul class="navbar__burger-menu--closed">
                 <li><a href="index.php">Accueil</a></li>
-                <li><a href="login.php" class="button">Se connecter</a></li>
-                <li><a href="user.php">utilisateur</a></li>
-                <li><a href="./admin/administratif.php">Admin</a></li>
-                <li><a href="coach.php">Coach</a></li>
+                <li><a href="./admin/logout.php">Déconnexion</a></li>
+
             </ul>
         </nav>
         <button class="navbar__burger-menu-toggle" id="burgerMenu">
@@ -122,11 +120,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['contenu'], $_POST['de
 
 
         <h3>Message de <?= hsc($message['prenom_utilisateur'] . ' ' . hsc($message['nom_utilisateur'])) ?></h3>
+        <p><strong>Date :</strong> <?= hsc(date('d/m/Y H:i', strtotime(hsc($message['date_envoi'])))) ?></p>
         <p><strong>Sujet :</strong> <?= hsc($message['sujet_message']) ?></p>
         <p><strong>Message :</strong><?= hsc($message['contenu']) ?></p>
-        <p><strong>Date :</strong> <?= hsc(date('d/m/Y H:i', strtotime(hsc($message['date_envoi'])))) ?></p>
 
-        <p><strong>Contenu :</strong><br><?= nl2br(hsc($message['contenu'])) ?></p>
+
+        <!-- <p><strong>Contenu :</strong><br><?= nl2br(hsc($message['contenu'])) ?></p> -->
+
 
         <form method="POST" style="margin-top: 20px;">
             <input type="hidden" name="destinataires" value="<?= hsc($message['id_expediteur']) ?>">
@@ -176,12 +176,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['contenu'], $_POST['de
                 </div>
                 <div class="footer-section">
                     <h3 class="footer-title">Plan du site</h3>
-                    <div class="footer-info"><a href="#accueil">Accueil</a></div>
+                    <div class="footer-info"><a href="../index.php">Accueil</a></div>
                     <div class="footer-info">
-                        <a href="inscription.html">S'inscrire</a>
-                    </div>
-                    <div class="footer-info">
-                        <a href="utilisateur.html">Mon compte</a>
+                        <a href="#nos_activite">Nos Activités</a>
                     </div>
                     <div class="footer-info">
                         <a href="#nos_horaires">Horaires</a>
@@ -193,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['contenu'], $_POST['de
                         <a href="#story">Notre histoire</a>
                     </div>
                     <div class="footer-info">
-                        <a href="#nos_activite">Nos Activités</a>
+                        <a href="#nous_contacter">Nous contacter</a>
                     </div>
                 </div>
                 <div class="footer-section">

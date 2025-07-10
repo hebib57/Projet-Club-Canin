@@ -41,8 +41,7 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav class="navbar">
             <ul class="navbar__burger-menu--closed">
                 <li><a href="../index.php">Accueil</a></li>
-                <li><a href="../coach.php">coach</a></li>
-                <li><a href="../user.php">utilisateur</a></li>
+                <li><a href="./admin/logout.php">Déconnexion</a></li>
             </ul>
         </nav>
         <button class="navbar__burger-menu-toggle" id="burgerMenu">
@@ -153,12 +152,9 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="footer-section">
                 <h3 class="footer-title">Plan du site</h3>
-                <div class="footer-info"><a href="#accueil">Accueil</a></div>
+                <div class="footer-info"><a href="../index.php">Accueil</a></div>
                 <div class="footer-info">
-                    <a href="inscription.html">S'inscrire</a>
-                </div>
-                <div class="footer-info">
-                    <a href="utilisateur.html">Mon compte</a>
+                    <a href="#nos_activite">Nos Activités</a>
                 </div>
                 <div class="footer-info">
                     <a href="#nos_horaires">Horaires</a>
@@ -170,7 +166,7 @@ $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a href="#story">Notre histoire</a>
                 </div>
                 <div class="footer-info">
-                    <a href="#nos_activite">Nos Activités</a>
+                    <a href="#nous_contacter">Nous contacter</a>
                 </div>
             </div>
             <div class="footer-section">

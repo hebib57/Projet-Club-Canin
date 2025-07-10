@@ -54,8 +54,7 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav class="navbar">
             <ul class="navbar__burger-menu--closed">
                 <li><a href="../index.php">Accueil</a></li>
-                <li><a href="../coach.php">coach</a></li>
-                <li><a href="../user.php">utilisateur</a></li>
+                <li><a href="./admin/logout.php">Déconnexion</a></li>
             </ul>
         </nav>
         <button class="navbar__burger-menu-toggle" id="burgerMenu">
@@ -67,48 +66,48 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     </header>
     <main>
-    <section>
+        <section>
 
-        <div class="modification">
-            <h2>Modifier Evènement</h2>
-            <form class="modif" action="../evenement/process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
-                <label for="nom_event">Nom de l'évènement</label>
-                <input type="text" name="nom_event" id="nom_event" value="<?= hsc($nom_event) ?>">
-                <label for="date_event">Date de l'évènement</label>
-                <input type="date" name="date_event" id="date_event" value="<?= hsc($date_event) ?>">
-                <label for="heure_event">Heure de l'évènement</label>
-                <input type="time" name="heure_event" id="heure_event" value="<?= hsc($heure_event) ?>">
-                <label for="places_disponibles">Places disponibles</label>
-                <input type="number" name="places_disponibles" id="places_disponibles" value="<?= hsc($places_disponibles) ?>">
-                <input type="hidden" name="id_event" id="id_event" value="<?= hsc($id_event) ?>">
-                <input type="hidden" name="formCU" value="ok">
-                <input class="btn__modif" type="submit" value="Enregistrer">
-            </form>
-            <?php
-            switch ($_SESSION['role_name']) {
-                case 'admin':
-                    $redirectUrl = '../admin/administratif.php#events';
-                    break;
-                case 'coach':
-                    $redirectUrl = '../event_programmes-coach.php';
-                    break;
-                // case 'utilisateur':
-                //     $redirectUrl = '../user.php#cours_programmé';
-                //     break;
-                default:
-                    $redirectUrl = '../index.php';
-            }
-            ?>
-            <button class="btn2__modif">
-                <a href="<?= $redirectUrl ?>">Retour</a>
-            </button>
-
-
+            <div class="modification">
+                <h2>Modifier Evènement</h2>
+                <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
+                    <label for="nom_event">Nom de l'évènement</label>
+                    <input type="text" name="nom_event" id="nom_event" value="<?= hsc($nom_event) ?>">
+                    <label for="date_event">Date de l'évènement</label>
+                    <input type="date" name="date_event" id="date_event" value="<?= hsc($date_event) ?>">
+                    <label for="heure_event">Heure de l'évènement</label>
+                    <input type="time" name="heure_event" id="heure_event" value="<?= hsc($heure_event) ?>">
+                    <label for="places_disponibles">Places disponibles</label>
+                    <input type="number" name="places_disponibles" id="places_disponibles" value="<?= hsc($places_disponibles) ?>">
+                    <input type="hidden" name="id_event" id="id_event" value="<?= hsc($id_event) ?>">
+                    <input type="hidden" name="formCU" value="ok">
+                    <input class="btn__modif" type="submit" value="Enregistrer">
+                </form>
+                <?php
+                switch ($_SESSION['role_name']) {
+                    case 'admin':
+                        $redirectUrl = '../admin/administratif.php#events';
+                        break;
+                    case 'coach':
+                        $redirectUrl = '../event_programmes-coach.php';
+                        break;
+                    // case 'utilisateur':
+                    //     $redirectUrl = '../user.php#cours_programmé';
+                    //     break;
+                    default:
+                        $redirectUrl = '../index.php';
+                }
+                ?>
+                <button class="btn2__modif">
+                    <a href="<?= $redirectUrl ?>">Retour</a>
+                </button>
 
 
-            <!-- <button class="btn2__modif"><a href="../admin/administratif.php#cours">Retour</a></button> -->
-        </div>
-    </section>
+
+
+                <!-- <button class="btn2__modif"><a href="../admin/administratif.php#cours">Retour</a></button> -->
+            </div>
+        </section>
 
     </main>
     <section class="footer">
@@ -125,12 +124,9 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="footer-section">
                 <h3 class="footer-title">Plan du site</h3>
-                <div class="footer-info"><a href="#accueil">Accueil</a></div>
+                <div class="footer-info"><a href="../index.php">Accueil</a></div>
                 <div class="footer-info">
-                    <a href="inscription.html">S'inscrire</a>
-                </div>
-                <div class="footer-info">
-                    <a href="utilisateur.html">Mon compte</a>
+                    <a href="#nos_activite">Nos Activités</a>
                 </div>
                 <div class="footer-info">
                     <a href="#nos_horaires">Horaires</a>
@@ -142,7 +138,7 @@ $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a href="#story">Notre histoire</a>
                 </div>
                 <div class="footer-info">
-                    <a href="#nos_activite">Nos Activités</a>
+                    <a href="#nous_contacter">Nous contacter</a>
                 </div>
             </div>
             <div class="footer-section">

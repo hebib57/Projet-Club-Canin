@@ -24,9 +24,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
       <ul class="navbar__burger-menu--closed">
         <li><a href="index.php">Accueil</a></li>
         <li><a href="login.php">Se connecter</a></li>
-        <li><a href="reservation.html">Réservation</a></li>
-        <li><a href="suivi.html">Suivi </a></li>
-        <li><a href="evenement.html">Evènements</a></li>
       </ul>
     </nav>
     <button class="navbar__burger-menu-toggle" id="burgerMenu">
@@ -94,12 +91,9 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
         </div>
         <div class="footer-section">
           <h3 class="footer-title">Plan du site</h3>
-          <div class="footer-info"><a href="#accueil">Accueil</a></div>
+          <div class="footer-info"><a href="../index.php">Accueil</a></div>
           <div class="footer-info">
-            <a href="inscription.html">S'inscrire</a>
-          </div>
-          <div class="footer-info">
-            <a href="utilisateur.html">Mon compte</a>
+            <a href="#nos_activite">Nos Activités</a>
           </div>
           <div class="footer-info">
             <a href="#nos_horaires">Horaires</a>
@@ -111,7 +105,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
             <a href="#story">Notre histoire</a>
           </div>
           <div class="footer-info">
-            <a href="#nos_activite">Nos Activités</a>
+            <a href="#nous_contacter">Nous contacter</a>
           </div>
         </div>
         <div class="footer-section">
