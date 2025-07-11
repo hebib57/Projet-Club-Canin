@@ -21,7 +21,7 @@ $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 // Compter le total des enregistrements
 $stmtCount = $db->prepare("SELECT COUNT(*) as total FROM cours JOIN seance ON cours.id_cours = seance.id_cours");
 $stmtCount->execute();
-$totalItems = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+$totalCours = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
 
 // Nombre d'éléments par page
 $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
@@ -31,7 +31,7 @@ if ($nbPerPage <= 0) {
     $nbPerPage = 10;
 }
 // Calcul du nombre de pages
-$nbPage = ceil($totalItems / $nbPerPage);
+$nbPage = ceil($totalCours / $nbPerPage);
 
 
 $offset = ($currentPage - 1) * $nbPerPage;
@@ -108,7 +108,7 @@ $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
           "></a></li>
                 <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
           "></a></li>
-                <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+                <li><a href="parameters_count-admin.php">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
           "></a></li>
                 <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>

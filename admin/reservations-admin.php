@@ -11,9 +11,73 @@ $id_utilisateur = $_SESSION['user_id'] ?? null;
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
 
-$query = "
-SELECT 
-        r.id_reservation,
+// $query = "
+// SELECT 
+//         r.id_reservation,
+//         r.date_reservation,
+//         u.nom_utilisateur,
+//         r.id_dog,
+//         d.nom_dog,
+//         s.id_seance,
+//         s.date_seance,
+//         s.heure_seance,
+//         s.places_disponibles,
+//         s.duree_seance,
+//         s.statut_seance,
+//         co.nom_cours,
+//         co.categorie_acceptee
+//     FROM 
+//         reservation r
+//         JOIN seance s ON r.id_seance = s.id_seance
+//         JOIN cours co ON s.id_cours = co.id_cours
+//         JOIN utilisateur u ON r.id_utilisateur = u.id_utilisateur
+//         JOIN chien d ON r.id_dog = d.id_dog
+//     ORDER BY r.date_reservation DESC
+//     ";
+// $stmt = $db->query($query);
+// $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+// recup les inscriptions aux evenements
+// $stmt = $db->prepare("
+//   SELECT 
+//   i.id_inscription,
+//   i.date_inscription,
+//   u.nom_utilisateur,
+//   d.nom_dog,
+//   e.nom_event
+//    FROM inscription_evenement i 
+//    JOIN utilisateur u ON i.id_utilisateur = u.id_utilisateur
+//    JOIN chien d ON i.id_dog = d.id_dog
+//    JOIN evenement e ON i.id_event = e.id_event
+//    ORDER BY i.date_inscription DESC;
+//    ");
+// $stmt->execute();
+// $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// --------------------------------------------------------------------------------------------------------------------
+// Page actuelle (par défaut 1)
+$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM reservation ");
+$stmtCount->execute();
+$totalReservation = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+// Calcul du nombre de pages
+$nbPage = ceil($totalReservation / $nbPerPage);
+
+
+$offset = ($currentPage - 1) * $nbPerPage;
+
+$stmt = $db->prepare("SELECT 
+                        r.id_reservation,
         r.date_reservation,
         u.nom_utilisateur,
         r.id_dog,
@@ -26,38 +90,58 @@ SELECT
         s.statut_seance,
         co.nom_cours,
         co.categorie_acceptee
-    FROM 
-        reservation r
+        FROM 
+         reservation r
         JOIN seance s ON r.id_seance = s.id_seance
         JOIN cours co ON s.id_cours = co.id_cours
         JOIN utilisateur u ON r.id_utilisateur = u.id_utilisateur
         JOIN chien d ON r.id_dog = d.id_dog
-    ORDER BY r.date_reservation DESC
-    ";
-$stmt = $db->query($query);
+        ORDER BY r.date_reservation DESC 
+        LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
 $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// -------------------------------------------------------------------------------------------------------------------------------------------------
 
-// recup les inscriptions aux evenements
-$stmt = $db->prepare("
-  SELECT 
-  i.id_inscription,
-  i.date_inscription,
-  u.nom_utilisateur,
-  d.nom_dog,
-  e.nom_event
-   FROM inscription_evenement i 
-   JOIN utilisateur u ON i.id_utilisateur = u.id_utilisateur
-   JOIN chien d ON i.id_dog = d.id_dog
-   JOIN evenement e ON i.id_event = e.id_event
-   ORDER BY i.date_inscription DESC;
-   ");
+// Page actuelle (par défaut 1)
+$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM evenement ");
+$stmtCount->execute();
+$totalInscription = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+// Calcul du nombre de pages
+$nbPage = ceil($totalInscription / $nbPerPage);
+
+
+$offset = ($currentPage - 1) * $nbPerPage;
+
+$stmt = $db->prepare("SELECT 
+     i.id_inscription,
+     i.date_inscription,
+     u.nom_utilisateur,
+     d.nom_dog,
+     e.nom_event
+     FROM inscription_evenement i 
+     JOIN utilisateur u ON i.id_utilisateur = u.id_utilisateur
+     JOIN chien d ON i.id_dog = d.id_dog
+     JOIN evenement e ON i.id_event = e.id_event
+     ORDER BY i.date_inscription DESC
+        LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-
 
 
 ?>
@@ -131,7 +215,7 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
           "></a></li>
                 <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
           "></a></li>
-                <li><a href="#">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+                <li><a href="parameters_count-admin.php">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
           "></a></li>
                 <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>
@@ -141,6 +225,9 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         <section class="reservations" id="reservations">
+            <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+                <?php displayPagination($nbPage, $currentPage, "reservations-admin.php#reservations", "page", $nbPerPage); ?>
+            </div>
             <h2>Cours réservés</h2>
             <div class="table-container">
                 <table>
@@ -180,6 +267,9 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </tbody>
                 </table>
             </div>
+            <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+                <?php displayPagination($nbPage, $currentPage, "reservations-admin.php#reservations", "page", $nbPerPage); ?>
+            </div>
         </section>
 
 
@@ -187,6 +277,9 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         <section class="inscriptions_event" id="inscriptions_event">
+            <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+                <?php displayPagination($nbPage, $currentPage, "reservations-admin.php#inscriptions_event", "page", $nbPerPage); ?>
+            </div>
             <h2>Évènements réservés</h2>
             <div class="table-container">
                 <table>
@@ -221,6 +314,9 @@ $recordset_inscription_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php endforeach; ?>
                         </tbody>
                 </table>
+            </div>
+            <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+                <?php displayPagination($nbPage, $currentPage, "reservations-admin.php#inscription_event", "page", $nbPerPage); ?>
             </div>
         </section>
 

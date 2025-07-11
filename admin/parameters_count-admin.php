@@ -3,72 +3,43 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_admin.php";
-
+var_dump($_GET);
 $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour personnalisation
 
 $id_utilisateur = $_SESSION['user_id'] ?? null;
 
-$nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
+
+$utilisateur = "";
+$nom = "";
+$prenom = "";
+$email = "";
+$password = "";
+$phone = "";
+// $id_role = "";
+$date = date("Y-m-d");
 
 
-// Recup les messages reçus
-// $sql = "SELECT m.*, u.prenom_utilisateur, u.nom_utilisateur 
-// FROM message m
-// JOIN utilisateur u ON m.id_expediteur = u.id_utilisateur
-// WHERE m.id_destinataire = :id_utilisateur
-// AND m.contenu IS NOT NULL 
-// ORDER BY m.date_envoi DESC";
+if ($id_utilisateur) {
+    $stmt = $db->prepare("SELECT * FROM utilisateur WHERE id_utilisateur = :id_utilisateur");
+    $stmt->bindValue(":id_utilisateur", $id_utilisateur);
+    $stmt->execute();
 
-// $stmt = $db->prepare($sql);
-// $stmt->execute([':id_utilisateur' => $_SESSION['user_id']]);
-// $recordset_messages = $stmt->fetchAll();
-
-// Page actuelle (par défaut 1)
-$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-
-// Compter le total des enregistrements
-$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM message WHERE id_destinataire = :id_utilisateur AND contenu IS NOT NULL ");
-$stmtCount->execute([':id_utilisateur' => $_SESSION['user_id']]);
-$totalItems = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
-
-// Nombre d'éléments par page
-$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
-
-// Évite la division par zéro
-if ($nbPerPage <= 0) {
-    $nbPerPage = 10;
-}
-// Calcul du nombre de pages
-$nbPage = ceil($totalItems / $nbPerPage);
-
-
-$offset = ($currentPage - 1) * $nbPerPage;
-
-$stmt = $db->prepare("SELECT m.*, u.prenom_utilisateur, u.nom_utilisateur  
-                        FROM message m
-                        JOIN utilisateur u ON m.id_expediteur = u.id_utilisateur
-                        WHERE m.id_destinataire = :id_utilisateur
-                        AND m.contenu IS NOT NULL
-                        ORDER BY m.date_envoi DESC
-                        LIMIT :limit OFFSET :offset");
-
-
-// Bind avec les bons types (essentiel pour LIMIT/OFFSET)
-$stmt->bindValue(':id_utilisateur', $_SESSION['user_id'], PDO::PARAM_INT);
-$stmt->bindValue(':limit', (int)$nbPerPage, PDO::PARAM_INT);
-$stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-$stmt->execute();
-$recordset_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    if ($row = $stmt->fetch()) {
+        $utilisateur = $row['id_utilisateur'];
+        $nom = $row['nom_utilisateur'];
+        $prenom = $row['prenom_utilisateur'];
+        $email = $row['admin_mail'];
+        $password = $row['admin_password'];
+        $confirm_password = $password;
+        $phone = $row['telephone_utilisateur'];
+        $id_role = $row['id_role'];
+        $date = $row['date_inscription'];
+    };
+};
 
 
 
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -76,7 +47,7 @@ $recordset_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Paramètre du compte | Educa Dog</title>
     <link rel="stylesheet" href="../custom.css" />
 </head>
 
@@ -97,10 +68,10 @@ $recordset_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <span class="bar"></span>
         </button>
     </header>
-    <div class="title">
-        <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
-    </div>
     <main>
+        <div class="title">
+            <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
+        </div>
 
         <div class="sidebar">
             <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
@@ -141,48 +112,43 @@ $recordset_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
 
-        <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
-            <?php displayPagination($nbPage, $currentPage, "messagerie-admin.php", "page", $nbPerPage); ?>
-        </div>
 
-        <section class="card-admin_messagerie" id="messagerie">
-            <h2>Messagerie</h2>
-            <div class="card-header">
-                <button class="btn"><a href="../messages/message_send.php">Nouveau message</a></button>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>De</th>
-                            <th>Sujet</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                            <th>lu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($recordset_messages as $msg): ?>
-                            <tr>
-                                <td><?= hsc($msg['prenom_utilisateur'] . ' ' . $msg['nom_utilisateur']) ?></td>
-                                <td><?= substr(hsc($msg['sujet_message']), 0, 30) ?>...</td>
-                                <td><?= hsc(date('d/m/Y H:i', strtotime($msg['date_envoi']))) ?></td>
-                                <td>
-                                    <button><a class="btn" href="../messages/message_read.php?id_message=<?= hsc($msg['id_message']) ?>">Lire</a></button>
-                                    <button><a class="btn" href="../messages/message_delete.php?id=<?= hsc($msg['id_message']) ?>" onclick="return confirmationDeleteMessage();">Supprimer</a></button>
-                                </td>
-                                <td><?= hsc($msg['lu'] ? 'Oui' : 'Non') ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
+        <section class="form-container creation">
+            <h2>Paramètre du compte</h2>
+            <form action="../users/process.php" method="POST">
 
-                </table>
-            </div>
+                <label for="nom_utilisateur">Nom</label>
+                <input type="text" id="nom_utilisateur" name="nom_utilisateur" value="<?= hsc($nom) ?>" />
+
+                <label for="prenom_utilisateur">Prénom</label>
+                <input type="text" id="prenom_utilisateur" name="prenom_utilisateur" value="<?= hsc($prenom) ?>" required />
+
+                <label for="admin_mail">Email</label>
+                <input type="email" id="admin_mail" name="admin_mail" value="<?= hsc($email) ?>" required>
+
+                <label for="admin_password">Mot de passe</label>
+                <input type="password" id="admin_password" name="admin_password" value="<?= hsc($password) ?>" required />
+
+                <label for="confirm_password">Confirmer votre mot de passe</label>
+                <input type="password" id="confirm_password" name="confirm_password" value="<?= hsc($confirm_password) ?>" required />
+
+                <label for="telephone_utilisateur">Téléphone</label>
+                <input type="tel" id="telephone_utilisateur" name="telephone_utilisateur" value="<?= hsc($phone) ?>" required />
+
+
+                <label for="date_inscription">Date d'inscription</label>
+                <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
+
+                <input type="hidden" name="id_utilisateur" value="<?= hsc($utilisateur) ?>">
+                <button type="submit">Modifier mon compte utilisateur</button>
+
+            </form>
         </section>
 
-        <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
-            <?php displayPagination($nbPage, $currentPage, "messagerie-admin.php", "page", $nbPerPage); ?>
-        </div>
+
+
+
+
 
 
 
@@ -192,6 +158,7 @@ $recordset_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
     </main>
+
     <section class="footer">
         <div class="footer-container">
             <div class="footer-section">

@@ -70,7 +70,7 @@ select {
   z-index: 2;
 }
 .header2 {
-  background-color: #45a050;
+  background-color: transparent;
   color: white;
   padding: 10px 0;
   height: 100px;
