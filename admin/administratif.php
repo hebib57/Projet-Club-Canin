@@ -52,7 +52,8 @@ $total_event = $stmt->fetchColumn();
 
 
 
-require_once __DIR__ . '../../templates/header.php'
+require_once __DIR__ . '/../templates/header.php';
+require_once __DIR__ . '/../templates/sidebar.php';
 
 ?>
 
@@ -63,7 +64,7 @@ require_once __DIR__ . '../../templates/header.php'
   <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
 </div>
 
-<div class="sidebar">
+<!-- <div class="sidebar">
   <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
     <span class="bar"></span>
     <span class="bar"></span>
@@ -72,7 +73,7 @@ require_once __DIR__ . '../../templates/header.php'
   <div class="sidebar-header">
     <div class="user-avatar">AD</div>
     <div class="user-info">
-      <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
+     
 
     </div>
   </div>
@@ -99,7 +100,7 @@ require_once __DIR__ . '../../templates/header.php'
     <li><a href="../logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>
   </ul>
-</div>
+</div> -->
 <section class="admin_container">
   <div id="date"> </div>
   <div class="dashbord" id="dashbord">
@@ -122,7 +123,6 @@ require_once __DIR__ . '../../templates/header.php'
         <h3>Utilisateurs Inscrits</h3>
         <p><?= hsc($total_utilisateurs) ?> </p>
         <a href="users-admin.php" class="btn">Voir les utilisateurs</a>
-
       </div>
     </div>
     <div class="tab_bord-card">
@@ -145,16 +145,6 @@ require_once __DIR__ . '../../templates/header.php'
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
 </section>
-<?php require_once __DIR__ . '../../templates/footer.php' ?>
+
+<?php require_once __DIR__ . '/../templates/footer.php' ?>

@@ -3,7 +3,7 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_admin.php";
-var_dump($_GET);
+
 $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour personnalisation
 
 $id_utilisateur = $_SESSION['user_id'] ?? null;
@@ -37,7 +37,8 @@ if ($id_utilisateur) {
     };
 };
 
-require_once __DIR__ . '../../templates/header.php'
+require_once __DIR__ . '../../templates/header.php';
+require_once __DIR__ . '/../templates/sidebar.php';
 
 ?>
 
@@ -46,43 +47,6 @@ require_once __DIR__ . '../../templates/header.php'
     <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
 </div>
 
-<div class="sidebar">
-    <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </button>
-    <div class="sidebar-header">
-        <div class="user-avatar">AD</div>
-        <div class="user-info">
-            <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
-
-        </div>
-    </div>
-
-    <ul class="menu-list">
-        <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-        <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-        <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-        <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
-          "></a></li>
-        <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
-          "></a></li>
-        <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
-          "></a></li>
-        <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-        <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-        <li><a href="parameters_count-admin.php">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-        <li><a href="../logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-    </ul>
-</div>
 
 
 
