@@ -11,9 +11,9 @@ $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur';
 $utilisateur = [];
 
 // recup tous les évènements
-$stmt = $db->prepare("SELECT * FROM evenement");
-$stmt->execute();
-$recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $stmt = $db->prepare("SELECT * FROM evenement");
+// $stmt->execute();
+// $recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //recup chiens utilisateur
 $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog, c.date_inscription, c.categorie
@@ -24,6 +24,35 @@ $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, 
                        WHERE c.id_utilisateur = ?");
 $stmt->execute([$id_utilisateur]);
 $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Page actuelle (par défaut 1)
+$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM evenement ");
+$stmtCount->execute();
+$totalItems = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+// Calcul du nombre de pages
+$nbPage = ceil($totalItems / $nbPerPage);
+
+
+$offset = ($currentPage - 1) * $nbPerPage;
+
+$stmt = $db->prepare("SELECT * FROM evenement  LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$recordset_event = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 require_once __DIR__ . '/templates/header.php'
 ?>
@@ -75,6 +104,10 @@ require_once __DIR__ . '/templates/header.php'
     </ul>
 </div>
 
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "event_programmes-user.php", "page", $nbPerPage); ?>
+</div>
+
 <section class="events" id="events">
     <h2>Événements programmés</h2>
     <table>
@@ -112,6 +145,9 @@ require_once __DIR__ . '/templates/header.php'
         </tbody>
     </table>
 </section>
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "event_programmes-user.php", "page", $nbPerPage); ?>
+</div>
 <!-- Modal pour choisir un chien pour l'inscription à un évènement-->
 <div id="inscriptionModal" class="modal" style="display: none;">
     <div class="modal-content">

@@ -10,14 +10,62 @@ $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur';
 $utilisateur = [];
 
 //recup chiens utilisateur
-$stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog, c.date_inscription, c.categorie
-                       FROM chien AS c 
-                       INNER JOIN race AS r                       
-                       ON c.id_race = r.id_race  
-                      
-                       WHERE c.id_utilisateur = ?");
-$stmt->execute([$id_utilisateur]);
-$dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog, c.date_inscription, c.categorie
+//                        FROM chien AS c 
+//                        INNER JOIN race AS r                       
+//                        ON c.id_race = r.id_race  
+
+//                        WHERE c.id_utilisateur = ?");
+// $stmt->execute([$id_utilisateur]);
+// $recordset_dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Page actuelle (par défaut 1)
+$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM chien WHERE id_utilisateur = :id_utilisateur");
+$stmtCount->bindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+$stmtCount->execute();
+$totalItems = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+// Calcul du nombre de pages
+$nbPage = ceil($totalItems / $nbPerPage);
+
+
+$offset = ($currentPage - 1) * $nbPerPage;
+
+$stmt = $db->prepare("SELECT 
+       c.id_dog,
+       c.nom_dog,
+       c.date_naissance,
+       c.id_race,
+       c.age_dog,
+       c.sexe_dog,
+       u.nom_utilisateur,
+       c.date_inscription,
+       c.photo_dog,
+       r.nom_race,
+       c.categorie 
+       FROM chien c
+       JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
+       JOIN race r ON c.id_race = r.id_race
+       WHERE c.id_utilisateur = :id_utilisateur
+       ORDER BY c.date_inscription DESC
+       LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
+$stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$recordset_dog = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 require_once __DIR__ . '/templates/header.php'
 
@@ -70,6 +118,10 @@ require_once __DIR__ . '/templates/header.php'
     </ul>
 </div>
 
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "dogs-user.php", "page", $nbPerPage); ?>
+</div>
+
 <section class="content">
     <div class="contenair" id="dogs">
         <h2>Mes chiens</h2>
@@ -80,7 +132,7 @@ require_once __DIR__ . '/templates/header.php'
             </div>
             <div class="card-body">
                 <ul class="dog-list">
-                    <?php foreach ($dogs as $dog): ?>
+                    <?php foreach ($recordset_dog as $dog): ?>
                         <li class="dog-item">
                             <div class="dog-avatar">
                                 <img src=" <?= "../upload/xs_" . hsc($dog['photo_dog']) ?>" alt="photo chien">
@@ -128,5 +180,9 @@ require_once __DIR__ . '/templates/header.php'
         </div>
     </div>
 </section>
+
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "dogs-user.php", "page", $nbPerPage); ?>
+</div>
 
 <?php require_once __DIR__ . '/templates/footer.php' ?>

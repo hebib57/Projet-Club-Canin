@@ -12,13 +12,13 @@ $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur';
 $utilisateur = [];
 
 //recup des seances
-$stmt = $db->prepare("SELECT s.id_seance, s.id_cours, c.nom_cours, u.nom_utilisateur, u.prenom_utilisateur, s.date_seance, s.heure_seance, s.places_disponibles, c.id_cours, c.categorie_acceptee
-                      FROM seance s 
-                      LEFT JOIN cours c ON s.id_cours = c.id_cours
-                      LEFT JOIN utilisateur u ON u.id_utilisateur = s.id_utilisateur
-                    ");
-$stmt->execute();
-$recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $stmt = $db->prepare("SELECT s.id_seance, s.id_cours, c.nom_cours, u.nom_utilisateur, u.prenom_utilisateur, s.date_seance, s.heure_seance, s.places_disponibles, c.id_cours, c.categorie_acceptee
+//                       FROM seance s 
+//                       LEFT JOIN cours c ON s.id_cours = c.id_cours
+//                       LEFT JOIN utilisateur u ON u.id_utilisateur = s.id_utilisateur
+//                     ");
+// $stmt->execute();
+// $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //recup chiens utilisateur
 $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, c.age_dog, c.photo_dog, c.sexe_dog, c.date_inscription, c.categorie
@@ -30,6 +30,36 @@ $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, 
 $stmt->execute([$id_utilisateur]);
 $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Page actuelle (par défaut 1)
+$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM cours JOIN seance ON cours.id_cours = seance.id_cours");
+$stmtCount->execute();
+$totalCours = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+// Calcul du nombre de pages
+$nbPage = ceil($totalCours / $nbPerPage);
+
+
+$offset = ($currentPage - 1) * $nbPerPage;
+
+$stmt = $db->prepare("SELECT s.id_seance, s.id_cours, c.nom_cours, u.nom_utilisateur, u.prenom_utilisateur, s.date_seance, s.heure_seance, s.places_disponibles, c.id_cours, c.categorie_acceptee
+                      FROM seance s 
+                      LEFT JOIN cours c ON s.id_cours = c.id_cours
+                      LEFT JOIN utilisateur u ON u.id_utilisateur = s.id_utilisateur
+                      LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 require_once __DIR__ . '/templates/header.php'
@@ -83,6 +113,9 @@ require_once __DIR__ . '/templates/header.php'
     </ul>
 </div>
 
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "cours_programmes-user.php", "page", $nbPerPage); ?>
+</div>
 
 
 <section class="cours_programmé" id="cours_programmé">
@@ -132,6 +165,9 @@ require_once __DIR__ . '/templates/header.php'
     </table>
 
 </section>
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "cours_programmes-user.php", "page", $nbPerPage); ?>
+</div>
 <!-- Modal pour choisir un chien pour la réservation d'un cours-->
 <div id="reservationModal" class="modal" style="display: none;">
     <div class="modal-content">
