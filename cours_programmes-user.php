@@ -62,7 +62,8 @@ $stmt->execute();
 $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-require_once __DIR__ . '/templates/header.php'
+require_once __DIR__ . '/templates/header.php';
+require_once __DIR__ . '/templates/sidebar.php';
 
 ?>
 
@@ -71,47 +72,12 @@ require_once __DIR__ . '/templates/header.php'
 <div class="title">
     <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
 </div>
-<!-- <span id="date">
-    </span> -->
 
 
 
 
-<div class="sidebar">
-    <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </button>
-    <div class="sidebar-header">
-        <div class="user-avatar">U</div>
-        <div class="user-info">
-            <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
 
-        </div>
-    </div>
 
-    <ul class="menu-list">
-        <li><a href="user.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-        <li><a href="cours_programmes-user.php">Cours programmés <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-        <li><a href="event_programmes-user.php">Évènements programmés <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-        <li><a href="dogs-user.php">Mes chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
-          "></a></li>
-        <li><a href="reservations-user.php">Mes réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-        <li><a href="progression.php">Progression <img src="../interface_graphique/img-progress.png" alt="progression" width="40px
-          "></a></li>
-        <li><a href="messagerie-user.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-        <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-        <li><a href="/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-    </ul>
-</div>
 
 <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
     <?php displayPagination($nbPage, $currentPage, "cours_programmes-user.php", "page", $nbPerPage); ?>
