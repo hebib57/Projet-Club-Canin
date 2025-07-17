@@ -7,11 +7,38 @@ $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour a
 $id_utilisateur = $_SESSION['user_id'] ?? null;
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
-$stmt = $db->prepare("SELECT * FROM cours JOIN seance ON cours.id_cours = seance.id_cours");
+// $stmt = $db->prepare("SELECT * FROM cours JOIN seance ON cours.id_cours = seance.id_cours");
+// $stmt->execute();
+// $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Page actuelle (par défaut 1)
+$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM cours JOIN seance ON cours.id_cours = seance.id_cours");
+$stmtCount->execute();
+$totalCours = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+// Calcul du nombre de pages
+$nbPage = ceil($totalCours / $nbPerPage);
+
+
+$offset = ($currentPage - 1) * $nbPerPage;
+
+$stmt = $db->prepare("SELECT * FROM cours JOIN seance ON cours.id_cours = seance.id_cours LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/header.php'
+require_once __DIR__ . '/templates/header.php'
 
 ?>
 
@@ -50,7 +77,7 @@ require_once __DIR__ . '/header.php'
           "></a></li>
         <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
           "></a></li>
-        <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+        <li><a href="/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>
     </ul>
 </div>
@@ -58,7 +85,9 @@ require_once __DIR__ . '/header.php'
         <span id="date">
         </span>
     </div> -->
-
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "cours_programmes-coach.php", "page", $nbPerPage); ?>
+</div>
 
 <section id="cours_programmé" class="cours_programmé">
     <h2>Gestion des Cours</h2>
@@ -104,6 +133,9 @@ require_once __DIR__ . '/header.php'
     <button class="btn">
         <a href="../cours/form.php">Ajouter un Cours</a></button>
 </section>
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "cours_programmes-coach.php", "page", $nbPerPage); ?>
+</div>
 
 
-<?php require_once __DIR__ . '/footer.php' ?>
+<?php require_once __DIR__ . '/templates/footer.php' ?>

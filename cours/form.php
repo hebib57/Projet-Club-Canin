@@ -56,7 +56,7 @@ $stmt = $db->prepare("SELECT id_utilisateur, nom_utilisateur, prenom_utilisateur
 $stmt->execute();
 $coachs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/../header.php'
+require_once __DIR__ . '../../templates/header.php'
 ?>
 
 
@@ -152,4 +152,4 @@ require_once __DIR__ . '/../header.php'
     </div>
 </section>
 
-<?php require_once __DIR__ . '/../footer.php' ?>
+<?php require_once __DIR__ . '../../templates/footer.php' ?>

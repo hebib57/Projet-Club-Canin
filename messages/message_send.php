@@ -53,7 +53,7 @@ $stmt = $db->prepare("SELECT id_utilisateur, prenom_utilisateur, nom_utilisateur
 $stmt->execute([$_SESSION['user_id']]);
 $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/../header.php'
+require_once __DIR__ . '../../templates/header.php'
 ?>
 
 
@@ -120,4 +120,4 @@ require_once __DIR__ . '/../header.php'
     });
 </script>
 
-<?php require_once __DIR__ . '/../footer.php' ?>
+<?php require_once __DIR__ . '../../templates/footer.php' ?>

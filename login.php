@@ -54,7 +54,7 @@ if (isset($_POST['admin_mail']) && isset($_POST['admin_password'])) {
   }
 }
 
-require_once __DIR__ . '/header.php'
+require_once __DIR__ . '/templates/header.php'
 ?>
 
 
@@ -72,4 +72,4 @@ require_once __DIR__ . '/header.php'
     </button>
   </form>
 </section>
-<?php require_once __DIR__ . '/footer.php' ?>
+<?php require_once __DIR__ . '/templates/footer.php' ?>

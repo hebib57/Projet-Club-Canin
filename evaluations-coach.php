@@ -7,22 +7,56 @@ $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour a
 $id_utilisateur = $_SESSION['user_id'] ?? null;
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
-$stmt = $db->prepare("
-        SELECT c.*, u.prenom_utilisateur, u.nom_utilisateur, d.nom_dog
-        FROM commentaire c
-        JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
-        JOIN chien d ON c.id_dog = d.id_dog
-        
-        ORDER BY c.date_commentaire DESC
-      ");
-$stmt->execute();
-$commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $stmt = $db->prepare("
+//         SELECT c.*, u.prenom_utilisateur, u.nom_utilisateur, d.nom_dog
+//         FROM commentaire c
+//         JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
+//         JOIN chien d ON c.id_dog = d.id_dog
+
+//         ORDER BY c.date_commentaire DESC
+//       ");
+// $stmt->execute();
+// $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $db->prepare("SELECT * FROM evenement ");
 $stmt->execute();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/header.php'
+// Page actuelle (par défaut 1)
+$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM evenement ");
+$stmtCount->execute();
+$totalItems = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+// Calcul du nombre de pages
+$nbPage = ceil($totalItems / $nbPerPage);
+
+
+$offset = ($currentPage - 1) * $nbPerPage;
+
+$stmt = $db->prepare("SELECT c.*, u.prenom_utilisateur, u.nom_utilisateur, d.nom_dog
+        FROM commentaire c
+        JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
+        JOIN chien d ON c.id_dog = d.id_dog
+        
+        ORDER BY c.date_commentaire DESC 
+        LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+require_once __DIR__ . '/templates/header.php'
 
 ?>
 
@@ -61,7 +95,7 @@ require_once __DIR__ . '/header.php'
           "></a></li>
         <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
           "></a></li>
-        <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+        <li><a href="/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>
     </ul>
 </div>
@@ -69,7 +103,9 @@ require_once __DIR__ . '/header.php'
         <span id="date">
         </span>
     </div> -->
-
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "evaluations-coach.php", "page", $nbPerPage); ?>
+</div>
 
 
 <section id="commentaires" class="commentaires">
@@ -110,7 +146,10 @@ require_once __DIR__ . '/header.php'
     </table>
 </section>
 
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "evaluations-coach.php", "page", $nbPerPage); ?>
+</div>
 
 
 
-<?php require_once __DIR__ . '/footer.php' ?>
+<?php require_once __DIR__ . '/templates/footer.php' ?>

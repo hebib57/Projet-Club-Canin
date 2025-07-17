@@ -2,7 +2,7 @@
 
   $date = date('Y-m-d');
 
-  require_once __DIR__ . '/../header.php'
+  require_once __DIR__ . '../../templates/header.php'
   ?>
 
 
@@ -29,4 +29,4 @@
 
   </form>
   </section>
-  <?php require_once __DIR__ . '/../footer.php' ?>
+  <?php require_once __DIR__ . '../../templates/footer.php' ?>

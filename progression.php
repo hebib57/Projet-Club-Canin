@@ -36,7 +36,7 @@ $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $commentaire_dog = [];
 
 
-require_once __DIR__ . '/header.php'
+require_once __DIR__ . '/templates/header.php'
 ?>
 
 
@@ -81,7 +81,7 @@ require_once __DIR__ . '/header.php'
           "></a></li>
         <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
           "></a></li>
-        <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+        <li><a href="/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>
     </ul>
 </div>
@@ -160,4 +160,4 @@ require_once __DIR__ . '/header.php'
     const commentaireDog = <?= json_encode($commentaire_dog) ?>
 </script>
 
-<?php require_once __DIR__ . '/footer.php' ?>
+<?php require_once __DIR__ . '/templates/footer.php' ?>

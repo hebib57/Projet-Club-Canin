@@ -59,23 +59,23 @@
           <?php
           if (isset($_SESSION['is_logged']) && isset($_SESSION['role_id'])) {
 
-            switch ($_SESSION['role_id']) {
-              case '1':
-                $redirectUrl = '../admin/logout.php';
-                break;
-              case '2':
-                $redirectUrl = '../admin/logout.php';
-                break;
-              case '3':
-                $redirectUrl = '../admin/logout.php';
-                break;
-                // default:
-                //   $redirectUrl = '../index.php';
-            }
-            echo '<a href="' . $redirectUrl . '" class="button">Se déconnecter</a>';
+            // switch ($_SESSION['role_id']) {
+            //   case '1':
+            $redirectUrl = '/logout.php';
+            // break;
+            // case '2':
+            //   $redirectUrl = '/logout.php';
+            //   break;
+            // case '3':
+            //   $redirectUrl = '/logout.php';
+            //   break;
+            // default:
+            //   $redirectUrl = '../index.php';
+
+            echo '<a href="' . $redirectUrl . '" class="button"> Déconnexion</a>';
           } else {
 
-            echo '<a href="./admin/login.php" class="button">Se connecter</a>';
+            echo '<a href="/login.php" class="button">Se connecter</a>';
           }
           ?>
 
@@ -437,4 +437,4 @@
       <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
     </button>
 
-    <?php require_once __DIR__ . '/footer.php' ?>
+    <?php require_once __DIR__ . '/templates/footer.php' ?>

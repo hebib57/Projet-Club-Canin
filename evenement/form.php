@@ -32,7 +32,7 @@ $stmt = $db->prepare("SELECT * FROM evenement ");
 $stmt->execute();
 $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/../header.php'
+require_once __DIR__ . '../../templates/header.php'
 
 ?>
 
@@ -80,4 +80,4 @@ require_once __DIR__ . '/../header.php'
     </div>
 </section>
 
-<?php require_once __DIR__ . '/../footer.php' ?>
+<?php require_once __DIR__ . '../../templates/footer.php' ?>

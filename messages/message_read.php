@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['contenu'], $_POST['de
 }
 
 
-require_once __DIR__ . '/../header.php'
+require_once __DIR__ . '../../templates/header.php'
 ?>
 
 
@@ -131,4 +131,4 @@ require_once __DIR__ . '/../header.php'
     <!-- <button><a href="../admin/administratif.php#messagerie">Retour à la messagerie</a></button> -->
 </section>
 
-<?php require_once __DIR__ . '/../footer.php' ?>
+<?php require_once __DIR__ . '../../templates/footer.php' ?>

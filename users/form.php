@@ -31,7 +31,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
     };
 };
 
-require_once __DIR__ . '/../header.php'
+require_once __DIR__ . '../../templates/header.php'
 
 ?>
 
@@ -77,4 +77,4 @@ require_once __DIR__ . '/../header.php'
     </div>
 </section>
 
-<?php require_once __DIR__ . '/../footer.php' ?>
+<?php require_once __DIR__ . '../../templates/footer.php' ?>

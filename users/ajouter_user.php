@@ -2,7 +2,7 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
-require_once __DIR__ . '/../header.php'
+require_once __DIR__ . '../../templates/header.php'
 ?>
 
 
@@ -48,4 +48,4 @@ require_once __DIR__ . '/../header.php'
     <a href="<?= $redirectUrl ?>">Retour</a>
   </button>
 </section>
-<?php require_once __DIR__ . '/../footer.php' ?>
+<?php require_once __DIR__ . '../../templates/footer.php' ?>

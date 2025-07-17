@@ -54,7 +54,7 @@ $stmt->execute();
 $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-require_once __DIR__ . '/../header.php'
+require_once __DIR__ . '../../templates/header.php'
 ?>
 
 
@@ -102,7 +102,7 @@ require_once __DIR__ . '/../header.php'
                 <input type="date" name="date_cours"> -->
 
             <label>Note (0-10) :</label>
-            <input type="number" name="note" min="0" max="10">
+            <input type="text" name="note" min="0" max="10">
 
             <label>Commentaire :</label>
             <textarea name="commentaire" rows="4"></textarea>
@@ -120,4 +120,4 @@ require_once __DIR__ . '/../header.php'
     </div>
 </section>
 
-<?php require_once __DIR__ . '/../footer.php' ?>
+<?php require_once __DIR__ . '../../templates/footer.php' ?>
