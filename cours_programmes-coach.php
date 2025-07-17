@@ -11,178 +11,153 @@ $stmt = $db->prepare("SELECT * FROM cours JOIN seance ON cours.id_cours = seance
 $stmt->execute();
 $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+require_once __DIR__ . '/../header.php'
+
 ?>
 
 
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="custom.css" />
-</head>
+<div class="title">
+    <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
+</div>
 
-<body>
-    <header class="header2">
-        <div class="logo">
-            <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
+
+<div class="sidebar">
+    <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    <div class="sidebar-header">
+        <div class="user-avatar">C</div>
+        <div class="user-info">
+            <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
         </div>
-        <nav class="navbar">
-            <ul class="navbar__burger-menu--closed">
-                <li><a href="../index.php">Accueil</a></li>
-                <li><a href="./admin/logout.php">Déconnexion</a></li>
-            </ul>
-        </nav>
-        <button class="navbar__burger-menu-toggle" id="burgerMenu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
-    </header>
-    <main>
-        <div class="title">
-            <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
-        </div>
+    </div>
 
-
-        <div class="sidebar">
-            <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-            <div class="sidebar-header">
-                <div class="user-avatar">C</div>
-                <div class="user-info">
-                    <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
-                </div>
-            </div>
-
-            <ul class="menu-list">
-                <li><a href="coach.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+    <ul class="menu-list">
+        <li><a href="coach.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
           "></a></li>
-                <li><a href="cours_programmes-coach.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+        <li><a href="cours_programmes-coach.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
           "></a></li>
-                <li><a href="event_programmes-coach.php">Gestion des Évènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+        <li><a href="event_programmes-coach.php">Gestion des Évènements <img src="../interface_graphique/banner.png" alt="events" width="40px
           "></a></li>
-                <li><a href="reservations-coach.php">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+        <li><a href="reservations-coach.php">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
           "></a></li>
-                <li><a href="evaluations-coach.php">Evaluation <img src="../interface_graphique/img-eval.png" alt="evaluations" width="40px
+        <li><a href="evaluations-coach.php">Evaluation <img src="../interface_graphique/img-eval.png" alt="evaluations" width="40px
           "></a></li>
-                <li><a href="messagerie-coach.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+        <li><a href="messagerie-coach.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
           "></a></li>
-                <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+        <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
           "></a></li>
-                <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+        <li><a href="./admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>
-            </ul>
-        </div>
-        <!-- <div>
+    </ul>
+</div>
+<!-- <div>
         <span id="date">
         </span>
     </div> -->
 
 
-        <section id="cours_programmé" class="cours_programmé">
-            <h2>Gestion des Cours</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <!-- <th>Nom du Cours</th> -->
-                        <th>Type de cours</th>
-                        <th>Description du cours</th>
-                        <!-- <th>Âge mini</th>
+<section id="cours_programmé" class="cours_programmé">
+    <h2>Gestion des Cours</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <!-- <th>Nom du Cours</th> -->
+                <th>Type de cours</th>
+                <th>Description du cours</th>
+                <!-- <th>Âge mini</th>
                   <th>Âge maxi</th> -->
-                        <th>Race</th>
-                        <th>Sexe</th>
-                        <th>Places disponibles</th>
-                        <th>Date</th>
-                        <th>Heure</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($recordset_cours as $row) { ?>
-                        <tr>
-                            <td><?= hsc($row['id_cours']); ?></td>
-                            <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
-                            <td><?= hsc($row['type_cours']); ?></td>
-                            <td><?= hsc($row['description_cours']); ?></td>
-                            <!-- <td><?= hsc($row['age_min']); ?></td>
+                <th>Race</th>
+                <th>Sexe</th>
+                <th>Places disponibles</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($recordset_cours as $row) { ?>
+                <tr>
+                    <td><?= hsc($row['id_cours']); ?></td>
+                    <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
+                    <td><?= hsc($row['type_cours']); ?></td>
+                    <td><?= hsc($row['description_cours']); ?></td>
+                    <!-- <td><?= hsc($row['age_min']); ?></td>
                     <td><?= hsc($row['age_max']); ?></td> -->
-                            <td><?= hsc($row['race_dog']); ?></td>
-                            <td><?= hsc($row['sexe_dog']); ?></td>
-                            <td><?= hsc($row['places_disponibles']); ?></td>
-                            <td><?= hsc($row['date_cours']); ?></td>
-                            <td><?= hsc($row['heure_cours']); ?></td>
-                            <td>
-                                <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
-                                <button class="btn"><a href="../cours/delete.php?id=<?= hsc($row['id_cours']) ?>">Supprimer</a></button>
-                            </td>
-                        </tr>
-                    <?php }; ?>
-                </tbody>
-            </table>
-            <button class="btn">
-                <a href="../cours/form.php">Ajouter un Cours</a></button>
-        </section>
+                    <td><?= hsc($row['race_dog']); ?></td>
+                    <td><?= hsc($row['sexe_dog']); ?></td>
+                    <td><?= hsc($row['places_disponibles']); ?></td>
+                    <td><?= hsc($row['date_cours']); ?></td>
+                    <td><?= hsc($row['heure_cours']); ?></td>
+                    <td>
+                        <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
+                        <button class="btn"><a href="../cours/delete.php?id=<?= hsc($row['id_cours']) ?>">Supprimer</a></button>
+                    </td>
+                </tr>
+            <?php }; ?>
+        </tbody>
+    </table>
+    <button class="btn">
+        <a href="../cours/form.php">Ajouter un Cours</a></button>
+</section>
 
 
-    </main>
+</main>
 
-    <section class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3 class="footer-title">Coordonnées</h3>
-                <div class="footer-info">Club Canin "Educa Dog"</div>
-                <div class="footer-info">Téléphone : 03-87-30-30-30</div>
-                <div class="footer-info">
-                    Email:
-                    <a href="">toto@gmail.com</a>
-                </div>
-                <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3 class="footer-title">Coordonnées</h3>
+            <div class="footer-info">Club Canin "Educa Dog"</div>
+            <div class="footer-info">Téléphone : 03-87-30-30-30</div>
+            <div class="footer-info">
+                Email:
+                <a href="">toto@gmail.com</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Plan du site</h3>
-                <div class="footer-info"><a href="../index.php">Accueil</a></div>
-                <div class="footer-info">
-                    <a href="#nos_activite">Nos Activités</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nos_horaires">Horaires</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_trouver">Nous trouver</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#story">Notre histoire</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_contacter">Nous contacter</a>
-                </div>
+            <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Plan du site</h3>
+            <div class="footer-info"><a href="../index.php">Accueil</a></div>
+            <div class="footer-info">
+                <a href="#nos_activite">Nos Activités</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Mentions légales</h3>
-                <div class="footer-info">
-                    <a href="#">Politique de confidentialité</a>
-                </div>
-                <div class="footer-info"><a href="#">Mentions légales</a></div>
+            <div class="footer-info">
+                <a href="#nos_horaires">Horaires</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Club Canin "Educa Dog"</h3>
-                <div class="logo-container">
-                    <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
-                </div>
+            <div class="footer-info">
+                <a href="#nous_trouver">Nous trouver</a>
+            </div>
+            <div class="footer-info">
+                <a href="#story">Notre histoire</a>
+            </div>
+            <div class="footer-info">
+                <a href="#nous_contacter">Nous contacter</a>
             </div>
         </div>
-        <p>
-            Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
-        </p>
-    </section>
-    <script src="./coach.js"></script>
+        <div class="footer-section">
+            <h3 class="footer-title">Mentions légales</h3>
+            <div class="footer-info">
+                <a href="#">Politique de confidentialité</a>
+            </div>
+            <div class="footer-info"><a href="#">Mentions légales</a></div>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Club Canin "Educa Dog"</h3>
+            <div class="logo-container">
+                <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
+            </div>
+        </div>
+    </div>
+    <p>
+        Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
+    </p>
+</section>
+<script src="./coach.js"></script>
 </body>
 
 </html>

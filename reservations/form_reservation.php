@@ -29,75 +29,48 @@
             };
         };
 
+        require_once __DIR__ . '/../header.php'
+
         ?> -->
 
-<!-- <!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modification utilisateur</title>
-    <link rel="stylesheet" href="../custom.css">
-</head>
-
-<body>
-    <header class="header2">
-        <div class="logo">
-            <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
-        </div>
-        <nav class="navbar">
-            <ul class="navbar__burger-menu--closed">
-                <li><a href="../index.php">Accueil</a></li>
-                <li><a href="../coach.php">coach</a></li>
-                <li><a href="../user.php">utilisateur</a></li>
-            </ul>
-        </nav>
-        <button class="navbar__burger-menu-toggle" id="burgerMenu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
 
 
-    </header>
+<section>
 
-    <section>
-
-        <div class="modification">
-            <h2>S'inscrire à ce cours</h2>
-            <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
-<label for="nom_dog">Nom</label>
-<input type="text" name="nom_dog" id="nom_dog" value="<?= hsc($nom_dog) ?>">
-<label for="age_dog">Age</label>
-<input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
-<label for="race_dog">Râce</label>
-<input type="text" name="race_dog" id="race_dog" value="<?= hsc($race_dog) ?>">
-<label for="sexe_dog">Sexe</label>
-<input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
-<label for="proprietaire_dog">Propriétaire</label>
-<input type="text" name="proprietaire_dog" id="proprietaire_dog" value="<?= hsc($proprietaire_dog) ?>">
-<label for="date_inscription">Date d'inscription</label>
-<input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
-<input type="hidden" name="id_dog" value="<?= hsc($dog) ?>">
-<input type="hidden" name="formCU" value="ok">
-<input class="btn__modif" type="submit" value="Enregistrer">
-</form> -->
-<!-- <?php
-        switch ($_SESSION['role_name']) {
-            case 'admin':
-                $redirectUrl = '../admin/administratif.php#cours_programmé';
-                break;
-            case 'coach':
-                $redirectUrl = '../coach.php#cours_programmé';
-                break;
-            case 'utilisateur':
-                $redirectUrl = '../user.php#cours_programmé';
-                break;
-            default:
-                $redirectUrl = '../index.php';
-        }
-        ?>
+    <div class="modification">
+        <h2>S'inscrire à ce cours</h2>
+        <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
+            <label for="nom_dog">Nom</label>
+            <input type="text" name="nom_dog" id="nom_dog" value="<?= hsc($nom_dog) ?>">
+            <label for="age_dog">Age</label>
+            <input type="number" name="age_dog" id="age_dog" value="<?= hsc($age_dog) ?>">
+            <label for="race_dog">Râce</label>
+            <input type="text" name="race_dog" id="race_dog" value="<?= hsc($race_dog) ?>">
+            <label for="sexe_dog">Sexe</label>
+            <input type="text" name="sexe_dog" id="sexe_dog" value="<?= hsc($sexe_dog) ?>">
+            <label for="proprietaire_dog">Propriétaire</label>
+            <input type="text" name="proprietaire_dog" id="proprietaire_dog" value="<?= hsc($proprietaire_dog) ?>">
+            <label for="date_inscription">Date d'inscription</label>
+            <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
+            <input type="hidden" name="id_dog" value="<?= hsc($dog) ?>">
+            <input type="hidden" name="formCU" value="ok">
+            <input class="btn__modif" type="submit" value="Enregistrer">
+        </form> -->
+        <!-- <?php
+                switch ($_SESSION['role_name']) {
+                    case 'admin':
+                        $redirectUrl = '../admin/administratif.php#cours_programmé';
+                        break;
+                    case 'coach':
+                        $redirectUrl = '../coach.php#cours_programmé';
+                        break;
+                    case 'utilisateur':
+                        $redirectUrl = '../user.php#cours_programmé';
+                        break;
+                    default:
+                        $redirectUrl = '../index.php';
+                }
+                ?>
             <button class="btn2__modif">
                 <a href="<?= $redirectUrl ?>">Retour</a>
             </button>

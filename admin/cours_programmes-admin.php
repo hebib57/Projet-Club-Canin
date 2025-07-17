@@ -42,222 +42,195 @@ $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
+require_once __DIR__ . '/../header.php'
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="../custom.css" />
-</head>
+<div class="title">
+    <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
+</div>
 
-<body>
-    <header class="header2">
-        <div class="logo">
-            <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
+<div class="sidebar">
+    <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    <div class="sidebar-header">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+            <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
+
         </div>
-        <nav class="navbar">
-            <ul class="navbar__burger-menu--closed">
-                <li><a href="../index.php">Accueil</a></li>
-                <li><a href="./admin/logout.php">Déconnexion</a></li>
-            </ul>
-        </nav>
-        <button class="navbar__burger-menu-toggle" id="burgerMenu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
-    </header>
-    <main>
-        <div class="title">
-            <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
-        </div>
+    </div>
 
-        <div class="sidebar">
-            <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-            <div class="sidebar-header">
-                <div class="user-avatar">AD</div>
-                <div class="user-info">
-                    <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
+    <ul class="menu-list">
+        <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+        <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+        <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+          "></a></li>
+        <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
+          "></a></li>
+        <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
+          "></a></li>
+        <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
+          "></a></li>
+        <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+        <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+        <li><a href="parameters_count-admin.php">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+        <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
+    </ul>
+</div>
 
-                </div>
+
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "cours_programmes-admin.php", "page", $nbPerPage); ?>
+</div>
+
+
+<section class="cours_programmé" id="cours_programmé">
+    <h2>Gestion des Cours</h2>
+    <div class="table-container">
+        <?php if (isset($_GET['success'])): ?>
+            <div class="alert success">
+                ✅ Le cours et sa séance ont bien été ajoutés !
             </div>
-
-            <ul class="menu-list">
-                <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-                <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-                <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-                <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
-          "></a></li>
-                <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
-          "></a></li>
-                <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
-          "></a></li>
-                <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-                <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-                <li><a href="parameters_count-admin.php">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-                <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-            </ul>
-        </div>
-
-
-        <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
-            <?php displayPagination($nbPage, $currentPage, "cours_programmes-admin.php", "page", $nbPerPage); ?>
-        </div>
-
-
-        <section class="cours_programmé" id="cours_programmé">
-            <h2>Gestion des Cours</h2>
-            <div class="table-container">
-                <?php if (isset($_GET['success'])): ?>
-                    <div class="alert success">
-                        ✅ Le cours et sa séance ont bien été ajoutés !
-                    </div>
-                <?php elseif (isset($_GET['error'])): ?>
-                    <div class="alert error">
-                        ❌ Une erreur est survenue lors de l'ajout du cours. Veuillez réessayer.
-                    </div>
-                <?php endif; ?>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <!-- <th>Nom du Cours</th> -->
-                            <th>Type de cours</th>
-                            <th>Description du cours</th>
-                            <!-- <th>Âge min</th>
+        <?php elseif (isset($_GET['error'])): ?>
+            <div class="alert error">
+                ❌ Une erreur est survenue lors de l'ajout du cours. Veuillez réessayer.
+            </div>
+        <?php endif; ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <!-- <th>Nom du Cours</th> -->
+                    <th>Type de cours</th>
+                    <th>Description du cours</th>
+                    <!-- <th>Âge min</th>
                   <th>Âge max</th> -->
-                            <th>Catégorie</th>
-                            <th>Race</th>
-                            <th>Sexe</th>
-                            <th>Places</th>
-                            <th>Date </th>
-                            <th>Heure</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($recordset_cours as $row) { ?>
-                            <tr>
-                                <td><?= hsc($row['id_cours']); ?></td>
-                                <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
-                                <td><?= hsc($row['type_cours']); ?></td>
-                                <td><?= hsc($row['description_cours']); ?></td>
-                                <!-- <td><?= hsc($row['age_min']); ?></td> -->
-                                <td><?= hsc($row['categorie_acceptee']); ?></td>
-                                <!-- <td><?= hsc($row['age_max']); ?></td> -->
-                                <td><?= hsc($row['race_dog']); ?></td>
-                                <td><?= hsc($row['sexe_dog']); ?></td>
-                                <td><?= hsc($row['places_disponibles']); ?></td>
-                                <td><?= hsc($row['date_cours']); ?></td>
-                                <td><?= hsc($row['heure_cours']); ?></td>
+                    <th>Catégorie</th>
+                    <th>Race</th>
+                    <th>Sexe</th>
+                    <th>Places</th>
+                    <th>Date </th>
+                    <th>Heure</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($recordset_cours as $row) { ?>
+                    <tr>
+                        <td><?= hsc($row['id_cours']); ?></td>
+                        <!-- <td><?= hsc($row['nom_cours']); ?></td> -->
+                        <td><?= hsc($row['type_cours']); ?></td>
+                        <td><?= hsc($row['description_cours']); ?></td>
+                        <!-- <td><?= hsc($row['age_min']); ?></td> -->
+                        <td><?= hsc($row['categorie_acceptee']); ?></td>
+                        <!-- <td><?= hsc($row['age_max']); ?></td> -->
+                        <td><?= hsc($row['race_dog']); ?></td>
+                        <td><?= hsc($row['sexe_dog']); ?></td>
+                        <td><?= hsc($row['places_disponibles']); ?></td>
+                        <td><?= hsc($row['date_cours']); ?></td>
+                        <td><?= hsc($row['heure_cours']); ?></td>
 
-                                <td>
-                                    <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
-                                    <button class="btn"><a href="../cours/delete.php?id=<?= hsc($row['id_cours']) ?>" onclick="return confirmationDeleteCours();">Supprimer</a></button>
-                                </td>
-                            </tr>
-                        <?php }; ?>
-                    </tbody>
-                </table>
+                        <td>
+                            <button class="btn"><a href="../cours/form.php?id=<?= hsc($row['id_cours']) ?>">Modifier</a></button>
+                            <button class="btn"><a href="../cours/delete.php?id=<?= hsc($row['id_cours']) ?>" onclick="return confirmationDeleteCours();">Supprimer</a></button>
+                        </td>
+                    </tr>
+                <?php }; ?>
+            </tbody>
+        </table>
+    </div>
+    <button class="btn">
+        <a href="../cours/form.php">Ajouter un Cours</a>
+    </button>
+
+</section>
+
+
+
+
+
+
+
+<div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
+    <?php displayPagination($nbPage, $currentPage, "cours_programmes-admin.php", "page", $nbPerPage); ?>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</main>
+
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3 class="footer-title">Coordonnées</h3>
+            <div class="footer-info">Club Canin "Educa Dog"</div>
+            <div class="footer-info">Téléphone : 03-87-30-30-30</div>
+            <div class="footer-info">
+                Email:
+                <a href="">toto@gmail.com</a>
             </div>
-            <button class="btn">
-                <a href="../cours/form.php">Ajouter un Cours</a>
-            </button>
-
-        </section>
-
-
-
-
-
-
-
-        <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
-            <?php displayPagination($nbPage, $currentPage, "cours_programmes-admin.php", "page", $nbPerPage); ?>
+            <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </main>
-
-    <section class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3 class="footer-title">Coordonnées</h3>
-                <div class="footer-info">Club Canin "Educa Dog"</div>
-                <div class="footer-info">Téléphone : 03-87-30-30-30</div>
-                <div class="footer-info">
-                    Email:
-                    <a href="">toto@gmail.com</a>
-                </div>
-                <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
+        <div class="footer-section">
+            <h3 class="footer-title">Plan du site</h3>
+            <div class="footer-info"><a href="../index.php">Accueil</a></div>
+            <div class="footer-info">
+                <a href="#nos_activite">Nos Activités</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Plan du site</h3>
-                <div class="footer-info"><a href="../index.php">Accueil</a></div>
-                <div class="footer-info">
-                    <a href="#nos_activite">Nos Activités</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nos_horaires">Horaires</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_trouver">Nous trouver</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#story">Notre histoire</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_contacter">Nous contacter</a>
-                </div>
+            <div class="footer-info">
+                <a href="#nos_horaires">Horaires</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Mentions légales</h3>
-                <div class="footer-info">
-                    <a href="#">Politique de confidentialité</a>
-                </div>
-                <div class="footer-info"><a href="#">Mentions légales</a></div>
+            <div class="footer-info">
+                <a href="#nous_trouver">Nous trouver</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Club Canin "Educa Dog"</h3>
-                <div class="logo-container">
-                    <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
-                </div>
+            <div class="footer-info">
+                <a href="#story">Notre histoire</a>
+            </div>
+            <div class="footer-info">
+                <a href="#nous_contacter">Nous contacter</a>
             </div>
         </div>
-        <p>
-            Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
-        </p>
-    </section>
-    <script src="./administratif.js"></script>
+        <div class="footer-section">
+            <h3 class="footer-title">Mentions légales</h3>
+            <div class="footer-info">
+                <a href="#">Politique de confidentialité</a>
+            </div>
+            <div class="footer-info"><a href="#">Mentions légales</a></div>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Club Canin "Educa Dog"</h3>
+            <div class="logo-container">
+                <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
+            </div>
+        </div>
+    </div>
+    <p>
+        Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
+    </p>
+</section>
+<script src="./administratif.js"></script>
 </body>
 
 </html>

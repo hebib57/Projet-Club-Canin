@@ -32,134 +32,105 @@ $stmt = $db->prepare("SELECT * FROM evenement ");
 $stmt->execute();
 $races = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
+require_once __DIR__ . '/../header.php'
 
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modification évènement</title>
-    <link rel="stylesheet" href="../custom.css">
-</head>
+<section>
 
-<body>
-    <header class="header2">
-        <div class="logo">
-            <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
-        </div>
-        <nav class="navbar">
-            <ul class="navbar__burger-menu--closed">
-                <li><a href="../index.php">Accueil</a></li>
-                <li><a href="./admin/logout.php">Déconnexion</a></li>
-            </ul>
-        </nav>
-        <button class="navbar__burger-menu-toggle" id="burgerMenu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
+    <div class="modification">
+        <h2>Modifier Evènement</h2>
+        <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
+            <label for="nom_event">Nom de l'évènement</label>
+            <input type="text" name="nom_event" id="nom_event" value="<?= hsc($nom_event) ?>">
+            <label for="date_event">Date de l'évènement</label>
+            <input type="date" name="date_event" id="date_event" value="<?= hsc($date_event) ?>">
+            <label for="heure_event">Heure de l'évènement</label>
+            <input type="time" name="heure_event" id="heure_event" value="<?= hsc($heure_event) ?>">
+            <label for="places_disponibles">Places disponibles</label>
+            <input type="number" name="places_disponibles" id="places_disponibles" value="<?= hsc($places_disponibles) ?>">
+            <input type="hidden" name="id_event" id="id_event" value="<?= hsc($id_event) ?>">
+            <input type="hidden" name="formCU" value="ok">
+            <input class="btn__modif" type="submit" value="Enregistrer">
+        </form>
+        <?php
+        switch ($_SESSION['role_name']) {
+            case 'admin':
+                $redirectUrl = '../admin/administratif.php#events';
+                break;
+            case 'coach':
+                $redirectUrl = '../event_programmes-coach.php';
+                break;
+            // case 'utilisateur':
+            //     $redirectUrl = '../user.php#cours_programmé';
+            //     break;
+            default:
+                $redirectUrl = '../index.php';
+        }
+        ?>
+        <button class="btn2__modif">
+            <a href="<?= $redirectUrl ?>">Retour</a>
         </button>
 
 
-    </header>
-    <main>
-        <section>
-
-            <div class="modification">
-                <h2>Modifier Evènement</h2>
-                <form class="modif" action="process.php" method="post" enctype="multipart/form-data"><!--enctype sert pour le type file-->
-                    <label for="nom_event">Nom de l'évènement</label>
-                    <input type="text" name="nom_event" id="nom_event" value="<?= hsc($nom_event) ?>">
-                    <label for="date_event">Date de l'évènement</label>
-                    <input type="date" name="date_event" id="date_event" value="<?= hsc($date_event) ?>">
-                    <label for="heure_event">Heure de l'évènement</label>
-                    <input type="time" name="heure_event" id="heure_event" value="<?= hsc($heure_event) ?>">
-                    <label for="places_disponibles">Places disponibles</label>
-                    <input type="number" name="places_disponibles" id="places_disponibles" value="<?= hsc($places_disponibles) ?>">
-                    <input type="hidden" name="id_event" id="id_event" value="<?= hsc($id_event) ?>">
-                    <input type="hidden" name="formCU" value="ok">
-                    <input class="btn__modif" type="submit" value="Enregistrer">
-                </form>
-                <?php
-                switch ($_SESSION['role_name']) {
-                    case 'admin':
-                        $redirectUrl = '../admin/administratif.php#events';
-                        break;
-                    case 'coach':
-                        $redirectUrl = '../event_programmes-coach.php';
-                        break;
-                    // case 'utilisateur':
-                    //     $redirectUrl = '../user.php#cours_programmé';
-                    //     break;
-                    default:
-                        $redirectUrl = '../index.php';
-                }
-                ?>
-                <button class="btn2__modif">
-                    <a href="<?= $redirectUrl ?>">Retour</a>
-                </button>
 
 
+        <!-- <button class="btn2__modif"><a href="../admin/administratif.php#cours">Retour</a></button> -->
+    </div>
+</section>
 
-
-                <!-- <button class="btn2__modif"><a href="../admin/administratif.php#cours">Retour</a></button> -->
+</main>
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3 class="footer-title">Coordonnées</h3>
+            <div class="footer-info">Club Canin "Educa Dog"</div>
+            <div class="footer-info">Téléphone : 03-87-30-30-30</div>
+            <div class="footer-info">
+                Email:
+                <a href="">toto@gmail.com</a>
             </div>
-        </section>
-
-    </main>
-    <section class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3 class="footer-title">Coordonnées</h3>
-                <div class="footer-info">Club Canin "Educa Dog"</div>
-                <div class="footer-info">Téléphone : 03-87-30-30-30</div>
-                <div class="footer-info">
-                    Email:
-                    <a href="">toto@gmail.com</a>
-                </div>
-                <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
+            <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Plan du site</h3>
+            <div class="footer-info"><a href="../index.php">Accueil</a></div>
+            <div class="footer-info">
+                <a href="#nos_activite">Nos Activités</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Plan du site</h3>
-                <div class="footer-info"><a href="../index.php">Accueil</a></div>
-                <div class="footer-info">
-                    <a href="#nos_activite">Nos Activités</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nos_horaires">Horaires</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_trouver">Nous trouver</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#story">Notre histoire</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_contacter">Nous contacter</a>
-                </div>
+            <div class="footer-info">
+                <a href="#nos_horaires">Horaires</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Mentions légales</h3>
-                <div class="footer-info">
-                    <a href="#">Politique de confidentialité</a>
-                </div>
-                <div class="footer-info"><a href="#">Mentions légales</a></div>
+            <div class="footer-info">
+                <a href="#nous_trouver">Nous trouver</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Club Canin "Educa Dog"</h3>
-                <div class="logo-container">
-                    <img src="./images/logo-dog-removebg-preview.png" alt="Educa dog" />
-                </div>
+            <div class="footer-info">
+                <a href="#story">Notre histoire</a>
+            </div>
+            <div class="footer-info">
+                <a href="#nous_contacter">Nous contacter</a>
             </div>
         </div>
-        <p>
-            Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
-        </p>
-    </section>
-    <script src="../index.js"></script>
+        <div class="footer-section">
+            <h3 class="footer-title">Mentions légales</h3>
+            <div class="footer-info">
+                <a href="#">Politique de confidentialité</a>
+            </div>
+            <div class="footer-info"><a href="#">Mentions légales</a></div>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Club Canin "Educa Dog"</h3>
+            <div class="logo-container">
+                <img src="./images/logo-dog-removebg-preview.png" alt="Educa dog" />
+            </div>
+        </div>
+    </div>
+    <p>
+        Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
+    </p>
+</section>
+<script src="../index.js"></script>
 </body>
 
 </html>

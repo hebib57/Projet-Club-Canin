@@ -37,178 +37,151 @@ if ($id_utilisateur) {
     };
 };
 
-
+require_once __DIR__ . '/../header.php'
 
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paramètre du compte | Educa Dog</title>
-    <link rel="stylesheet" href="../custom.css" />
-</head>
+<div class="title">
+    <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
+</div>
 
-<body>
-    <header class="header2">
-        <div class="logo">
-            <img src="../interface_graphique/logo-dog-removebg-preview.png" alt="logo" />
+<div class="sidebar">
+    <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    <div class="sidebar-header">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+            <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
+
         </div>
-        <nav class="navbar">
-            <ul class="navbar__burger-menu--closed">
-                <li><a href="../index.php">Accueil</a></li>
-                <li><a href="./admin/logout.php">Déconnexion</a></li>
-            </ul>
-        </nav>
-        <button class="navbar__burger-menu-toggle" id="burgerMenu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
-    </header>
-    <main>
-        <div class="title">
-            <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé des activités du Club Canin.</h2>
+    </div>
+
+    <ul class="menu-list">
+        <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
+          "></a></li>
+        <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
+          "></a></li>
+        <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
+          "></a></li>
+        <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
+          "></a></li>
+        <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
+          "></a></li>
+        <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
+          "></a></li>
+        <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
+          "></a></li>
+        <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
+          "></a></li>
+        <li><a href="parameters_count-admin.php">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
+          "></a></li>
+        <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
+          "></a></li>
+    </ul>
+</div>
+
+
+
+<section class="form-container creation">
+    <h2>Paramètre du compte</h2>
+    <form action="../users/process.php" method="POST">
+
+        <label for="nom_utilisateur">Nom</label>
+        <input type="text" id="nom_utilisateur" name="nom_utilisateur" value="<?= hsc($nom) ?>" />
+
+        <label for="prenom_utilisateur">Prénom</label>
+        <input type="text" id="prenom_utilisateur" name="prenom_utilisateur" value="<?= hsc($prenom) ?>" required />
+
+        <label for="admin_mail">Email</label>
+        <input type="email" id="admin_mail" name="admin_mail" value="<?= hsc($email) ?>" required>
+
+        <label for="admin_password">Mot de passe</label>
+        <input type="password" id="admin_password" name="admin_password" value="<?= hsc($password) ?>" required />
+
+        <label for="confirm_password">Confirmer votre mot de passe</label>
+        <input type="password" id="confirm_password" name="confirm_password" value="<?= hsc($confirm_password) ?>" required />
+
+        <label for="telephone_utilisateur">Téléphone</label>
+        <input type="tel" id="telephone_utilisateur" name="telephone_utilisateur" value="<?= hsc($phone) ?>" required />
+
+
+        <label for="date_inscription">Date d'inscription</label>
+        <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
+
+        <input type="hidden" name="id_utilisateur" value="<?= hsc($utilisateur) ?>">
+        <button type="submit">Modifier mon compte utilisateur</button>
+
+    </form>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</main>
+
+<section class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3 class="footer-title">Coordonnées</h3>
+            <div class="footer-info">Club Canin "Educa Dog"</div>
+            <div class="footer-info">Téléphone : 03-87-30-30-30</div>
+            <div class="footer-info">
+                Email:
+                <a href="">toto@gmail.com</a>
+            </div>
+            <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
         </div>
-
-        <div class="sidebar">
-            <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-            <div class="sidebar-header">
-                <div class="user-avatar">AD</div>
-                <div class="user-info">
-                    <h3><?= hsc(ucfirst($prenom_utilisateur)) ?></h3>
-
-                </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Plan du site</h3>
+            <div class="footer-info"><a href="../index.php">Accueil</a></div>
+            <div class="footer-info">
+                <a href="#nos_activite">Nos Activités</a>
             </div>
-
-            <ul class="menu-list">
-                <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px
-          "></a></li>
-                <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px
-          "></a></li>
-                <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px
-          "></a></li>
-                <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px
-          "></a></li>
-                <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px
-          "></a></li>
-                <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px
-          "></a></li>
-                <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px
-          "></a></li>
-                <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px
-          "></a></li>
-                <li><a href="parameters_count-admin.php">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px
-          "></a></li>
-                <li><a href="../admin/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
-          "></a></li>
-            </ul>
-        </div>
-
-
-
-        <section class="form-container creation">
-            <h2>Paramètre du compte</h2>
-            <form action="../users/process.php" method="POST">
-
-                <label for="nom_utilisateur">Nom</label>
-                <input type="text" id="nom_utilisateur" name="nom_utilisateur" value="<?= hsc($nom) ?>" />
-
-                <label for="prenom_utilisateur">Prénom</label>
-                <input type="text" id="prenom_utilisateur" name="prenom_utilisateur" value="<?= hsc($prenom) ?>" required />
-
-                <label for="admin_mail">Email</label>
-                <input type="email" id="admin_mail" name="admin_mail" value="<?= hsc($email) ?>" required>
-
-                <label for="admin_password">Mot de passe</label>
-                <input type="password" id="admin_password" name="admin_password" value="<?= hsc($password) ?>" required />
-
-                <label for="confirm_password">Confirmer votre mot de passe</label>
-                <input type="password" id="confirm_password" name="confirm_password" value="<?= hsc($confirm_password) ?>" required />
-
-                <label for="telephone_utilisateur">Téléphone</label>
-                <input type="tel" id="telephone_utilisateur" name="telephone_utilisateur" value="<?= hsc($phone) ?>" required />
-
-
-                <label for="date_inscription">Date d'inscription</label>
-                <input type="date" name="date_inscription" id="date_inscription" value="<?= hsc($date) ?>">
-
-                <input type="hidden" name="id_utilisateur" value="<?= hsc($utilisateur) ?>">
-                <button type="submit">Modifier mon compte utilisateur</button>
-
-            </form>
-        </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </main>
-
-    <section class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3 class="footer-title">Coordonnées</h3>
-                <div class="footer-info">Club Canin "Educa Dog"</div>
-                <div class="footer-info">Téléphone : 03-87-30-30-30</div>
-                <div class="footer-info">
-                    Email:
-                    <a href="">toto@gmail.com</a>
-                </div>
-                <div class="footer-info">Adresse : 86 rue aux arenes, 57000 Metz</div>
+            <div class="footer-info">
+                <a href="#nos_horaires">Horaires</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Plan du site</h3>
-                <div class="footer-info"><a href="../index.php">Accueil</a></div>
-                <div class="footer-info">
-                    <a href="#nos_activite">Nos Activités</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nos_horaires">Horaires</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_trouver">Nous trouver</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#story">Notre histoire</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_contacter">Nous contacter</a>
-                </div>
+            <div class="footer-info">
+                <a href="#nous_trouver">Nous trouver</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Mentions légales</h3>
-                <div class="footer-info">
-                    <a href="#">Politique de confidentialité</a>
-                </div>
-                <div class="footer-info"><a href="#">Mentions légales</a></div>
+            <div class="footer-info">
+                <a href="#story">Notre histoire</a>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Club Canin "Educa Dog"</h3>
-                <div class="logo-container">
-                    <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
-                </div>
+            <div class="footer-info">
+                <a href="#nous_contacter">Nous contacter</a>
             </div>
         </div>
-        <p>
-            Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
-        </p>
-    </section>
-    <script src="./administratif.js"></script>
+        <div class="footer-section">
+            <h3 class="footer-title">Mentions légales</h3>
+            <div class="footer-info">
+                <a href="#">Politique de confidentialité</a>
+            </div>
+            <div class="footer-info"><a href="#">Mentions légales</a></div>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Club Canin "Educa Dog"</h3>
+            <div class="logo-container">
+                <img src="./interface_graphique/logo-dog-removebg-preview.png" alt="Educa dog" />
+            </div>
+        </div>
+    </div>
+    <p>
+        Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
+    </p>
+</section>
+<script src="./administratif.js"></script>
 </body>
 
 </html>
