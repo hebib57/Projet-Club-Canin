@@ -25,7 +25,7 @@ $stmt = $db->prepare("SELECT c.id_dog, c.nom_dog, c.date_naissance, r.nom_race, 
 $stmt->execute([$id_utilisateur]);
 $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/../header.php'
+require_once __DIR__ . '/header.php'
 ?>
 
 
@@ -112,64 +112,6 @@ require_once __DIR__ . '/../header.php'
         </tbody>
     </table>
 </section>
-</main>
-<footer>
-    <section class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3 class="footer-title">Coordonnées</h3>
-                <div class="footer-info">Club Canin "Educa Dog"</div>
-                <div class="footer-info">Téléphone : 03-87-30-30-30</div>
-                <div class="footer-info">
-                    Email:
-                    <a href="">toto@gmail.com</a>
-                </div>
-                <div class="footer-info">
-                    Adresse : 86 rue aux arenes, 57000 Metz
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Plan du site</h3>
-                <div class="footer-info"><a href="../index.php">Accueil</a></div>
-                <div class="footer-info">
-                    <a href="#nos_activite">Nos Activités</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nos_horaires">Horaires</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_trouver">Nous trouver</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#story">Notre histoire</a>
-                </div>
-                <div class="footer-info">
-                    <a href="#nous_contacter">Nous contacter</a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Mentions légales</h3>
-                <div class="footer-info">
-                    <a href="#">Politique de confidentialité</a>
-                </div>
-                <div class="footer-info"><a href="#">Mentions légales</a></div>
-            </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Club Canin "Educa Dog"</h3>
-                <div class="logo-container">
-                    <img
-                        src="./interface_graphique/logo-dog-removebg-preview.png"
-                        alt="Educa dog" />
-                </div>
-            </div>
-        </div>
-        <p>
-            Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
-        </p>
-    </section>
-</footer>
-<script src="user.js"></script>
-
 <!-- Modal pour choisir un chien pour l'inscription à un évènement-->
 <div id="inscriptionModal" class="modal" style="display: none;">
     <div class="modal-content">
@@ -196,8 +138,4 @@ require_once __DIR__ . '/../header.php'
     </div>
 </div>
 
-
-
-</body>
-
-</html>
+<?php require_once __DIR__ . '/footer.php' ?>
