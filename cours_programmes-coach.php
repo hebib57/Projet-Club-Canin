@@ -38,7 +38,8 @@ $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $recordset_cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/templates/header.php'
+require_once __DIR__ . '/templates/header.php';
+require_once __DIR__ . '/templates/sidebar.php';
 
 ?>
 
@@ -49,7 +50,7 @@ require_once __DIR__ . '/templates/header.php'
 </div>
 
 
-<div class="sidebar">
+<!-- <div class="sidebar">
     <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -80,7 +81,7 @@ require_once __DIR__ . '/templates/header.php'
         <li><a href="/logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px
           "></a></li>
     </ul>
-</div>
+</div> -->
 <!-- <div>
         <span id="date">
         </span>

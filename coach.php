@@ -1,4 +1,5 @@
 <?php
+
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_coach.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
@@ -8,17 +9,6 @@ $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour a
 $id_utilisateur = $_SESSION['user_id'] ?? null;
 
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
-
-
-
-
-
-
-
-
-
-
-
 
 
 $stmt = $db->prepare("
@@ -32,7 +22,9 @@ $stmt = $db->prepare("
 $stmt->execute();
 $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require_once __DIR__ . '/templates/header.php'
+require_once __DIR__ . '/templates/header.php';
+require_once __DIR__ . '/templates/sidebar.php';
+
 
 ?>
 
@@ -44,7 +36,7 @@ require_once __DIR__ . '/templates/header.php'
   <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
 </div>
 
-
+<!-- 
 <div class="sidebar">
   <button class="sidebar__burger-menu-toggle" id="sidebarMenu">
     <span class="bar"></span>
@@ -77,9 +69,9 @@ require_once __DIR__ . '/templates/header.php'
           "></a></li>
   </ul>
 </div>
-<div>
-  <span id="date">
-  </span>
+<div> -->
+<span id="date">
+</span>
 </div>
 <!-- <section class="container-coach" id="dashbord"> -->
 

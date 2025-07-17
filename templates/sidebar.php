@@ -1,12 +1,24 @@
 <?php
-
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/function.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_admin.php";
+
+$role = $_SESSION['role_id'] ?? null;
+
+switch ($role) {
+    case 1:
+        require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_admin.php";
+        break;
+    case 2:
+        require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_coach.php";
+        break;
+    case 3:
+        require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_user.php";
+        break;
+}
 
 $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour personnalisation
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
-$role = $_SESSION['role_id'] ?? null;
+
 
 ?>
 
