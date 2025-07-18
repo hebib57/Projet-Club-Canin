@@ -1,19 +1,5 @@
 /* PAGE ACCUEIL -----------------------------------------------------------------------------------------------------------*/
-/* Alerte Bienvenue ---------------------------------------*/
 
-// window.addEventListener("load", () => {
-//   alert("Bienvenue sur notre site Educa Dog!");
-// });
-
-/* BARRE NAV menu burger------------------------------------*/
-
-// const burgerMenu = document.getElementById("burgerMenu");
-// const navbar = document.querySelector(".navbar ul");
-
-// burgerMenu.addEventListener("click", () => {
-//   navbar.classList.toggle("active");
-// });
-/* BARRE NAV menu burger------------------------------------*/
 
 const burgerMenu = document.getElementById("burgerMenu");
 const navbar = document.querySelector(".navbar ul");

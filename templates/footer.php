@@ -48,27 +48,32 @@
         Copyright &copy; - 2025 Club CANIN "Educa Dog"- Tous droits réservés.
     </p>
 </section>
-<!-- <script src="./administratif.js"></script> -->
-<?php
-if (isset($_SESSION['is_logged']) && isset($_SESSION['role_id'])) {
 
-    switch ($_SESSION['role_id']) {
-        case '1':
-            $redirectUrl = '../admin/administratif.js';
-            break;
-        case '2':
-            $redirectUrl = '../coach.js';
-            break;
-        case '3':
-            $redirectUrl = '../user.js';
-            break;
-        default:
-            $redirectUrl = '../index.js';
+<?php if (basename($_SERVER["SCRIPT_FILENAME"]) == 'index.php'): ?>
+    <script src="../index.js"></script>
+<?php else: ?>
+
+    <?php
+    if (isset($_SESSION['is_logged']) && isset($_SESSION['role_id'])) {
+
+        switch ($_SESSION['role_id']) {
+            case '1':
+                $redirectUrl = '../admin/administratif.js';
+                break;
+            case '2':
+                $redirectUrl = '../coach.js';
+                break;
+            case '3':
+                $redirectUrl = '../user.js';
+                break;
+            default:
+                $redirectUrl = '../index.js';
+                break;
+        }
     }
-}
-?>
-<script src="<?php echo $redirectUrl; ?>"></script>
-
+    ?>
+    <script src="<?php echo $redirectUrl; ?>"></script>
+<?php endif; ?>
 </body>
 
 </html>

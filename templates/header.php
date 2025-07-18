@@ -61,7 +61,7 @@
                         }
                         ?>
                     </li>
-                <?php else: ($header) ?>
+                <?php else: ?>
                     <li><a href="../index.php">Accueil</a></li>
                     <li><a href="../logout.php">Déconnexion</a></li>
 
