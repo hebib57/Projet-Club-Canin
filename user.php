@@ -5,8 +5,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_user.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 
 
-
-
 // Vérifier si l'utilisateur est connecté-------------------------------------------------------------------------------
 $id_utilisateur = $_SESSION['user_id'] ?? null;
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
@@ -113,20 +111,12 @@ require_once __DIR__ . '/templates/header.php';
 require_once __DIR__ . '/templates/sidebar.php';
 ?>
 
-
-
-
-
 <div class="title">
   <h2>Bienvenue <?= hsc(ucfirst($prenom_utilisateur)) ?>, voici le résumé de vos activités au Club.</h2>
 </div>
+
 <span id="date">
 </span>
-
-
-
-
-
 
 <section class="tab_bord" id="dashbord">
   <h2>Tableau de Bord</h2>

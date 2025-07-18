@@ -58,10 +58,9 @@ $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
 $stmt->execute();
 $recordset_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-
 require_once __DIR__ . '/templates/header.php';
 require_once __DIR__ . '/templates/sidebar.php';
+
 ?>
 
 
@@ -73,7 +72,6 @@ require_once __DIR__ . '/templates/sidebar.php';
 <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
     <?php displayPagination($nbPage, $currentPage, "messagerie-user.php", "page", $nbPerPage); ?>
 </div>
-
 
 <section class="card-user_messagerie" id="messagerie">
     <div>
@@ -106,10 +104,8 @@ require_once __DIR__ . '/templates/sidebar.php';
                 </tr>
             <?php endforeach; ?>
 
-
         </tbody>
     </table>
-
 </section>
 
 <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
