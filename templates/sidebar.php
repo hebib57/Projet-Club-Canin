@@ -41,9 +41,11 @@ $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
         if ($role === 3): ?>
             <li><a href="user.php#dashbord">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px"></a></li>
             <li><a href="cours_programmes-user.php">Cours programmés <img src="../interface_graphique/training-program.png" alt="cours" width="40px"></a></li>
+            <li><a href="cours_reserves-user.php">Cours réservés <img src="../interface_graphique/reservation.png" alt="reservations" width="40px"></a></li>
             <li><a href="event_programmes-user.php">Évènements programmés <img src="../interface_graphique/banner.png" alt="events" width="40px"></a></li>
+            <li><a href="event_reserves-user.php">Évènements réservés <img src="../interface_graphique/reservation.png" alt="reservations" width="40px"></a></li>
             <li><a href="dogs-user.php">Mes chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px"></a></li>
-            <li><a href="reservations-user.php">Mes réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px"></a></li>
+            <!-- <li><a href="reservations-user.php">Mes réservations </a></li> -->
             <li><a href="progression.php">Progression <img src="../interface_graphique/img-progress.png" alt="progression" width="40px"></a></li>
             <li><a href="messagerie-user.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px"></a></li>
             <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px"></a></li>
