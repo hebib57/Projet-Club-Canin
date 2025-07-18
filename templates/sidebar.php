@@ -63,12 +63,14 @@ $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
         <?php
         elseif ($role === 1): ?>
             <li><a href="administratif.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px"></a></li>
-            <li><a href="reservations-admin.php">Suivi des Réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px"></a></li>
+            <!-- <li><a href="reservations-admin.php">Suivi des Réservations </a></li> -->
             <li><a href="cours_programmes-admin.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px"></a></li>
+            <li><a href="cours_reserves-admin.php">Cours réservés<img src="../interface_graphique/reservation.png" alt="reservations" width="40px"></a></li>
             <li><a href="users-admin.php">Gestion des Utilisateurs<img src="../interface_graphique/add.png" alt="users" width="40px"></a></li>
             <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px"></a></li>
             <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px"></a></li>
             <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px"></a></li>
+            <li><a href="events_reserves-admin.php">Evènements réservés<img src="../interface_graphique/reservation.png" alt="reservations" width="40px"></a></li>
             <li><a href="messagerie-admin.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px"></a></li>
             <li><a href="parameters_count-admin.php">Paramètres du Compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px"></a></li>
             <li><a href="../logout.php">Déconnexion <img src="../interface_graphique/img-exit.png" alt="logout" width="40px"></a></li>
