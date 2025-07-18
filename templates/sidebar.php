@@ -53,8 +53,10 @@ $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
         elseif ($role === 2): ?>
             <li><a href="coach.php">Tableau de bord <img src="../interface_graphique/online-reservation.png" alt="dashboard" width="40px"></a></li>
             <li><a href="cours_programmes-coach.php">Gestion des Cours <img src="../interface_graphique/training-program.png" alt="cours" width="40px"></a></li>
+            <li><a href="cours_reserves-coach.php">Cours réservés<img src="../interface_graphique/reservation.png" alt="reservations_cours" width="40px"></a></li>
             <li><a href="event_programmes-coach.php">Gestion des Évènements <img src="../interface_graphique/banner.png" alt="events" width="40px"></a></li>
-            <li><a href="reservations-coach.php">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px"></a></li>
+            <li><a href="event_reserves-coach.php">Évènements réservés<img src="../interface_graphique/reservation.png" alt="reservations_events" width="40px"></a></li>
+            <!-- <li><a href="reservations-coach.php">Suivi des réservations <img src="../interface_graphique/reservation.png" alt="reservations" width="40px"></a></li> -->
             <li><a href="evaluations-coach.php">Evaluation <img src="../interface_graphique/img-eval.png" alt="evaluations" width="40px"></a></li>
             <li><a href="messagerie-coach.php">Messagerie <img src="../interface_graphique/mail.png" alt="messagerie" width="40px"></a></li>
             <li><a href="#">Paramètres du compte <img src="../interface_graphique/admin-panel.png" alt="parametres" width="40px"></a></li>
