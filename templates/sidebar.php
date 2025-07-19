@@ -78,9 +78,9 @@ $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
                 </a>
                 <ul class="sous_menu-detail">
                     <li><a href="users-admin.php">Tous les utilisateurs</a></li>
-                    <li><a href="#admins">Admins</a></li>
-                    <li><a href="#coachs">Coachs</a></li>
-                    <li><a href="#users">Utilisateurs</a></li>
+                    <li><a href="gestion_admin-admin.php">Admins</a></li>
+                    <li><a href="gestion_coach-admin.php">Coachs</a></li>
+                    <li><a href="gestion_user-admin.php">Utilisateurs</a></li>
                 </ul>
             </li>
             <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px"></a></li>

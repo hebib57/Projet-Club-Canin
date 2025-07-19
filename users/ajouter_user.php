@@ -19,6 +19,8 @@ require_once __DIR__ . '../../templates/header.php'
     <input type="email" id="admin_mail" name="admin_mail" required />
     <label for="password">Mot de passe</label>
     <input type="password" id="admin_password" name="admin_password" required />
+    <label for="confirm_password">Confirmer votre mot de passe</label>
+    <input type="password" id="confirm_password" name="confirm_password" required />
     <label for="telephone_utilisateur">Téléphone</label>
     <input type="number" id="telephone_utilisateur" name="telephone_utilisateur" required />
     <label for="text">Rôle</label>
