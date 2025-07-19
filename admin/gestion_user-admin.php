@@ -27,6 +27,36 @@ $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 // }
 
 
+// Page actuelle (par défaut 1)
+$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+
+$stmt = $db->prepare("
+    SELECT COUNT(*) as total
+    FROM utilisateur u
+    JOIN utilisateur_role ur ON u.id_utilisateur = ur.id_utilisateur
+    WHERE ur.id_role = :id_role
+");
+$stmt->execute(['id_role' => 3]);
+$totalUser = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+
+// Calcul du nombre de pages
+$nbPage = ceil($totalUser / $nbPerPage);
+
+$offset = ($currentPage - 1) * $nbPerPage;
+
+// $stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+// $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+
 // récupération des utilisateurs (rôle 3 uniquement) paginés
 $sql = "SELECT * 
         FROM utilisateur u
@@ -49,32 +79,6 @@ try {
 }
 
 
-
-// Page actuelle (par défaut 1)
-$currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-
-$stmt = $db->prepare("
-    SELECT COUNT(*) as total
-    FROM utilisateur u
-    JOIN utilisateur_role ur ON u.id_utilisateur = ur.id_utilisateur
-    WHERE ur.id_role = :id_role
-");
-$stmt->execute(['id_role' => 1]);
-$totalAdmin = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-// Nombre d'éléments par page
-$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
-
-// Évite la division par zéro
-if ($nbPerPage <= 0) {
-    $nbPerPage = 10;
-}
-// Calcul du nombre de pages
-$nbPage = ceil($totalAdmin / $nbPerPage);
-
-
-$offset = ($currentPage - 1) * $nbPerPage;
-$stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
-$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
 require_once __DIR__ . '../../templates/header.php';
 require_once __DIR__ . '/../templates/sidebar.php';

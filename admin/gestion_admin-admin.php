@@ -10,25 +10,20 @@ $id_utilisateur = $_SESSION['user_id'] ?? null;
 
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
-// recup tous les utilisateurs avec leur rôle
-$sql = "SELECT * 
-        FROM utilisateur u
-        JOIN utilisateur_role ur ON u.id_utilisateur = ur.id_utilisateur
-        JOIN role r ON ur.id_role = r.id_role";
-
-
-try {
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    $recordset_role = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
-    $recordset_role = []; // Pour éviter d'autres erreurs en cas d'échec
-}
 
 
 // Page actuelle (par défaut 1)
 $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+// Nombre d'éléments par page
+$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+
+// Évite la division par zéro
+if ($nbPerPage <= 0) {
+    $nbPerPage = 10;
+}
+
+$offset = ($currentPage - 1) * $nbPerPage;
 
 $stmt = $db->prepare("
     SELECT COUNT(*) as total
@@ -39,20 +34,33 @@ $stmt = $db->prepare("
 $stmt->execute(['id_role' => 1]);
 $totalAdmin = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-// Nombre d'éléments par page
-$nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
-
-// Évite la division par zéro
-if ($nbPerPage <= 0) {
-    $nbPerPage = 10;
-}
 // Calcul du nombre de pages
 $nbPage = ceil($totalAdmin / $nbPerPage);
 
 
-$offset = ($currentPage - 1) * $nbPerPage;
 
 
+
+// recup tous les utilisateurs avec leur rôle
+$sql = "SELECT * 
+        FROM utilisateur u
+        JOIN utilisateur_role ur ON u.id_utilisateur = ur.id_utilisateur
+        JOIN role r ON ur.id_role = r.id_role
+        WHERE ur.id_role = :id_role
+        ORDER BY u.id_utilisateur DESC
+        LIMIT :limit OFFSET :offset";
+
+try {
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':id_role', 1, PDO::PARAM_INT);
+    $stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $recordset_role = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
+    $recordset_role = []; // Pour éviter d'autres erreurs en cas d'échec
+}
 
 
 

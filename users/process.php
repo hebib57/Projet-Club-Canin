@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         error_log($e->getMessage());
 
         // echo "<script>alert('Erreur : " . hsc($e->getMessage()) . "'); window.history.back();</script>";
-        $message = "Erreur lors de l'ajout de l'utilisateur";
+        $message = "Erreur lors de l\'ajout de l\'utilisateur";
     }
 
     $role_name = $_SESSION['role_name'] ?? null;

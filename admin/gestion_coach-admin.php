@@ -5,33 +5,11 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/protect_admin.php";
 
 $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur'; //pour personnalisation
-
 $id_utilisateur = $_SESSION['user_id'] ?? null;
-
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
-
-// recup tous les utilisateurs avec leur rôle
-$sql = "SELECT * 
-        FROM utilisateur u
-        JOIN utilisateur_role ur ON u.id_utilisateur = ur.id_utilisateur
-        JOIN role r ON ur.id_role = r.id_role";
-
-
-try {
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    $recordset_role = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
-    $recordset_role = []; // Pour éviter d'autres erreurs en cas d'échec
-}
 
 // Page actuelle (par défaut 1)
 $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-
-$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM utilisateur ");
-$stmtCount->execute();
-$totalAdmin = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
 
 // Nombre d'éléments par page
 $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
@@ -40,11 +18,39 @@ $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
 if ($nbPerPage <= 0) {
     $nbPerPage = 10;
 }
-// Calcul du nombre de pages
-$nbPage = ceil($totalAdmin / $nbPerPage);
-
 
 $offset = ($currentPage - 1) * $nbPerPage;
+
+$stmtCount = $db->prepare("SELECT COUNT(*) as total
+                           FROM utilisateur u
+                           JOIN utilisateur_role ur ON u.id_utilisateur = ur.id_utilisateur
+                           WHERE ur.id_role = :id_role");
+$stmtCount->execute(['id_role' => 2]);
+$totalCoach = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Calcul du nombre de pages
+$nbPage = ceil($totalCoach / $nbPerPage);
+
+// recup tous les utilisateurs avec leur rôle
+$sql = "SELECT * 
+        FROM utilisateur u
+        JOIN utilisateur_role ur ON u.id_utilisateur = ur.id_utilisateur
+        JOIN role r ON ur.id_role = r.id_role
+        WHERE ur.id_role = :id_role
+        ORDER BY u.id_utilisateur DESC
+        LIMIT :limit OFFSET :offset";
+
+try {
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':id_role', 2, PDO::PARAM_INT);
+    $stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $recordset_role = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
+    $recordset_role = []; // Pour éviter d'autres erreurs en cas d'échec
+}
 
 
 require_once __DIR__ . '../../templates/header.php';
