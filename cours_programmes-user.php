@@ -86,6 +86,7 @@ require_once __DIR__ . '/templates/sidebar.php';
 
 <section class="cours_programmé" id="cours_programmé">
     <h2>Cours programmés</h2>
+    <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
     <table class="table">
         <thead>
             <tr>

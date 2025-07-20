@@ -76,6 +76,8 @@ require_once __DIR__ . '/templates/sidebar.php';
 
 <section class="events" id="events">
     <h2>Événements programmés</h2>
+    <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
+
     <table>
         <thead>
             <tr>

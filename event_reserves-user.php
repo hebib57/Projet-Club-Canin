@@ -143,6 +143,8 @@ require_once __DIR__ . '/templates/sidebar.php';
 
 <section class="inscriptions_event" id="events">
     <h2>Événements réservés</h2>
+    <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
+
     <table>
         <thead>
             <tr>

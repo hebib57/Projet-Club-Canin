@@ -89,6 +89,8 @@ require_once __DIR__ . '/templates/sidebar.php';
 <section class="content">
     <div class="contenair" id="dogs">
         <h2>Mes chiens</h2>
+        <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
+
         <div class="card">
             <div class="card-header">
                 <h3>Mes chiens</h3>

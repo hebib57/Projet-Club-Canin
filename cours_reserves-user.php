@@ -9,36 +9,36 @@ $prenom_utilisateur = $_SESSION['prenom_utilisateur'] ?? 'Utilisateur';
 
 $utilisateur = [];
 
-$query = "
-SELECT 
-        r.id_reservation,
-        r.date_reservation,
-        u.nom_utilisateur,
-        r.id_dog,
-        d.nom_dog,
-        s.id_seance,
-        s.date_seance,
-        s.heure_seance,
-        s.places_disponibles,
-        s.duree_seance,
-        s.statut_seance,
-        co.nom_cours,
-        co.categorie_acceptee
-    FROM 
-        reservation r
-        JOIN seance s ON r.id_seance = s.id_seance
-        JOIN cours co ON s.id_cours = co.id_cours
-        JOIN utilisateur u ON r.id_utilisateur = u.id_utilisateur
-        JOIN chien d ON r.id_dog = d.id_dog
-    WHERE r.id_utilisateur = ?
-    ORDER BY r.date_reservation DESC
+// $query = "
+// SELECT 
+//         r.id_reservation,
+//         r.date_reservation,
+//         u.nom_utilisateur,
+//         r.id_dog,
+//         d.nom_dog,
+//         s.id_seance,
+//         s.date_seance,
+//         s.heure_seance,
+//         s.places_disponibles,
+//         s.duree_seance,
+//         s.statut_seance,
+//         co.nom_cours,
+//         co.categorie_acceptee
+//     FROM 
+//         reservation r
+//         JOIN seance s ON r.id_seance = s.id_seance
+//         JOIN cours co ON s.id_cours = co.id_cours
+//         JOIN utilisateur u ON r.id_utilisateur = u.id_utilisateur
+//         JOIN chien d ON r.id_dog = d.id_dog
+//     WHERE r.id_utilisateur = ?
+//     ORDER BY r.date_reservation DESC
 
-    ";
+//     ";
 
 // Exécution de la requête
-$stmt = $db->prepare($query);
-$stmt->execute([$id_utilisateur]);
-$recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $stmt = $db->prepare($query);
+// $stmt->execute([$id_utilisateur]);
+// $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Page actuelle (par défaut 1)
 $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
@@ -68,7 +68,7 @@ $nbPage = ceil($totalReservation / $nbPerPage);
 
 $offset = ($currentPage - 1) * $nbPerPage;
 
-$stmt = $db->prepare("SELECT 
+$sql = "SELECT 
         r.id_reservation,
         r.date_reservation,
         u.nom_utilisateur,
@@ -88,13 +88,15 @@ $stmt = $db->prepare("SELECT
         JOIN cours co ON s.id_cours = co.id_cours
         JOIN utilisateur u ON r.id_utilisateur = u.id_utilisateur
         JOIN chien d ON r.id_dog = d.id_dog
-    WHERE r.id_utilisateur = ?
+    WHERE r.id_utilisateur = :id_utilisateur
     ORDER BY r.date_reservation DESC
-    LIMIT :limit OFFSET :offset");
-$stmt = $db->prepare($query);
+    LIMIT :limit OFFSET :offset";
+
+$stmt = $db->prepare($sql);
+$stmt->bindValue(':id_utilisateur', $id_utilisateur, PDO::PARAM_INT);
 $stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-$stmt->execute([$id_utilisateur]);
+$stmt->execute();
 $recordset_reservation = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -121,6 +123,7 @@ require_once __DIR__ . '/templates/sidebar.php';
 
 <section class="reservations" id="reservations">
     <h2>Cours Réservés</h2>
+    <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
     <div class="table-container">
         <table>
             <thead>
