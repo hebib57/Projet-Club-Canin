@@ -29,6 +29,10 @@ function cleanFilename($str)
 
 function displayPagination($nbPage, $currentPage, $url = "index.php", $param = "page", $limit = 20)
 {
+    // Récupération du paramètre nbPerPage
+    $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
+    $extra = "&nbPerPage=" . $nbPerPage;
+
     if ($currentPage < 1) {
         $currentPage = 1;
     }
@@ -37,13 +41,13 @@ function displayPagination($nbPage, $currentPage, $url = "index.php", $param = "
     }
     if ($nbPage > 1) {
         echo "<ul>";
-        echo "<li><a href=\"" . $url . "\">&lt;&lt</a></li>";
-        echo "<li><a href=\"" . $url . ($currentPage > 2 ? "?" . $param . "=" . ($currentPage - 1) : "") . "\">&lt</a></li>";
+        echo "<li><a href=\"" . $url . "?$param=1$extra\">&lt;&lt</a></li>";
+        echo "<li><a href=\"" . $url . "?$param=" . ($currentPage > 1 ? $currentPage - 1 : 1) . "$extra\">&lt</a></li>";
 
         $displayDots = true;
         for ($i = 1; $i <= $nbPage; $i++) {
             if ($nbPage <= $limit || $i <= 3 || $i >= ($nbPage - 2) || $i == $currentPage || $i == $currentPage - 1 || $i == $currentPage + 1) {
-                echo "<li " . ($i == $currentPage ? "class=\"active\"" : "") . "><a href=\"" . $url . ($i > 1 ? "?" . $param . "=" . $i : "") . "\">" . $i . "</a></li>";
+                echo "<li " . ($i == $currentPage ? "class=\"active\"" : "") . "><a href=\"" . $url . "?$param=$i$extra\">" . $i . "</a></li>";
                 //si $i est égal à currentPage alors(?) condition ok sinon(:) rien
                 $displayDots = true;
             } else {
@@ -53,15 +57,8 @@ function displayPagination($nbPage, $currentPage, $url = "index.php", $param = "
                 }
             }
         }
-        echo "<li><a href=\"" . $url . "?" . $param . "=" . ($currentPage == $nbPage ? $nbPage : $currentPage + 1) . "\">&gt</a></li>";
-        echo "<li><a href=\"" . $url . "?" . $param . "=" . $nbPage . "\">&gt;&gt</a></li>";
+        echo "<li><a href=\"" . $url . "?$param" . "=" . ($currentPage == $nbPage ? $nbPage : $currentPage + 1) . "\">&gt</a></li>";
+        echo "<li><a href=\"" . $url . "?$param=$nbPage$extra\">&gt;&gt</a></li>";
         echo "</ul>";
     }
-
-    
-
-
-
-
-
 }

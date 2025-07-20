@@ -10,23 +10,6 @@ $id_utilisateur = $_SESSION['user_id'] ?? null;
 
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
-// recup tous les utilisateurs avec leur rôle
-// $sql = "SELECT * 
-//         FROM utilisateur u
-//         JOIN utilisateur_role ur ON u.id_utilisateur = ur.id_utilisateur
-//         JOIN role r ON ur.id_role = r.id_role";
-
-
-// try {
-//     $stmt = $db->prepare($sql);
-//     $stmt->execute();
-//     $recordset_role = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// } catch (PDOException $e) {
-//     echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
-//     $recordset_role = []; // Pour éviter d'autres erreurs en cas d'échec
-// }
-
-
 // Page actuelle (par défaut 1)
 $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
@@ -52,10 +35,6 @@ $totalUser = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 $nbPage = ceil($totalUser / $nbPerPage);
 
 $offset = ($currentPage - 1) * $nbPerPage;
-
-// $stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
-// $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-
 
 // récupération des utilisateurs (rôle 3 uniquement) paginés
 $sql = "SELECT * 
