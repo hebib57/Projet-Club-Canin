@@ -76,8 +76,10 @@ require_once __DIR__ . '/templates/sidebar.php';
 
 <section id="commentaires" class="commentaires">
     <h2>Commentaires de progression</h2>
+    <button class="btn"><a href="../commentaire/commentaire_send.php">Nouvelle évaluation</a></button>
+    <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
     <table>
-        <button class="btn"><a href="../commentaire/commentaire_send.php">Nouvelle évaluation</a></button>
+
         <thead>
             <tr>
                 <th>Chien</th>

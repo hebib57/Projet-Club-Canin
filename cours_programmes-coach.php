@@ -57,6 +57,9 @@ require_once __DIR__ . '/templates/sidebar.php';
 
 <section id="cours_programmé" class="cours_programmé">
     <h2>Gestion des Cours</h2>
+    <button class="btn">
+        <a href="../cours/form.php">Ajouter un Cours</a></button>
+    <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
     <table class="table">
         <thead>
             <tr>
@@ -96,8 +99,7 @@ require_once __DIR__ . '/templates/sidebar.php';
             <?php }; ?>
         </tbody>
     </table>
-    <button class="btn">
-        <a href="../cours/form.php">Ajouter un Cours</a></button>
+
 </section>
 <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
     <?php displayPagination($nbPage, $currentPage, "cours_programmes-coach.php", "page", $nbPerPage); ?>

@@ -58,6 +58,9 @@ require_once __DIR__ . '/templates/sidebar.php';
 
 <section class="events" id="events">
     <h2>Gestion des Évènements</h2>
+    <button class="btn">
+        <a href="../evenement/form.php">Ajouter un Événement</a></button>
+    <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
     <table>
         <thead>
             <tr>
@@ -86,8 +89,7 @@ require_once __DIR__ . '/templates/sidebar.php';
             <?php }; ?>
         </tbody>
     </table>
-    <button class="btn">
-        <a href="../evenement/form.php">Ajouter un Événement</a></button>
+
 </section>
 <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->
     <?php displayPagination($nbPage, $currentPage, "event_programmes-coach.php", "page", $nbPerPage); ?>

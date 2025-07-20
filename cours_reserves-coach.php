@@ -100,7 +100,7 @@ $stmt = $db->prepare("SELECT
  LEFT JOIN utilisateur coach ON coach.id_utilisateur = s.id_utilisateur
  LEFT JOIN utilisateur_role ur ON coach.id_utilisateur = ur.id_utilisateur
  LEFT JOIN role role_coach ON ur.id_role = role_coach.id_role AND role_coach.nom_role = 'coach' 
-        LIMIT :limit OFFSET :offset");
+LIMIT :limit OFFSET :offset");
 $stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
@@ -122,6 +122,7 @@ require_once __DIR__ . '/templates/sidebar.php';
 
 <section class="reservations" id="reservations">
     <h2> Cours Réservés</h2>
+    <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
     <div class="table-container">
         <table>
             <thead>

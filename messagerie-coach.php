@@ -78,8 +78,9 @@ require_once __DIR__ . '/templates/sidebar.php';
         <h2>Messagerie</h2>
         <div class="card-header">
             <button class="btn"><a href="../messages/message_send.php">Nouveau message</a></button>
-        </div>
 
+        </div>
+        <?php require_once __DIR__ . '/templates/form_nb-per-page.php'; ?>
         <table>
             <thead>
                 <tr>
