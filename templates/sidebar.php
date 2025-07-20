@@ -83,7 +83,6 @@ $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
                     <li><a href="gestion_user-admin.php">Utilisateurs</a></li>
                 </ul>
             </li>
-            <li><a href="#coachs">Gestion des Coachs <img src="../interface_graphique/coach.png" alt="coachs" width="40px"></a></li>
             <li><a href="dogs-admin.php">Gestion des Chiens <img src="../interface_graphique/corgi.png" alt="dogs" width="40px"></a></li>
             <li><a href="events_programmes-admin.php">Gestion des Evènements <img src="../interface_graphique/banner.png" alt="events" width="40px"></a></li>
             <li><a href="events_reserves-admin.php">Evènements réservés<img src="../interface_graphique/reservation.png" alt="reservations" width="40px"></a></li>

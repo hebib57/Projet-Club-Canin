@@ -11,18 +11,6 @@ $id_utilisateur = $_SESSION['user_id'] ?? null;
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
 
-// Recup les messages reçus
-// $sql = "SELECT m.*, u.prenom_utilisateur, u.nom_utilisateur 
-// FROM message m
-// JOIN utilisateur u ON m.id_expediteur = u.id_utilisateur
-// WHERE m.id_destinataire = :id_utilisateur
-// AND m.contenu IS NOT NULL 
-// ORDER BY m.date_envoi DESC";
-
-// $stmt = $db->prepare($sql);
-// $stmt->execute([':id_utilisateur' => $_SESSION['user_id']]);
-// $recordset_messages = $stmt->fetchAll();
-
 // Page actuelle (par défaut 1)
 $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
@@ -85,6 +73,8 @@ require_once __DIR__ . '/../templates/sidebar.php';
     <div class="card-header">
         <button class="btn"><a href="../messages/message_send.php">Nouveau message</a></button>
     </div>
+    <?php require_once __DIR__ . '/../templates/form_nb-per-page.php'; ?>
+
     <div class="table-container">
         <table>
             <thead>

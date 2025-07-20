@@ -10,37 +10,8 @@ $id_utilisateur = $_SESSION['user_id'] ?? null;
 
 $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 
-
-// $query = "
-//     SELECT 
-//        c.id_dog,
-//        c.nom_dog,
-//        c.id_race,
-//        c.age_dog,
-//        c.sexe_dog,
-//        u.nom_utilisateur,
-//        c.date_inscription,
-//        c.photo_dog,
-//        r.nom_race,
-//        c.categorie
-
-//     FROM 
-//         chien c
-
-//         JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur
-//         JOIN race r ON c.id_race = r.id_race
-
-
-// ";
-// $recordset_dog = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
-
 // Page actuelle (par défaut 1)
 $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-
-// Compter le total des enregistrements
-$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM chien ");
-$stmtCount->execute();
-$totalItems = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
 
 // Nombre d'éléments par page
 $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
@@ -49,11 +20,18 @@ $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
 if ($nbPerPage <= 0) {
     $nbPerPage = 10;
 }
-// Calcul du nombre de pages
-$nbPage = ceil($totalItems / $nbPerPage);
-
 
 $offset = ($currentPage - 1) * $nbPerPage;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM chien ");
+$stmtCount->execute();
+$totalDogs = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+
+// Calcul du nombre de pages
+$nbPage = ceil($totalDogs / $nbPerPage);
+
 
 $stmt = $db->prepare("SELECT 
        c.id_dog,
@@ -101,6 +79,11 @@ require_once __DIR__ . '/../templates/sidebar.php';
 
 <section class="dogs" id="dogs">
     <h2>Gestion des Chiens</h2>
+    <button class="btn">
+        <a href="../dogs/form.php">Ajouter un Chien</a>
+    </button>
+    <?php require_once __DIR__ . '/../templates/form_nb-per-page.php'; ?>
+
     <div class="table-container">
         <table>
             <thead>
@@ -129,7 +112,7 @@ require_once __DIR__ . '/../templates/sidebar.php';
                         <td>
                             <?php $date = new DateTime($row['date_inscription']);
                             echo hsc($date->format('d/m/Y')); ?></td>
-                        <td>
+
 
                         <td>
                             <button class="btn"><a href="../dogs/form.php?id=<?= hsc($row['id_dog']) ?>">Modifier</a></button>
@@ -141,9 +124,7 @@ require_once __DIR__ . '/../templates/sidebar.php';
             </tbody>
         </table>
     </div>
-    <button class="btn">
-        <a href="../dogs/form.php">Ajouter un Chien</a>
-    </button>
+
 </section>
 
 

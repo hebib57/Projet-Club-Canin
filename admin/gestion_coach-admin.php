@@ -73,6 +73,11 @@ require_once __DIR__ . '/../templates/sidebar.php';
 
 <section class="coachs" id="coachs">
     <h2>Gestion des Coachs</h2>
+    <button class="btn">
+        <a href="../users/ajouter_user.php">Ajouter un Coach</a>
+    </button>
+    <?php require_once __DIR__ . '/../templates/form_nb-per-page.php'; ?>
+
     <div class="table-container">
         <table>
             <thead>
@@ -112,9 +117,7 @@ require_once __DIR__ . '/../templates/sidebar.php';
             </tbody>
         </table>
     </div>
-    <button class="btn">
-        <a href="../users/ajouter_user.php">Ajouter un Coach</a>
-    </button>
+
 </section>
 
 <div class="pagination"> <!--ceil => arrondi à l'entier supérieur-->

@@ -72,6 +72,8 @@ require_once __DIR__ . '/../templates/sidebar.php';
 
 <section class="reservations" id="reservations">
     <h2>Cours réservés</h2>
+    <?php require_once __DIR__ . '/../templates/form_nb-per-page.php'; ?>
+
     <div class="table-container">
         <table>
             <thead>

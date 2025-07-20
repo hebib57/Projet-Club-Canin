@@ -73,11 +73,15 @@ require_once __DIR__ . '/../templates/sidebar.php';
     <?php displayPagination($nbPage, $currentPage, "gestion_user-admin.php", "page", $nbPerPage); ?>
 </div>
 
+
+
+
 <section class="users" id="users">
     <h2>Gestion des Utilisateurs</h2>
     <button class="btn">
         <a href="../users/ajouter_user.php">Ajouter un Utilisateur</a>
     </button>
+    <?php require_once __DIR__ . '/../templates/form_nb-per-page.php'; ?>
     <div class="table-container">
         <table>
             <thead>

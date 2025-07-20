@@ -13,11 +13,6 @@ $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 // Page actuelle (par défaut 1)
 $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
-// Compter le total des enregistrements
-$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM evenement ");
-$stmtCount->execute();
-$totalInscription = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
-
 // Nombre d'éléments par page
 $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
 
@@ -25,11 +20,15 @@ $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
 if ($nbPerPage <= 0) {
     $nbPerPage = 10;
 }
-// Calcul du nombre de pages
-$nbPage = ceil($totalInscription / $nbPerPage);
-
 
 $offset = ($currentPage - 1) * $nbPerPage;
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM evenement ");
+$stmtCount->execute();
+$totalInscription = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Calcul du nombre de pages
+$nbPage = ceil($totalInscription / $nbPerPage);
 
 $stmt = $db->prepare("SELECT 
      i.id_inscription,
@@ -63,6 +62,8 @@ require_once __DIR__ . '/../templates/sidebar.php';
 
 <section class="inscriptions_event" id="inscriptions_event">
     <h2>Évènements réservés</h2>
+    <?php require_once __DIR__ . '/../templates/form_nb-per-page.php'; ?>
+
     <div class="table-container">
         <table>
             <thead>

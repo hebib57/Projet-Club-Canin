@@ -18,11 +18,6 @@ $nom_utilisateur = $_SESSION['nom_utilisateur'] ?? 'Utilisateur';
 // Page actuelle (par défaut 1)
 $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
-// Compter le total des enregistrements
-$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM cours JOIN seance ON cours.id_cours = seance.id_cours");
-$stmtCount->execute();
-$totalCours = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
-
 // Nombre d'éléments par page
 $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
 
@@ -30,11 +25,17 @@ $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
 if ($nbPerPage <= 0) {
     $nbPerPage = 10;
 }
-// Calcul du nombre de pages
-$nbPage = ceil($totalCours / $nbPerPage);
-
 
 $offset = ($currentPage - 1) * $nbPerPage;
+
+// Compter le total des enregistrements
+$stmtCount = $db->prepare("SELECT COUNT(*) as total FROM cours JOIN seance ON cours.id_cours = seance.id_cours");
+$stmtCount->execute();
+$totalCours = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+
+
+// Calcul du nombre de pages
+$nbPage = ceil($totalCours / $nbPerPage);
 
 $stmt = $db->prepare("SELECT * FROM cours JOIN seance ON cours.id_cours = seance.id_cours LIMIT :limit OFFSET :offset");
 $stmt->bindValue(':limit', $nbPerPage, PDO::PARAM_INT);
@@ -60,6 +61,11 @@ require_once __DIR__ . '/../templates/sidebar.php';
 
 <section class="cours_programmé" id="cours_programmé">
     <h2>Gestion des Cours</h2>
+    <button class="btn">
+        <a href="../cours/form.php">Ajouter un Cours</a>
+    </button>
+    <?php require_once __DIR__ . '/../templates/form_nb-per-page.php'; ?>
+
     <div class="table-container">
         <?php if (isset($_GET['success'])): ?>
             <div class="alert success">
@@ -113,9 +119,7 @@ require_once __DIR__ . '/../templates/sidebar.php';
             </tbody>
         </table>
     </div>
-    <button class="btn">
-        <a href="../cours/form.php">Ajouter un Cours</a>
-    </button>
+
 
 </section>
 

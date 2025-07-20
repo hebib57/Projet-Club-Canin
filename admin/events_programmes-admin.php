@@ -22,7 +22,7 @@ $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 // Compter le total des enregistrements
 $stmtCount = $db->prepare("SELECT COUNT(*) as total FROM evenement ");
 $stmtCount->execute();
-$totalItems = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
+$totalEvents = $stmtCount->fetch(PDO::FETCH_ASSOC)['total'];
 
 // Nombre d'éléments par page
 $nbPerPage = isset($_GET['nbPerPage']) ? (int) $_GET['nbPerPage'] : 10;
@@ -32,7 +32,7 @@ if ($nbPerPage <= 0) {
     $nbPerPage = 10;
 }
 // Calcul du nombre de pages
-$nbPage = ceil($totalItems / $nbPerPage);
+$nbPage = ceil($totalEvents / $nbPerPage);
 
 
 $offset = ($currentPage - 1) * $nbPerPage;
@@ -66,6 +66,10 @@ require_once __DIR__ . '/../templates/sidebar.php';
 
 <section class="events" id="events">
     <h2>Gestion des Événements</h2>
+    <button class="btn">
+        <a href="../evenement/form.php">Ajouter un Événement</a></button>
+    <?php require_once __DIR__ . '/../templates/form_nb-per-page.php'; ?>
+
     <table>
         <thead>
             <tr>
@@ -94,8 +98,7 @@ require_once __DIR__ . '/../templates/sidebar.php';
             <?php }; ?>
         </tbody>
     </table>
-    <button class="btn">
-        <a href="../evenement/form.php">Ajouter un Événement</a></button>
+
 </section>
 
 
